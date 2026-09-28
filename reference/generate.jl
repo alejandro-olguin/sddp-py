@@ -562,6 +562,10 @@ const PROBLEMS = Dict{String,Tuple{Int,Function}}(
         m, b, l = train_bound(build_belief; seed = 123, iteration_limit = 100, cut_type = SDDP.SINGLE_CUT)
         d["train_100"] = Dict("seed" => 123, "iteration_limit" => 100, "bound" => b, "log" => l)
         d["simulation_100"] = simulate_stats(m, 500; seed = 42)
+        # The cyclic graph converges slowly: 100 iterations is not converged (18.69 vs 18.8168).
+        m, b, l = train_bound(build_belief; seed = 123, iteration_limit = 1500, cut_type = SDDP.SINGLE_CUT)
+        d["train_1500"] = Dict("seed" => 123, "iteration_limit" => 1500, "bound" => b, "log" => l)
+        d["simulation_1500"] = simulate_stats(m, 500; seed = 42)
         d
     end),
     "air_conditioning" => (3, () -> begin

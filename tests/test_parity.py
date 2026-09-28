@@ -393,10 +393,12 @@ def test_objective_states():
 def test_belief():
     d = load_oracle("belief")
     model = BUILDERS["belief"]()
-    sddp.train(model, iteration_limit=100, seed=123, cut_type=sddp.SINGLE_CUT, **_train_kwargs())
-    assert rel_close(sddp.calculate_bound(model), d["train_100"]["bound"])
-    objs = simulate_objectives(model, d["simulation_100"]["replications"])
-    assert_sim_mean_close(objs, d["simulation_100"])
+    # The cyclic belief graph converges slowly; Julia's 100-iteration value (18.69) is not
+    # converged, both Julia seeds reach 18.8168 at 1500 iterations (PORTING_NOTES §7.4).
+    sddp.train(model, iteration_limit=1500, seed=123, cut_type=sddp.SINGLE_CUT, **_train_kwargs())
+    assert rel_close(sddp.calculate_bound(model), d["train_1500"]["bound"])
+    objs = simulate_objectives(model, d["simulation_1500"]["replications"])
+    assert_sim_mean_close(objs, d["simulation_1500"])
 
 
 # ---------------------------------------------------------------------------
