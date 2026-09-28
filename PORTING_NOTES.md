@@ -510,3 +510,65 @@ the case where an earlier row was deleted.
 * The StochOptFormat reader registers states without an initial value (so the root-state
   feasibility check does not run during construction) and sets `initial_root_state` from the
   file afterwards, exactly as `Base.read` does in Julia.
+
+## 11. Documentation port: every sddp.dev page as a Python example (2026-09-28)
+
+All 67 pages of https://sddp.dev/stable/ (SDDP.jl v1.15.0; `~/.julia/packages/SDDP/MAlFv/docs/src`)
+were ported to `examples/` and tested (see the table in README.md). Oracle scripts:
+`reference/generate_{first_steps,tutorials_a,tutorials_b,tutorials_c,guides,explanation}.jl`.
+Where a page trains stochastically the tests compare deterministic equivalents, converged bounds
+at the same iteration count (stated tolerance), or structure; deterministic pages match exactly.
+
+### 11.1 Package defects found and fixed
+* **Duality handlers ignored their `optimizer` argument** (`ContinuousConicDuality(optimizer)`
+  etc. were accepted silently). Now, as in SDDP.jl's `_relax_integrality(node, optimizer)`, the
+  optimizer's raw options are applied while integrality is relaxed and restored afterwards; it
+  must be an `OptimizerFactory` of the same backend (`sddp.HiGHS.with_options(...)`), anything
+  else raises `NotImplementedError`. `BanditDuality(optimizer=)` forwards it to its default arms.
+  Pinned by `tests/test_guides.py::TestAddIntegrality`.
+* **Numerical recovery failed on ill-conditioned cut sets.** `solve_newsvendor(Entropic(10^-1.5))`
+  (tutorial `example_newsvendor`) produced cuts whose slopes converge to the objective
+  coefficient; at the port's 1e-9 feasibility tolerances HiGHS returned OPTIMAL with an
+  INFEASIBLE_POINT primal, and cold restart / presolve off / IPM all failed. SDDP.jl always runs at
+  HiGHS's default 1e-7, so a final rung that re-solves at 1e-7 was added to
+  `default_numerical_difficulty_callback`. Pinned by `tests/test_tutorial_newsvendor.py`.
+* **Quadratic stage objectives** (tutorial `mdps`): the solver layer now passes
+  `ScalarQuadraticFunction` objectives to HiGHS's QP solver (`Model.set_objective` full load,
+  `Model.value` via pyoptinterface); quadratic constraints still raise. HiGHS's QP warm starts
+  fail once ~14 cuts accumulate ("error calling optimize"); the recovery ladder's cold restart
+  handles every occurrence and the sum-of-squares MDP converges to M²/N exactly.
+* Missing public names: `sddp.parameterize(node, ω)`, `sddp.write_subproblem_to_file`,
+  `sddp.sample_noise` (existed but were not exported); `Subproblem.lower_bound/upper_bound`.
+  `tests/test_api_reference.py` now pins a Python home for every API-reference entry.
+
+### 11.2 Cross-validation that found no defect
+* The vanilla SDDP of the "Introductory theory" page (`examples/theory_intro.py`, pure
+  `sddp.solver.model.Model`) reaches the same bound as the package and the deterministic
+  equivalent (1e-9) on the hydro-thermal problem, finite and infinite horizon, and its decision
+  rules equal `DecisionRule`+`evaluate`. The risk-averse version's Entropic(1.0) first-stage
+  value equals `sddp.train(risk_measure=Entropic(1.0))` and SDDP.jl to 1e-9; the closed-form
+  q* equals `Entropic.adjust_probability` (offset = −α) to 1e-14.
+* All 20 model × duality-handler combinations of the duality-handlers tutorial match Julia's
+  printed bounds (atol 1e-5: HiGHS's MIP tolerance makes 1.499999 vs 1.5 in either language).
+* `set_normalized_coefficient` on an *incoming* state (`x_scale.in_`, capacity-expansion
+  epicycles) builds valid cuts (bound equals a hand-built deterministic equivalent).
+* `unfix` + `fix` of a state's `.out` inside `parameterize` (PAR guide) invalidates the
+  outgoing-bound cache correctly (bound equals the deterministic equivalent).
+* Vehicle location: SDDP.jl's own test is commented out ("TODO(odow): find out why this
+  fails"); with current HiGHS both languages train fine (bound 1482 Python / 1455 Julia ≥ 1000).
+
+### 11.3 Quirks in the upstream documentation, reproduced faithfully
+* `inventory.jl` finite horizon: `lower_bound = 0.0` is invalid (the terminal stage recovers
+  `-c·x_inventory`), so both implementations converge to 43591.58 (T=3) above the deterministic
+  equivalent 42433.16; with `lower_bound = -1e6` both hit the deterministic equivalent.
+* `add_noise_in_the_constraint_matrix.md`: `lower_bound = 0` is invalid (value −8); both converge
+  to −8/3.
+* `access_previous_variables.md` "stochastic lead times": `set_normalized_coefficient(c, u_buy, 1)`
+  on the normalised row `x[i].out − x[i+1].in − u_buy == 0` makes buying *remove* stock (value 0
+  in both languages); the intended −1 gives the closed form 145.
+* `example_newsvendor` Kelley's example does not reach 1e-6 in the page's 20 iterations (needs
+  27) in either language; `MarkovianGraph(simulator; budget)` treats `budget` as an upper bound
+  (coincident support points collapse); cyclic models' bounds are not monotone under the
+  default cut selection in either language (monotone with `cut_deletion_minimum` large).
+* Julia's `deterministic_equivalent` of a model that has been *simulated* is infeasible
+  (simulate fixes `x.in`); same in the port — use a fresh model.

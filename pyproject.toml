@@ -25,7 +25,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
-markers = ["tier1: Tier 1 parity", "tier2: Tier 2 parity", "tier3: Tier 3 parity"]
+markers = ["tier1: Tier 1 parity", "tier2: Tier 2 parity", "tier3: Tier 3 parity", "slow: takes more than about a minute"]
 
 [tool.ruff]
 line-length = 100

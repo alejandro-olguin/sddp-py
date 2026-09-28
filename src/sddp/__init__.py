@@ -11,10 +11,12 @@ from sddp.algorithm import (
     calculate_bound,
     confidence_interval,
     evaluate,
+    parameterize,
     set_numerical_difficulty_callback,
     simulate,
     termination_status,
     train,
+    write_subproblem_to_file,
 )
 from sddp.binary_expansion import bincontract, binexpand
 from sddp.biobjective import (
@@ -85,6 +87,7 @@ from sddp.plugins.sampling_schemes import (
     InSampleMonteCarlo,
     OutOfSampleMonteCarlo,
     PSRSamplingScheme,
+    sample_noise,
 )
 from sddp.plugins.stopping_rules import (
     BoundStalling,
@@ -142,6 +145,9 @@ __all__ = [
     "InnerPolicyGraph",
     "LoggingForwardPass",
     "Multiprocess",
+    "parameterize",
+    "sample_noise",
+    "write_subproblem_to_file",
     "SimulatorSamplingScheme",
     "SpaghettiPlot",
     "ValidationScenario",

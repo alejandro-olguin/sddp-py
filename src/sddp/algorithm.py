@@ -290,7 +290,8 @@ def default_numerical_difficulty_callback(
     model: PolicyGraph, node: Node, require_dual: bool = False
 ) -> None:
     """Recovery ladder: cold restart (like SDDP.jl's ``reset_optimizer``), then presolve off,
-    then an interior-point solve, stopping at the first attempt that yields a solution."""
+    then an interior-point solve, then HiGHS's default (1e-7) feasibility tolerances,
+    stopping at the first attempt that yields a solution."""
     m = node.model
 
     def ok() -> bool:
@@ -306,6 +307,17 @@ def default_numerical_difficulty_callback(
             return
         m.reset_optimizer()
         m.solve_with_options(solver="ipm", presolve="off", output_flag=False)
+        if ok():
+            return
+        # ``sddp.HiGHS`` tightens the feasibility tolerances to 1e-9. On ill-conditioned
+        # subproblems (e.g. many nearly parallel cuts whose slopes converge to the objective
+        # coefficient, as the Entropic newsvendor produces) HiGHS then reports OPTIMAL with an
+        # INFEASIBLE_POINT primal status. SDDP.jl runs at HiGHS's default 1e-7 all the time,
+        # so a solve at those tolerances is a sound last resort.
+        m.reset_optimizer()
+        m.solve_with_options(
+            solver="simplex", primal_feasibility_tolerance=1e-7, dual_feasibility_tolerance=1e-7
+        )
         if ok():
             return
     m.optimize()

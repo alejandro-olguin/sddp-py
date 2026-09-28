@@ -34,6 +34,7 @@ import pyoptinterface as poi
 Variable: TypeAlias = poi.VariableIndex
 Constraint: TypeAlias = poi.ConstraintIndex
 Expression: TypeAlias = poi.ScalarAffineFunction
+QuadExpression: TypeAlias = poi.ScalarQuadraticFunction
 TerminationStatus: TypeAlias = poi.TerminationStatusCode
 ResultStatus: TypeAlias = poi.ResultStatusCode
 
@@ -175,15 +176,31 @@ def _is_number(x: Any) -> bool:
     return isinstance(x, (int, float)) and not isinstance(x, bool)
 
 
+def is_quadratic(f: Any) -> bool:
+    """``True`` for a pyoptinterface ``ScalarQuadraticFunction`` (allowed in objectives only)."""
+    return isinstance(f, QuadExpression)  # type: ignore[misc]
+
+
 def expr_constant(f: Expression) -> float:
     """The constant term of an affine expression (``None`` in pyoptinterface means 0)."""
-    c = f.constant
+    if is_quadratic(f):
+        affine = f.affine_part
+        c = None if affine is None else affine.constant
+    else:
+        c = f.constant
     return 0.0 if c is None else float(c)
 
 
 def to_expression(x: Any) -> Expression:
-    """Convert a number, variable, or affine expression into a ScalarAffineFunction."""
+    """Convert a number, variable, or affine expression into a ScalarAffineFunction.
+
+    Quadratic expressions (``x * x``) are passed through as ``ScalarQuadraticFunction``;
+    they are accepted by :meth:`Model.set_objective` / :meth:`Model.value` only (HiGHS solves
+    convex QPs and returns reduced costs for them), never by :meth:`Model.add_constraint`.
+    """
     if isinstance(x, Expression):  # type: ignore[misc]
+        return x
+    if is_quadratic(x):
         return x
     if isinstance(x, Variable):  # type: ignore[misc]
         return 1.0 * x
@@ -193,7 +210,7 @@ def to_expression(x: Any) -> Expression:
         return e
     if isinstance(x, poi.ExprBuilder):
         if x.degree() > 1:
-            raise TypeError("Quadratic expressions are not supported in this port.")
+            return poi.ScalarQuadraticFunction(x)
         return poi.ScalarAffineFunction(x)
     raise TypeError(f"Cannot convert {type(x).__name__} to an affine expression.")
 
@@ -406,6 +423,8 @@ class Model:
             )
         f = to_expression(lhs) - to_expression(rhs)
         f = to_expression(f)
+        if is_quadratic(f):
+            raise TypeError("Quadratic constraints are not supported in this port.")
         rhs_value = -expr_constant(f)
         g = poi.ScalarAffineFunction()
         terms: dict[int, float] = {}
@@ -542,6 +561,13 @@ class Model:
             self._sense = sense
             self._obj_coefs = None
         f = to_expression(expr)
+        if is_quadratic(f):
+            # Convex quadratic objective (e.g. ``x * x`` stage costs): always a full load.
+            self._m.set_objective(f, self._sense.poi)
+            self._objective = f
+            self._obj_coefs = None
+            self._obj_constant = expr_constant(f)
+            return
         coefs: dict[int, float] = {}
         for i, c in zip(f.variables, f.coefficients):
             coefs[int(i)] = coefs.get(int(i), 0.0) + float(c)
@@ -610,6 +636,8 @@ class Model:
         if _is_number(x):
             return float(x)
         f = to_expression(x)
+        if is_quadratic(f):
+            return float(self._m.get_value(f))
         total = expr_constant(f)
         for i, c in zip(f.variables, f.coefficients):
             total += float(c) * float(self._m.get_value(self._var_by_index(int(i))))

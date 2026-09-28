@@ -307,6 +307,14 @@ class Subproblem:
     def set_normalized_coefficient(self, c: Constraint, v: Variable, value: float) -> None:
         self.model.set_normalized_coefficient(c, v, value)
 
+    def lower_bound(self, v: Variable) -> float:
+        """Current lower bound of ``v`` (``JuMP.lower_bound``); ``-inf`` if none."""
+        return self.model.lower_bound(v)
+
+    def upper_bound(self, v: Variable) -> float:
+        """Current upper bound of ``v`` (``JuMP.upper_bound``); ``inf`` if none."""
+        return self.model.upper_bound(v)
+
     # ---------------------------------------------------------------- query
     def value(self, x: Any) -> Any:
         """Primal value of a variable/expression, or a :class:`StateValue` for a state."""

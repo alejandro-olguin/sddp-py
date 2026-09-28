@@ -1,8 +1,16 @@
 # PROGRESS.md
 
-Updated: 2026-09-28 (session 2: performance work)
+Updated: 2026-09-28 (session 4: the whole sddp.dev site ported and tested)
 
 ## Current tier: Tiers 1–4 implemented and verified (see FINAL_REPORT.md); performance steps 1–5 done
+
+Documentation port (session 4, PORTING_NOTES §11): all 67 pages of https://sddp.dev/stable/
+(v1.15.0) now have Python equivalents under `examples/` with tests against Julia oracles
+(`reference/generate_{first_steps,tutorials_a,tutorials_b,tutorials_c,guides,explanation}.jl`).
+Package changes that came out of it: duality handlers honour their `optimizer` argument,
+quadratic stage objectives (HiGHS QP), a 1e-7-tolerance rung in the numerical-recovery ladder,
+`sddp.parameterize`/`write_subproblem_to_file`/`sample_noise` exported, `Subproblem.lower_bound`
+/`upper_bound`. Suite: 383 tests (`-m "not slow"` ≈ 10 min, `-m slow` ≈ 8 min), ruff/mypy clean.
 
 Tier 4 (session 3): value functions, inner approximation, MSPFormat, StochOptFormat, lattice
 fitting + SimulatorSamplingScheme, biobjective, stability report, extra forward passes,
@@ -49,10 +57,11 @@ ladder. Suite: 89 passed.
   was the last thing in flight in session 1.
 
 ## Known gaps / deviations from SDDP.jl
-- Parallel schemes: Serial only (no Threaded/Asynchronous).
-- `numerical_stability_report` not implemented (printing only).
-- No `SimulatorSamplingScheme`, `MarkovianGraph(simulator; budget)`, MSPFormat, Inner
-  approximation, biobjective, alternative_forward, dashboard, value-function plots.
+- Parallel schemes: `Serial`, `Threaded`, `Multiprocess` (no Julia-style `Asynchronous`).
+- Duality handlers cannot swap solver backends for the relaxed solves (only options of the
+  same backend); no Ipopt, so the pglib_opf tutorial (AC power flow) is not ported.
+- Quadratic objectives are supported for training/simulation only (not in the deterministic
+  equivalent, StochOptFormat writer or the stability report).
 - Cut slopes at dual-degenerate points may differ from SDDP.jl (valid subgradients either way).
 
 ## Next step

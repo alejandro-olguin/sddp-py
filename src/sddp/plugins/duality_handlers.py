@@ -23,7 +23,7 @@ import numpy as np
 from sddp.plugins.base import DualityHandler
 from sddp.plugins.local_improvement_search import BFGS, AbstractSearchMethod
 from sddp.policy_graph import Log, Node, PolicyGraph, _get_incoming_domain
-from sddp.solver.model import Model, Sense, TerminationStatus
+from sddp.solver.model import Model, OptimizerFactory, Sense, TerminationStatus
 
 if TYPE_CHECKING:
     from sddp.algorithm import Options
@@ -55,16 +55,52 @@ class ContinuousConicDuality(DualityHandler):
         return m.objective_value(), lam
 
     def prepare_backward_pass(self, node: Node, options: Options) -> Callable[[], None]:
-        return _relax_integrality(node)
+        return _relax_integrality(node, self.optimizer)
 
     def duality_log_key(self) -> str:
         return " "
 
 
-def _relax_integrality(node: Node) -> Callable[[], None]:
+def _relax_integrality(node: Node, optimizer: object | None = None) -> Callable[[], None]:
+    """Relax integrality for the backward pass (``_relax_integrality(node, optimizer)``).
+
+    SDDP.jl calls ``JuMP.set_optimizer(subproblem, optimizer)`` for the relaxed solves and
+    switches back afterwards. The port's models are bound to one backend, so ``optimizer``
+    must be an :class:`OptimizerFactory` of the *same* backend (typically
+    ``sddp.HiGHS.with_options(...)``): its raw options are applied while integrality is
+    relaxed and the previous values are restored by the returned undo function.
+    """
     if not node.has_integrality:
         return lambda: None
-    return node.model.relax_integrality()
+    undo_relax = node.model.relax_integrality()
+    if optimizer is None:
+        return undo_relax
+    undo_options = _apply_temporary_optimizer(node.model, optimizer)
+
+    def undo() -> None:
+        undo_options()
+        undo_relax()
+
+    return undo
+
+
+def _apply_temporary_optimizer(m: Model, optimizer: object) -> Callable[[], None]:
+    if not isinstance(optimizer, OptimizerFactory) or optimizer.name != m.optimizer.name:
+        raise NotImplementedError(
+            "The `optimizer` argument of a duality handler must be an OptimizerFactory of the "
+            f"same backend as the model ({m.optimizer.name!r}), e.g. "
+            "`sddp.HiGHS.with_options(presolve='off')`; the port cannot swap solver backends "
+            f"for the backward pass. Got {optimizer!r}."
+        )
+    saved = {k: m.raw.get_raw_parameter(k) for k in optimizer.options}
+    for k, v in optimizer.options.items():
+        m.set_raw_parameter(k, v)
+
+    def undo() -> None:
+        for k, v in saved.items():
+            m.set_raw_parameter(k, v)
+
+    return undo
 
 
 def _sparsify(x: float) -> float:
@@ -112,7 +148,7 @@ class LagrangianDuality(DualityHandler):
 
     def get_dual_solution(self, node: Node) -> tuple[float, dict[str, float]]:
         m = node.model
-        undo_relax = _relax_integrality(node)
+        undo_relax = _relax_integrality(node, self.optimizer)
         m.optimize()
         conic_obj, conic_dual = ContinuousConicDuality().get_dual_solution(node)
         undo_relax()
@@ -174,7 +210,7 @@ class StrengthenedConicDuality(DualityHandler):
 
     def get_dual_solution(self, node: Node) -> tuple[float, dict[str, float]]:
         m = node.model
-        undo_relax = _relax_integrality(node)
+        undo_relax = _relax_integrality(node, self.optimizer)
         m.optimize()
         conic_obj, conic_dual = ContinuousConicDuality().get_dual_solution(node)
         undo_relax()
@@ -228,7 +264,7 @@ class FixedDiscreteDuality(DualityHandler):
             m.fix(node.states[key].in_, x[i])
         if lagrangian_obj is not None:
             return lagrangian_obj, conic_dual
-        undo_relax = m.relax_integrality()
+        undo_relax = _relax_integrality(node, self.optimizer)
         m.optimize()
         ret = ContinuousConicDuality().get_dual_solution(node)
         undo_relax()
@@ -267,9 +303,9 @@ class _BanditArm:
 class BanditDuality(DualityHandler):
     """Choose between duality handlers with a simple multi-armed-bandit heuristic."""
 
-    def __init__(self, *args: DualityHandler):
+    def __init__(self, *args: DualityHandler, optimizer: object | None = None):
         if not args:
-            args = (ContinuousConicDuality(), StrengthenedConicDuality())
+            args = (ContinuousConicDuality(optimizer), StrengthenedConicDuality(optimizer))
         self.arms = [_BanditArm(a) for a in args]
         self.last_arm_index = 0
         self.logs_seen = 1

@@ -13,7 +13,10 @@ def test_threaded_train_converges_to_serial_bound():
     assert sddp.termination_status(model) == "iteration_limit"
     # Threads may overshoot the iteration limit by at most (threads - 1).
     assert 40 <= len(model.most_recent_training_results.log) <= 43
-    assert {log.pid for log in model.most_recent_training_results.log} <= {1, 2, 3, 4, 5}
+    # Thread labels are assigned process-wide in first-seen order (like `Threads.threadid()`),
+    # so their values depend on which tests ran earlier; only their count is meaningful.
+    pids = {log.pid for log in model.most_recent_training_results.log}
+    assert 1 <= len(pids) <= 4 and all(p >= 1 for p in pids)
 
 
 def test_threaded_markov_and_belief():

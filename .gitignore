@@ -12,3 +12,4 @@ reference/Manifest.toml
 *.mof.json
 model_infeasible_node_*.cuts.json
 subproblem_*.mof.json
+subproblem_*.lp

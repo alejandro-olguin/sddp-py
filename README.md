@@ -43,6 +43,32 @@ See `examples/hydro_thermal.py` and `tests/problems.py` for translations of the 
 tutorials and examples (Markovian graphs, cyclic graphs, risk measures, objective states,
 belief states, integer states).
 
+## The sddp.dev documentation, in Python
+
+Every page of https://sddp.dev/stable/ (SDDP.jl v1.15.0) has a Python equivalent under
+`examples/`, and every equivalent is tested against numbers produced by SDDP.jl
+(`reference/oracle/*.json`) or against exact quantities (deterministic equivalents, closed
+forms, structural facts):
+
+| sddp.dev section | Python file(s) | Tests |
+|---|---|---|
+| Tutorials: first steps, objective/Markov uncertainty, objective states | `examples/hydro_thermal.py`, `tests/problems.py` | `tests/test_parity.py`, `tests/test_tutorial_first_steps.py` |
+| Tutorials: warnings, ARMA, decision-hazard, production planning, batteries, inventory | `examples/tutorial_modelling.py` | `tests/test_tutorial_modelling.py` |
+| Tutorials: deterministic to stochastic, capacity expansion | `examples/tutorial_reservoir.py` | `tests/test_tutorial_reservoir.py` |
+| Tutorial: the milk producer | `examples/tutorial_milk_producer.py` | `tests/test_tutorial_milk_producer.py` |
+| Tutorial: two-stage newsvendor (Kelley, L-shaped, policy graph, risk sweep) | `examples/tutorial_newsvendor.py` | `tests/test_tutorial_newsvendor.py` |
+| Tutorial: duality handlers | `examples/tutorial_duality_handlers.py` | `tests/test_tutorial_duality_handlers.py` |
+| Tutorial: Markov decision processes (quadratic objective, maze) | `examples/tutorial_mdps.py` | `tests/test_tutorial_mdps.py` |
+| Tutorial: plotting tools | `examples/tutorial_plotting.py` | `tests/test_tutorial_plotting.py` |
+| Tutorial: alternative forward models (pglib_opf) | not ported: needs PowerModels + Ipopt (AC power flow); `AlternativeForwardPass` itself is covered by `examples/doc_examples.py` | `tests/test_examples.py`, `tests/test_tier4.py` |
+| All 16 how-to guides | `examples/guides.py` | `tests/test_guides.py` |
+| Explanation: introductory theory, risk aversion (vanilla SDDP from scratch) | `examples/theory_intro.py`, `examples/risk_explanation.py` | `tests/test_theory_intro.py`, `tests/test_risk_explanation.py` |
+| Examples (29 pages) | `examples/asset_management_simple.py`, `examples/doc_examples.py`, `examples/vehicle_location.py`, `tests/problems.py` | `tests/test_examples.py`, `tests/test_parity.py`, `tests/test_tier4.py`, `tests/test_vehicle_location.py` |
+| API reference | every entry mapped in `tests/test_api_reference.py` | same |
+
+Each `examples/tutorial_*.py` and `examples/guides.py` has a `main()` that reproduces the
+page's printed output.
+
 ## API mapping from SDDP.jl
 
 | SDDP.jl | sddp-py |
@@ -72,6 +98,11 @@ belief states, integer states).
 | `SDDP.ImportanceSamplingForwardPass`, `AlternativeForwardPass`, `LoggingForwardPass` | same names |
 | `SDDP.Threaded()`, `SDDP.Asynchronous()` | `sddp.Threaded(n)`, `sddp.Multiprocess(model_factory, n)` |
 | `SDDP.binexpand`, `bincontract` | same names |
+| `SDDP.parameterize(model[1], ω)`, `SDDP.write_subproblem_to_file(model[1], "f.lp")` | `sddp.parameterize(model[1], ω)`, `sddp.write_subproblem_to_file(model[1], "f.lp")` (HiGHS LP format) |
+| `SDDP.sample_noise(D)` | `sddp.sample_noise(noise_terms, rng)` |
+| `SDDP.ContinuousConicDuality(Ipopt.Optimizer)` (other optimizer for relaxed solves) | `sddp.ContinuousConicDuality(optimizer=sddp.HiGHS.with_options(presolve="off"))` (same backend, different options) |
+| `@stageobjective(sp, x^2)` (convex QP via Ipopt) | `sp.set_stage_objective(x * x)` (HiGHS QP; objectives only, no quadratic constraints) |
+| `lower_bound(x.out)` / `upper_bound(x.out)` inside the builder | `sp.lower_bound(x.out)` / `sp.upper_bound(x.out)` |
 | `dashboard = true` | `sddp.train(model, dashboard=True)` (SSE server + `assets/dashboard.html`) |
 
 Duals: `sp.dual(c)` and the cut duals are *sensitivities in the model's own sense*
@@ -80,8 +111,9 @@ Duals: `sp.dual(c)` and the cut duals are *sensitivities in the model's own sens
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest tests            # everything (~3 minutes)
-.venv/bin/python -m pytest tests -m tier1   # Tier 1 parity only
+.venv/bin/python -m pytest tests -m "not slow"   # everything but the long cyclic models (~10 minutes)
+.venv/bin/python -m pytest tests -m slow         # the five long-running page reproductions (~8 minutes)
+.venv/bin/python -m pytest tests -m tier1        # Tier 1 parity only
 .venv/bin/ruff check src tests && .venv/bin/mypy
 ```
 

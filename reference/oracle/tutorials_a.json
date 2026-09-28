@@ -1,0 +1,1998 @@
+{
+  "arma": {
+    "markov_chain": {
+      "budget": 8,
+      "graphs": {
+        "seed_1": {
+          "bound_20": 5602.136096946118,
+          "nodes": [
+            [
+              1.0,
+              53.157938168936546
+            ],
+            [
+              2.0,
+              39.17476850173389
+            ],
+            [
+              2.0,
+              49.60264649259275
+            ],
+            [
+              2.0,
+              68.0189871258743
+            ],
+            [
+              3.0,
+              43.44693602936905
+            ],
+            [
+              3.0,
+              49.7
+            ],
+            [
+              3.0,
+              59.79911762984956
+            ],
+            [
+              3.0,
+              78.57884951565565
+            ]
+          ],
+          "num_nodes": 8,
+          "num_nodes_including_root": 9,
+          "outgoing_probability": {
+            "(0, 0.0)": 1.0,
+            "(1, 53.157938168936546)": 1.0,
+            "(2, 39.17476850173389)": 1.0,
+            "(2, 49.60264649259275)": 1.0,
+            "(2, 68.0189871258743)": 1.0,
+            "(3, 43.44693602936905)": 0.0,
+            "(3, 49.7)": 0.0,
+            "(3, 59.79911762984956)": 0.0,
+            "(3, 78.57884951565565)": 0.0
+          },
+          "per_stage": [
+            1,
+            3,
+            4
+          ]
+        },
+        "seed_2": {
+          "bound_20": 5144.735812550713,
+          "nodes": [
+            [
+              1.0,
+              48.78579139029773
+            ],
+            [
+              1.0,
+              59.6
+            ],
+            [
+              2.0,
+              48.00777063450587
+            ],
+            [
+              2.0,
+              65.57155939018482
+            ],
+            [
+              3.0,
+              45.38078616265452
+            ],
+            [
+              3.0,
+              59.2
+            ],
+            [
+              3.0,
+              59.800000000000004
+            ],
+            [
+              3.0,
+              75.95168756065591
+            ]
+          ],
+          "num_nodes": 8,
+          "num_nodes_including_root": 9,
+          "outgoing_probability": {
+            "(0, 0.0)": 1.0,
+            "(1, 48.78579139029773)": 1.0,
+            "(1, 59.6)": 1.0,
+            "(2, 48.00777063450587)": 1.0,
+            "(2, 65.57155939018482)": 1.0,
+            "(3, 45.38078616265452)": 0.0,
+            "(3, 59.2)": 0.0,
+            "(3, 59.800000000000004)": 0.0,
+            "(3, 75.95168756065591)": 0.0
+          },
+          "per_stage": [
+            2,
+            2,
+            4
+          ]
+        },
+        "seed_3": {
+          "bound_20": 5415.91700917075,
+          "nodes": [
+            [
+              1.0,
+              52.57695475344286
+            ],
+            [
+              2.0,
+              45.655666158900324
+            ],
+            [
+              2.0,
+              51.7071479437931
+            ],
+            [
+              2.0,
+              69.2
+            ],
+            [
+              3.0,
+              44.44011747214956
+            ],
+            [
+              3.0,
+              59.344513274776844
+            ],
+            [
+              3.0,
+              69.3
+            ],
+            [
+              3.0,
+              78.8
+            ]
+          ],
+          "num_nodes": 8,
+          "num_nodes_including_root": 9,
+          "outgoing_probability": {
+            "(0, 0.0)": 1.0,
+            "(1, 52.57695475344286)": 1.0,
+            "(2, 45.655666158900324)": 1.0,
+            "(2, 51.7071479437931)": 1.0,
+            "(2, 69.2)": 1.0,
+            "(3, 44.44011747214956)": 0.0,
+            "(3, 59.344513274776844)": 0.0,
+            "(3, 69.3)": 0.0,
+            "(3, 78.8)": 0.0
+          },
+          "per_stage": [
+            1,
+            3,
+            4
+          ]
+        },
+        "seed_4": {
+          "bound_20": 5388.2886863436715,
+          "nodes": [
+            [
+              1.0,
+              47.594083103228925
+            ],
+            [
+              2.0,
+              55.91554755062244
+            ],
+            [
+              2.0,
+              69.2
+            ],
+            [
+              3.0,
+              39.211855331102676
+            ],
+            [
+              3.0,
+              49.7
+            ],
+            [
+              3.0,
+              65.27272750714367
+            ],
+            [
+              3.0,
+              78.8
+            ]
+          ],
+          "num_nodes": 7,
+          "num_nodes_including_root": 8,
+          "outgoing_probability": {
+            "(0, 0.0)": 1.0,
+            "(1, 47.594083103228925)": 1.0,
+            "(2, 55.91554755062244)": 1.0,
+            "(2, 69.2)": 1.0,
+            "(3, 39.211855331102676)": 0.0,
+            "(3, 49.7)": 0.0,
+            "(3, 65.27272750714367)": 0.0,
+            "(3, 78.8)": 0.0
+          },
+          "per_stage": [
+            1,
+            2,
+            4
+          ]
+        },
+        "seed_5": {
+          "bound_20": 5424.523395332232,
+          "nodes": [
+            [
+              1.0,
+              52.98209796713045
+            ],
+            [
+              1.0,
+              59.6
+            ],
+            [
+              2.0,
+              45.838526600407256
+            ],
+            [
+              2.0,
+              68.18705087524572
+            ],
+            [
+              2.0,
+              69.2
+            ],
+            [
+              3.0,
+              44.8352007509121
+            ],
+            [
+              3.0,
+              59.201768494855536
+            ],
+            [
+              3.0,
+              66.5637054542888
+            ]
+          ],
+          "num_nodes": 8,
+          "num_nodes_including_root": 9,
+          "outgoing_probability": {
+            "(0, 0.0)": 1.0,
+            "(1, 52.98209796713045)": 1.0,
+            "(1, 59.6)": 1.0,
+            "(2, 45.838526600407256)": 1.0,
+            "(2, 68.18705087524572)": 1.0,
+            "(2, 69.2)": 1.0,
+            "(3, 44.8352007509121)": 0.0,
+            "(3, 59.201768494855536)": 0.0,
+            "(3, 66.5637054542888)": 0.0
+          },
+          "per_stage": [
+            2,
+            3,
+            3
+          ]
+        }
+      },
+      "scenarios": 30
+    },
+    "state_space": {
+      "bound": 6183.333333333332,
+      "deterministic_equivalent": 6183.333333333331,
+      "iteration_limit": 30
+    },
+    "var": {
+      "bound": 308.7242798353907,
+      "deterministic_equivalent": 308.7242798353909,
+      "iteration_limit": 100
+    }
+  },
+  "batteries": {
+    "bound": 57128.466982731516,
+    "bound_1500": 57128.50968777421,
+    "iteration_limit": 500,
+    "lambda_frac_70_hours_1_6": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "lambda_max": 500.0,
+    "lambda_mean_by_hour": [
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      70.0,
+      65.58414124024412,
+      47.432030412164984,
+      47.44740656105173,
+      42.49540906666666,
+      44.290097777777774,
+      108.69102222222226,
+      142.41200000000012,
+      113.86,
+      95.8,
+      70.0,
+      70.0
+    ],
+    "lambda_min": -1.9155361473554647e-13,
+    "simulation": {
+      "mean": 57191.25102784282,
+      "replications": 100,
+      "seed": 42,
+      "std": 1014.7864042356174
+    },
+    "x_soc_out_hour_24_max": 0.0
+  },
+  "decision_hazard": {
+    "decision_hazard": {
+      "bound": 650.0,
+      "deterministic_equivalent": 650.0,
+      "iterations": 40,
+      "status": "simulation_stopping"
+    },
+    "decision_hazard_2": {
+      "bound": 410.0,
+      "deterministic_equivalent": 410.0,
+      "iterations": 40,
+      "status": "simulation_stopping"
+    },
+    "hazard_decision": {
+      "bound": 400.0,
+      "deterministic_equivalent": 400.0,
+      "iterations": 40,
+      "status": "simulation_stopping"
+    }
+  },
+  "inventory": {
+    "finite": {
+      "T": 10,
+      "bound": 144336.53157894767,
+      "ci_half": 4013.9099280846876,
+      "ci_mean": 145394.84210526093,
+      "iterations": 64,
+      "order_up_to_median_by_stage": [
+        757.8947368424467,
+        757.8947368421998,
+        757.8947368421746,
+        757.894736842252,
+        757.8947368418842,
+        757.8947368418121,
+        757.8947368420899,
+        673.6842105262748,
+        505.2631578947627,
+        400.00000000000085,
+        400.0000000000158
+      ],
+      "status": "simulation_stopping"
+    },
+    "finite_T3": {
+      "T": 3,
+      "bound_lb_0": 43591.57894736847,
+      "bound_lb_neg1e6": 42433.15789473682,
+      "deterministic_equivalent": 42433.15789473681,
+      "iteration_limit": 100
+    },
+    "infinite": {
+      "bound": 312665.03731284017,
+      "bound_1000": 312665.0373128403,
+      "iteration_limit": 400,
+      "order_up_to_later_stages": {
+        "max": 800.0000000135775,
+        "mean": 686.3298245722955,
+        "median": 673.6842105391295,
+        "min": 673.6842105262349
+      },
+      "simulation_lengths": [
+        50
+      ]
+    }
+  },
+  "production_planning": {
+    "bound": 24009.845930340507,
+    "bound_1000": 24009.871778851957,
+    "first_stage": {
+      "u_prod": {
+        "San-Diego": 600.0,
+        "Seattle": 350.0
+      },
+      "x_out": {
+        "San-Diego": 600.0,
+        "Seattle": 350.0
+      }
+    },
+    "iteration_limit": 300,
+    "log": [
+      {
+        "bound": 17410.500000000007,
+        "iteration": 1,
+        "simulation_value": 78800.0
+      },
+      {
+        "bound": 23540.747999999872,
+        "iteration": 2,
+        "simulation_value": 28523.13631871481
+      },
+      {
+        "bound": 23721.797731015195,
+        "iteration": 3,
+        "simulation_value": 23633.39999999994
+      },
+      {
+        "bound": 23742.74312507445,
+        "iteration": 4,
+        "simulation_value": 29658.16406540698
+      },
+      {
+        "bound": 23795.73984341584,
+        "iteration": 5,
+        "simulation_value": 23063.510577892124
+      },
+      {
+        "bound": 23887.51907134367,
+        "iteration": 6,
+        "simulation_value": 22106.5911350839
+      },
+      {
+        "bound": 23900.74581492452,
+        "iteration": 7,
+        "simulation_value": 24134.11038716007
+      },
+      {
+        "bound": 23921.399468798027,
+        "iteration": 8,
+        "simulation_value": 27546.079148301367
+      },
+      {
+        "bound": 23928.49469905424,
+        "iteration": 9,
+        "simulation_value": 24517.26541551267
+      },
+      {
+        "bound": 23951.2706751754,
+        "iteration": 10,
+        "simulation_value": 26334.59999999994
+      },
+      {
+        "bound": 23952.432816545832,
+        "iteration": 11,
+        "simulation_value": 24152.25188470037
+      },
+      {
+        "bound": 23953.012380886583,
+        "iteration": 12,
+        "simulation_value": 26555.300000000054
+      },
+      {
+        "bound": 23958.45733181853,
+        "iteration": 13,
+        "simulation_value": 23827.100325308525
+      },
+      {
+        "bound": 23963.806393066985,
+        "iteration": 14,
+        "simulation_value": 23419.72166455043
+      },
+      {
+        "bound": 23966.121978760795,
+        "iteration": 15,
+        "simulation_value": 23745.099999999962
+      },
+      {
+        "bound": 23976.55138801592,
+        "iteration": 16,
+        "simulation_value": 26477.2
+      },
+      {
+        "bound": 23979.33096972756,
+        "iteration": 17,
+        "simulation_value": 25372.499999999996
+      },
+      {
+        "bound": 23980.644942792216,
+        "iteration": 18,
+        "simulation_value": 24359.417915268117
+      },
+      {
+        "bound": 23980.945419360094,
+        "iteration": 19,
+        "simulation_value": 23891.699999999943
+      },
+      {
+        "bound": 23982.3976068359,
+        "iteration": 20,
+        "simulation_value": 23436.280218711156
+      },
+      {
+        "bound": 23987.984813490104,
+        "iteration": 21,
+        "simulation_value": 25351.399999999972
+      },
+      {
+        "bound": 23993.918498725317,
+        "iteration": 22,
+        "simulation_value": 23128.63097365148
+      },
+      {
+        "bound": 23994.95378490321,
+        "iteration": 23,
+        "simulation_value": 23087.610442148714
+      },
+      {
+        "bound": 23996.366065247672,
+        "iteration": 24,
+        "simulation_value": 26377.79999999966
+      },
+      {
+        "bound": 23999.61419549127,
+        "iteration": 25,
+        "simulation_value": 23480.500000000004
+      },
+      {
+        "bound": 23999.774927828683,
+        "iteration": 26,
+        "simulation_value": 22273.217711786565
+      },
+      {
+        "bound": 23999.846855458436,
+        "iteration": 27,
+        "simulation_value": 25050.099999990307
+      },
+      {
+        "bound": 24000.318869122748,
+        "iteration": 28,
+        "simulation_value": 23122.500588769683
+      },
+      {
+        "bound": 24000.473909422824,
+        "iteration": 29,
+        "simulation_value": 23979.08170054244
+      },
+      {
+        "bound": 24000.620544854766,
+        "iteration": 30,
+        "simulation_value": 24145.4
+      },
+      {
+        "bound": 24000.922769999648,
+        "iteration": 31,
+        "simulation_value": 23941.6637604869
+      },
+      {
+        "bound": 24001.051493810744,
+        "iteration": 32,
+        "simulation_value": 23095.699999999586
+      },
+      {
+        "bound": 24001.308607576993,
+        "iteration": 33,
+        "simulation_value": 22792.908572690914
+      },
+      {
+        "bound": 24002.513317429155,
+        "iteration": 34,
+        "simulation_value": 23617.100000006256
+      },
+      {
+        "bound": 24002.805381358885,
+        "iteration": 35,
+        "simulation_value": 24217.898949270795
+      },
+      {
+        "bound": 24003.03012919167,
+        "iteration": 36,
+        "simulation_value": 22244.63219363166
+      },
+      {
+        "bound": 24006.572005349353,
+        "iteration": 37,
+        "simulation_value": 24545.399999999983
+      },
+      {
+        "bound": 24006.6370857514,
+        "iteration": 38,
+        "simulation_value": 26276.8
+      },
+      {
+        "bound": 24006.733822227045,
+        "iteration": 39,
+        "simulation_value": 23953.700000000004
+      },
+      {
+        "bound": 24006.81513908557,
+        "iteration": 40,
+        "simulation_value": 22336.902904184815
+      },
+      {
+        "bound": 24007.013889810576,
+        "iteration": 41,
+        "simulation_value": 23413.313972267046
+      },
+      {
+        "bound": 24007.032106658673,
+        "iteration": 42,
+        "simulation_value": 22985.10000000001
+      },
+      {
+        "bound": 24007.14735996533,
+        "iteration": 43,
+        "simulation_value": 22808.490279843
+      },
+      {
+        "bound": 24007.150013286468,
+        "iteration": 44,
+        "simulation_value": 23303.85051339971
+      },
+      {
+        "bound": 24007.179926676163,
+        "iteration": 45,
+        "simulation_value": 24570.7
+      },
+      {
+        "bound": 24007.201768844116,
+        "iteration": 46,
+        "simulation_value": 24780.1
+      },
+      {
+        "bound": 24007.24211292149,
+        "iteration": 47,
+        "simulation_value": 23900.5
+      },
+      {
+        "bound": 24007.25056882637,
+        "iteration": 48,
+        "simulation_value": 23056.46458238265
+      },
+      {
+        "bound": 24007.264486537595,
+        "iteration": 49,
+        "simulation_value": 23328.800000000145
+      },
+      {
+        "bound": 24007.303267865198,
+        "iteration": 50,
+        "simulation_value": 21989.097224846213
+      },
+      {
+        "bound": 24007.711554064113,
+        "iteration": 51,
+        "simulation_value": 23748.499999996922
+      },
+      {
+        "bound": 24008.095684586602,
+        "iteration": 52,
+        "simulation_value": 23363.410062846295
+      },
+      {
+        "bound": 24008.201854432762,
+        "iteration": 53,
+        "simulation_value": 25402.699999999997
+      },
+      {
+        "bound": 24008.245634211675,
+        "iteration": 54,
+        "simulation_value": 23783.031220047127
+      },
+      {
+        "bound": 24008.246332598254,
+        "iteration": 55,
+        "simulation_value": 24607.89999999993
+      },
+      {
+        "bound": 24008.25341427529,
+        "iteration": 56,
+        "simulation_value": 23618.499999999996
+      },
+      {
+        "bound": 24008.26557166555,
+        "iteration": 57,
+        "simulation_value": 23253.700000000026
+      },
+      {
+        "bound": 24008.274385033736,
+        "iteration": 58,
+        "simulation_value": 23065.899999999998
+      },
+      {
+        "bound": 24008.280128694765,
+        "iteration": 59,
+        "simulation_value": 26337.100000000002
+      },
+      {
+        "bound": 24008.280181918388,
+        "iteration": 60,
+        "simulation_value": 22692.584934543702
+      },
+      {
+        "bound": 24008.35271655631,
+        "iteration": 61,
+        "simulation_value": 25037.20000000007
+      },
+      {
+        "bound": 24008.354960667042,
+        "iteration": 62,
+        "simulation_value": 22840.112869689205
+      },
+      {
+        "bound": 24008.382282002607,
+        "iteration": 63,
+        "simulation_value": 23719.89999999996
+      },
+      {
+        "bound": 24008.41457591296,
+        "iteration": 64,
+        "simulation_value": 25468.699999999997
+      },
+      {
+        "bound": 24008.44013865978,
+        "iteration": 65,
+        "simulation_value": 22307.261741289924
+      },
+      {
+        "bound": 24008.46079635502,
+        "iteration": 66,
+        "simulation_value": 24240.30000000043
+      },
+      {
+        "bound": 24008.472627096344,
+        "iteration": 67,
+        "simulation_value": 23064.100000000006
+      },
+      {
+        "bound": 24008.495280072926,
+        "iteration": 68,
+        "simulation_value": 24295.728060740432
+      },
+      {
+        "bound": 24008.803240761412,
+        "iteration": 69,
+        "simulation_value": 23556.100000000002
+      },
+      {
+        "bound": 24008.81626456908,
+        "iteration": 70,
+        "simulation_value": 24005.6
+      },
+      {
+        "bound": 24008.81811469981,
+        "iteration": 71,
+        "simulation_value": 25251.5
+      },
+      {
+        "bound": 24008.819762147228,
+        "iteration": 72,
+        "simulation_value": 25636.9
+      },
+      {
+        "bound": 24008.819876537513,
+        "iteration": 73,
+        "simulation_value": 22595.2154112772
+      },
+      {
+        "bound": 24008.84715036774,
+        "iteration": 74,
+        "simulation_value": 21545.138962720463
+      },
+      {
+        "bound": 24008.84715036774,
+        "iteration": 75,
+        "simulation_value": 22887.094768002997
+      },
+      {
+        "bound": 24008.850594789033,
+        "iteration": 76,
+        "simulation_value": 25307.00000000003
+      },
+      {
+        "bound": 24008.94529737408,
+        "iteration": 77,
+        "simulation_value": 26057.999999999996
+      },
+      {
+        "bound": 24008.978393468515,
+        "iteration": 78,
+        "simulation_value": 22803.83610253281
+      },
+      {
+        "bound": 24008.98733774202,
+        "iteration": 79,
+        "simulation_value": 24801.299999999905
+      },
+      {
+        "bound": 24008.998883198754,
+        "iteration": 80,
+        "simulation_value": 25389.499999999996
+      },
+      {
+        "bound": 24009.01077199279,
+        "iteration": 81,
+        "simulation_value": 22933.600000000002
+      },
+      {
+        "bound": 24009.01225467451,
+        "iteration": 82,
+        "simulation_value": 24149.999999999993
+      },
+      {
+        "bound": 24009.014693368288,
+        "iteration": 83,
+        "simulation_value": 23129.899999999998
+      },
+      {
+        "bound": 24009.018208916263,
+        "iteration": 84,
+        "simulation_value": 26040.07367297485
+      },
+      {
+        "bound": 24009.02130121323,
+        "iteration": 85,
+        "simulation_value": 24138.0
+      },
+      {
+        "bound": 24009.041098725196,
+        "iteration": 86,
+        "simulation_value": 23249.9
+      },
+      {
+        "bound": 24009.046817522023,
+        "iteration": 87,
+        "simulation_value": 26036.999999999993
+      },
+      {
+        "bound": 24009.059663869768,
+        "iteration": 88,
+        "simulation_value": 24008.399999999994
+      },
+      {
+        "bound": 24009.068367776996,
+        "iteration": 89,
+        "simulation_value": 24780.100000000002
+      },
+      {
+        "bound": 24009.074081564457,
+        "iteration": 90,
+        "simulation_value": 25481.999999999996
+      },
+      {
+        "bound": 24009.07601978591,
+        "iteration": 91,
+        "simulation_value": 22735.427282537417
+      },
+      {
+        "bound": 24009.086977343773,
+        "iteration": 92,
+        "simulation_value": 23216.79999999978
+      },
+      {
+        "bound": 24009.090307850587,
+        "iteration": 93,
+        "simulation_value": 23456.200000000095
+      },
+      {
+        "bound": 24009.09039422382,
+        "iteration": 94,
+        "simulation_value": 22271.133336499253
+      },
+      {
+        "bound": 24009.097826122557,
+        "iteration": 95,
+        "simulation_value": 23582.5
+      },
+      {
+        "bound": 24009.11753384668,
+        "iteration": 96,
+        "simulation_value": 25197.499999999996
+      },
+      {
+        "bound": 24009.118557331996,
+        "iteration": 97,
+        "simulation_value": 23592.916080842664
+      },
+      {
+        "bound": 24009.12697398333,
+        "iteration": 98,
+        "simulation_value": 25854.899999999987
+      },
+      {
+        "bound": 24009.130187822655,
+        "iteration": 99,
+        "simulation_value": 23598.200000000037
+      },
+      {
+        "bound": 24009.130316827308,
+        "iteration": 100,
+        "simulation_value": 21910.116298042118
+      },
+      {
+        "bound": 24009.132192975914,
+        "iteration": 101,
+        "simulation_value": 23717.799999999996
+      },
+      {
+        "bound": 24009.141779600573,
+        "iteration": 102,
+        "simulation_value": 23644.800000000003
+      },
+      {
+        "bound": 24009.153938512045,
+        "iteration": 103,
+        "simulation_value": 24102.484843525475
+      },
+      {
+        "bound": 24009.154118155297,
+        "iteration": 104,
+        "simulation_value": 24471.100000000126
+      },
+      {
+        "bound": 24009.154246513714,
+        "iteration": 105,
+        "simulation_value": 22488.600000000002
+      },
+      {
+        "bound": 24009.15529804929,
+        "iteration": 106,
+        "simulation_value": 22862.807544711846
+      },
+      {
+        "bound": 24009.1619730195,
+        "iteration": 107,
+        "simulation_value": 24401.098294023745
+      },
+      {
+        "bound": 24009.163297562205,
+        "iteration": 108,
+        "simulation_value": 24105.8999999999
+      },
+      {
+        "bound": 24009.166839796537,
+        "iteration": 109,
+        "simulation_value": 25644.299999999985
+      },
+      {
+        "bound": 24009.186150499063,
+        "iteration": 110,
+        "simulation_value": 25856.999999999996
+      },
+      {
+        "bound": 24009.18758639322,
+        "iteration": 111,
+        "simulation_value": 22944.800000000138
+      },
+      {
+        "bound": 24009.188082013927,
+        "iteration": 112,
+        "simulation_value": 23970.31182016149
+      },
+      {
+        "bound": 24009.200794507655,
+        "iteration": 113,
+        "simulation_value": 24132.75107312832
+      },
+      {
+        "bound": 24009.260170679056,
+        "iteration": 114,
+        "simulation_value": 25460.199999999997
+      },
+      {
+        "bound": 24009.267335633966,
+        "iteration": 115,
+        "simulation_value": 24079.9
+      },
+      {
+        "bound": 24009.270830080008,
+        "iteration": 116,
+        "simulation_value": 22861.4000000001
+      },
+      {
+        "bound": 24009.271330276468,
+        "iteration": 117,
+        "simulation_value": 25146.899999999987
+      },
+      {
+        "bound": 24009.27437962472,
+        "iteration": 118,
+        "simulation_value": 22738.608621539395
+      },
+      {
+        "bound": 24009.274541111023,
+        "iteration": 119,
+        "simulation_value": 24911.09890265329
+      },
+      {
+        "bound": 24009.27464773779,
+        "iteration": 120,
+        "simulation_value": 23112.30156372105
+      },
+      {
+        "bound": 24009.311977519363,
+        "iteration": 121,
+        "simulation_value": 25764.799999998075
+      },
+      {
+        "bound": 24009.311978438862,
+        "iteration": 122,
+        "simulation_value": 22226.798902653114
+      },
+      {
+        "bound": 24009.32356809345,
+        "iteration": 123,
+        "simulation_value": 24418.69999999176
+      },
+      {
+        "bound": 24009.331320774858,
+        "iteration": 124,
+        "simulation_value": 23058.24065993448
+      },
+      {
+        "bound": 24009.33313392831,
+        "iteration": 125,
+        "simulation_value": 26318.2000000089
+      },
+      {
+        "bound": 24009.333690495,
+        "iteration": 126,
+        "simulation_value": 23165.400000000103
+      },
+      {
+        "bound": 24009.345066722155,
+        "iteration": 127,
+        "simulation_value": 22207.591119887747
+      },
+      {
+        "bound": 24009.350787307707,
+        "iteration": 128,
+        "simulation_value": 23569.700000000004
+      },
+      {
+        "bound": 24009.373435997717,
+        "iteration": 129,
+        "simulation_value": 22398.399999999987
+      },
+      {
+        "bound": 24009.38972184273,
+        "iteration": 130,
+        "simulation_value": 23110.400000000056
+      },
+      {
+        "bound": 24009.393399670058,
+        "iteration": 131,
+        "simulation_value": 24023.30000000004
+      },
+      {
+        "bound": 24009.393990801873,
+        "iteration": 132,
+        "simulation_value": 24091.5040322582
+      },
+      {
+        "bound": 24009.39449025434,
+        "iteration": 133,
+        "simulation_value": 24204.8999999994
+      },
+      {
+        "bound": 24009.39483090806,
+        "iteration": 134,
+        "simulation_value": 23549.10576202379
+      },
+      {
+        "bound": 24009.396270800826,
+        "iteration": 135,
+        "simulation_value": 23524.101563721684
+      },
+      {
+        "bound": 24009.396980792917,
+        "iteration": 136,
+        "simulation_value": 22739.70201612143
+      },
+      {
+        "bound": 24009.40050958339,
+        "iteration": 137,
+        "simulation_value": 23693.700000000004
+      },
+      {
+        "bound": 24009.41385894042,
+        "iteration": 138,
+        "simulation_value": 22036.995560817926
+      },
+      {
+        "bound": 24009.41414641598,
+        "iteration": 139,
+        "simulation_value": 26012.70000001373
+      },
+      {
+        "bound": 24009.41414654198,
+        "iteration": 140,
+        "simulation_value": 22476.600000000002
+      },
+      {
+        "bound": 24009.42133275886,
+        "iteration": 141,
+        "simulation_value": 25206.099999999984
+      },
+      {
+        "bound": 24009.426695991246,
+        "iteration": 142,
+        "simulation_value": 22792.20000000007
+      },
+      {
+        "bound": 24009.426764087373,
+        "iteration": 143,
+        "simulation_value": 23061.50201612895
+      },
+      {
+        "bound": 24009.42733782756,
+        "iteration": 144,
+        "simulation_value": 24868.500000000346
+      },
+      {
+        "bound": 24009.429717438186,
+        "iteration": 145,
+        "simulation_value": 24127.906048386987
+      },
+      {
+        "bound": 24009.435757734704,
+        "iteration": 146,
+        "simulation_value": 27204.69999999962
+      },
+      {
+        "bound": 24009.437176695035,
+        "iteration": 147,
+        "simulation_value": 24068.2
+      },
+      {
+        "bound": 24009.437354086625,
+        "iteration": 148,
+        "simulation_value": 23124.70262812083
+      },
+      {
+        "bound": 24009.437405388766,
+        "iteration": 149,
+        "simulation_value": 24098.79999999987
+      },
+      {
+        "bound": 24009.46978940772,
+        "iteration": 150,
+        "simulation_value": 25071.1
+      },
+      {
+        "bound": 24009.47485407127,
+        "iteration": 151,
+        "simulation_value": 23439.268974660885
+      },
+      {
+        "bound": 24009.47486689899,
+        "iteration": 152,
+        "simulation_value": 24001.399999999605
+      },
+      {
+        "bound": 24009.48859987571,
+        "iteration": 153,
+        "simulation_value": 21922.628552939812
+      },
+      {
+        "bound": 24009.488660464012,
+        "iteration": 154,
+        "simulation_value": 25255.899999999998
+      },
+      {
+        "bound": 24009.489100474053,
+        "iteration": 155,
+        "simulation_value": 21644.613569809644
+      },
+      {
+        "bound": 24009.489182134286,
+        "iteration": 156,
+        "simulation_value": 25303.49999999355
+      },
+      {
+        "bound": 24009.49358523153,
+        "iteration": 157,
+        "simulation_value": 23601.12875342151
+      },
+      {
+        "bound": 24009.497403971898,
+        "iteration": 158,
+        "simulation_value": 23167.701773473338
+      },
+      {
+        "bound": 24009.497403971898,
+        "iteration": 159,
+        "simulation_value": 25690.100000000028
+      },
+      {
+        "bound": 24009.49740658906,
+        "iteration": 160,
+        "simulation_value": 24318.39696106616
+      },
+      {
+        "bound": 24009.51918101637,
+        "iteration": 161,
+        "simulation_value": 22989.500000000044
+      },
+      {
+        "bound": 24009.533168614456,
+        "iteration": 162,
+        "simulation_value": 23676.900121328057
+      },
+      {
+        "bound": 24009.60463169346,
+        "iteration": 163,
+        "simulation_value": 24353.6
+      },
+      {
+        "bound": 24009.621545612885,
+        "iteration": 164,
+        "simulation_value": 24214.5
+      },
+      {
+        "bound": 24009.621839027226,
+        "iteration": 165,
+        "simulation_value": 21019.942133270182
+      },
+      {
+        "bound": 24009.625068025307,
+        "iteration": 166,
+        "simulation_value": 24400.700000000037
+      },
+      {
+        "bound": 24009.625100411842,
+        "iteration": 167,
+        "simulation_value": 23761.502031990836
+      },
+      {
+        "bound": 24009.64395394522,
+        "iteration": 168,
+        "simulation_value": 23981.299999998853
+      },
+      {
+        "bound": 24009.643982509926,
+        "iteration": 169,
+        "simulation_value": 23236.40000000007
+      },
+      {
+        "bound": 24009.64921832569,
+        "iteration": 170,
+        "simulation_value": 25204.5
+      },
+      {
+        "bound": 24009.64921833744,
+        "iteration": 171,
+        "simulation_value": 24936.700000000004
+      },
+      {
+        "bound": 24009.670764645925,
+        "iteration": 172,
+        "simulation_value": 23747.100000000002
+      },
+      {
+        "bound": 24009.672927909956,
+        "iteration": 173,
+        "simulation_value": 21977.40586033775
+      },
+      {
+        "bound": 24009.672930647434,
+        "iteration": 174,
+        "simulation_value": 23167.402758162905
+      },
+      {
+        "bound": 24009.673236096707,
+        "iteration": 175,
+        "simulation_value": 22027.903555200824
+      },
+      {
+        "bound": 24009.675727333095,
+        "iteration": 176,
+        "simulation_value": 24520.699999999364
+      },
+      {
+        "bound": 24009.68674220768,
+        "iteration": 177,
+        "simulation_value": 23526.600000000006
+      },
+      {
+        "bound": 24009.686752548725,
+        "iteration": 178,
+        "simulation_value": 21971.34356585742
+      },
+      {
+        "bound": 24009.687089183437,
+        "iteration": 179,
+        "simulation_value": 25822.099999997958
+      },
+      {
+        "bound": 24009.687113759435,
+        "iteration": 180,
+        "simulation_value": 26002.100000000002
+      },
+      {
+        "bound": 24009.68800806285,
+        "iteration": 181,
+        "simulation_value": 24420.700000000157
+      },
+      {
+        "bound": 24009.688106366848,
+        "iteration": 182,
+        "simulation_value": 25371.199999999993
+      },
+      {
+        "bound": 24009.69185424923,
+        "iteration": 183,
+        "simulation_value": 22434.7171585441
+      },
+      {
+        "bound": 24009.69643775577,
+        "iteration": 184,
+        "simulation_value": 22354.29999999986
+      },
+      {
+        "bound": 24009.724229672353,
+        "iteration": 185,
+        "simulation_value": 23541.69999999998
+      },
+      {
+        "bound": 24009.72427943256,
+        "iteration": 186,
+        "simulation_value": 23653.699999999997
+      },
+      {
+        "bound": 24009.726475246192,
+        "iteration": 187,
+        "simulation_value": 25372.2
+      },
+      {
+        "bound": 24009.727176417477,
+        "iteration": 188,
+        "simulation_value": 23937.10000000001
+      },
+      {
+        "bound": 24009.729722169795,
+        "iteration": 189,
+        "simulation_value": 26180.5
+      },
+      {
+        "bound": 24009.730775471053,
+        "iteration": 190,
+        "simulation_value": 22659.861369768038
+      },
+      {
+        "bound": 24009.731265871895,
+        "iteration": 191,
+        "simulation_value": 23850.030404475863
+      },
+      {
+        "bound": 24009.73136539232,
+        "iteration": 192,
+        "simulation_value": 23374.500000000095
+      },
+      {
+        "bound": 24009.73185061722,
+        "iteration": 193,
+        "simulation_value": 23481.30000000026
+      },
+      {
+        "bound": 24009.73185061722,
+        "iteration": 194,
+        "simulation_value": 25171.20000000001
+      },
+      {
+        "bound": 24009.732132510962,
+        "iteration": 195,
+        "simulation_value": 25227.50000000007
+      },
+      {
+        "bound": 24009.732132510962,
+        "iteration": 196,
+        "simulation_value": 24647.699999999997
+      },
+      {
+        "bound": 24009.733060251703,
+        "iteration": 197,
+        "simulation_value": 23592.39808547617
+      },
+      {
+        "bound": 24009.73354815171,
+        "iteration": 198,
+        "simulation_value": 23887.69999999996
+      },
+      {
+        "bound": 24009.734047819627,
+        "iteration": 199,
+        "simulation_value": 27953.40000000145
+      },
+      {
+        "bound": 24009.7369658518,
+        "iteration": 200,
+        "simulation_value": 26733.800000000003
+      },
+      {
+        "bound": 24009.754337318747,
+        "iteration": 201,
+        "simulation_value": 24879.0
+      },
+      {
+        "bound": 24009.75820843305,
+        "iteration": 202,
+        "simulation_value": 23252.499841184454
+      },
+      {
+        "bound": 24009.758259633047,
+        "iteration": 203,
+        "simulation_value": 24771.900000000005
+      },
+      {
+        "bound": 24009.75829046588,
+        "iteration": 204,
+        "simulation_value": 22941.89999999985
+      },
+      {
+        "bound": 24009.758613193175,
+        "iteration": 205,
+        "simulation_value": 23170.3
+      },
+      {
+        "bound": 24009.764334318654,
+        "iteration": 206,
+        "simulation_value": 26146.6
+      },
+      {
+        "bound": 24009.76661796507,
+        "iteration": 207,
+        "simulation_value": 25143.69999999994
+      },
+      {
+        "bound": 24009.768007880735,
+        "iteration": 208,
+        "simulation_value": 21589.002766987986
+      },
+      {
+        "bound": 24009.771308873907,
+        "iteration": 209,
+        "simulation_value": 23134.899999999707
+      },
+      {
+        "bound": 24009.777097772658,
+        "iteration": 210,
+        "simulation_value": 24592.90000000169
+      },
+      {
+        "bound": 24009.778149795246,
+        "iteration": 211,
+        "simulation_value": 25400.5
+      },
+      {
+        "bound": 24009.781890606337,
+        "iteration": 212,
+        "simulation_value": 22380.00046530538
+      },
+      {
+        "bound": 24009.782725712586,
+        "iteration": 213,
+        "simulation_value": 23418.399999999605
+      },
+      {
+        "bound": 24009.782939166213,
+        "iteration": 214,
+        "simulation_value": 23827.9
+      },
+      {
+        "bound": 24009.78295575501,
+        "iteration": 215,
+        "simulation_value": 24361.7
+      },
+      {
+        "bound": 24009.783402852398,
+        "iteration": 216,
+        "simulation_value": 23128.903851927567
+      },
+      {
+        "bound": 24009.783407685965,
+        "iteration": 217,
+        "simulation_value": 24878.499999999745
+      },
+      {
+        "bound": 24009.786734542307,
+        "iteration": 218,
+        "simulation_value": 23121.500000000025
+      },
+      {
+        "bound": 24009.78846487424,
+        "iteration": 219,
+        "simulation_value": 24276.699999999903
+      },
+      {
+        "bound": 24009.792154320046,
+        "iteration": 220,
+        "simulation_value": 23727.6
+      },
+      {
+        "bound": 24009.792200942054,
+        "iteration": 221,
+        "simulation_value": 23313.999999999996
+      },
+      {
+        "bound": 24009.792211944663,
+        "iteration": 222,
+        "simulation_value": 23708.201876386935
+      },
+      {
+        "bound": 24009.794492204404,
+        "iteration": 223,
+        "simulation_value": 24134.6000000003
+      },
+      {
+        "bound": 24009.79449770571,
+        "iteration": 224,
+        "simulation_value": 24370.49999999986
+      },
+      {
+        "bound": 24009.794827552905,
+        "iteration": 225,
+        "simulation_value": 23318.003897775296
+      },
+      {
+        "bound": 24009.796366563616,
+        "iteration": 226,
+        "simulation_value": 22777.26396085695
+      },
+      {
+        "bound": 24009.803147682385,
+        "iteration": 227,
+        "simulation_value": 23065.699999999637
+      },
+      {
+        "bound": 24009.803151916807,
+        "iteration": 228,
+        "simulation_value": 21272.86603837097
+      },
+      {
+        "bound": 24009.810135195192,
+        "iteration": 229,
+        "simulation_value": 24082.300000000352
+      },
+      {
+        "bound": 24009.810448583947,
+        "iteration": 230,
+        "simulation_value": 23339.001822754897
+      },
+      {
+        "bound": 24009.810606104642,
+        "iteration": 231,
+        "simulation_value": 23909.404740456852
+      },
+      {
+        "bound": 24009.81088449105,
+        "iteration": 232,
+        "simulation_value": 23319.200000000008
+      },
+      {
+        "bound": 24009.81088460687,
+        "iteration": 233,
+        "simulation_value": 22630.399367569276
+      },
+      {
+        "bound": 24009.816167899702,
+        "iteration": 234,
+        "simulation_value": 22822.79999999999
+      },
+      {
+        "bound": 24009.816169176593,
+        "iteration": 235,
+        "simulation_value": 23981.700000006746
+      },
+      {
+        "bound": 24009.81617595479,
+        "iteration": 236,
+        "simulation_value": 24368.80000000095
+      },
+      {
+        "bound": 24009.816435218985,
+        "iteration": 237,
+        "simulation_value": 24213.500480307463
+      },
+      {
+        "bound": 24009.816530842687,
+        "iteration": 238,
+        "simulation_value": 22539.30887634766
+      },
+      {
+        "bound": 24009.81666356692,
+        "iteration": 239,
+        "simulation_value": 22219.202182477293
+      },
+      {
+        "bound": 24009.81666541319,
+        "iteration": 240,
+        "simulation_value": 22107.699999999917
+      },
+      {
+        "bound": 24009.816668190888,
+        "iteration": 241,
+        "simulation_value": 22794.90158052675
+      },
+      {
+        "bound": 24009.81666829326,
+        "iteration": 242,
+        "simulation_value": 24549.89999999979
+      },
+      {
+        "bound": 24009.816870430706,
+        "iteration": 243,
+        "simulation_value": 25145.5
+      },
+      {
+        "bound": 24009.817158110465,
+        "iteration": 244,
+        "simulation_value": 22245.899955898454
+      },
+      {
+        "bound": 24009.81715816165,
+        "iteration": 245,
+        "simulation_value": 22662.0
+      },
+      {
+        "bound": 24009.817384130853,
+        "iteration": 246,
+        "simulation_value": 25435.20000000001
+      },
+      {
+        "bound": 24009.817430752864,
+        "iteration": 247,
+        "simulation_value": 27888.499999999996
+      },
+      {
+        "bound": 24009.823215841538,
+        "iteration": 248,
+        "simulation_value": 23089.40000000027
+      },
+      {
+        "bound": 24009.823528097302,
+        "iteration": 249,
+        "simulation_value": 24412.900000001686
+      },
+      {
+        "bound": 24009.8237164627,
+        "iteration": 250,
+        "simulation_value": 24757.3
+      },
+      {
+        "bound": 24009.82420167684,
+        "iteration": 251,
+        "simulation_value": 23831.49999999991
+      },
+      {
+        "bound": 24009.82420167684,
+        "iteration": 252,
+        "simulation_value": 24775.600000000035
+      },
+      {
+        "bound": 24009.82438526731,
+        "iteration": 253,
+        "simulation_value": 23702.000000000466
+      },
+      {
+        "bound": 24009.825817006807,
+        "iteration": 254,
+        "simulation_value": 23298.20000000002
+      },
+      {
+        "bound": 24009.827077043243,
+        "iteration": 255,
+        "simulation_value": 23131.601843315882
+      },
+      {
+        "bound": 24009.82710244807,
+        "iteration": 256,
+        "simulation_value": 24363.4999999958
+      },
+      {
+        "bound": 24009.82840035503,
+        "iteration": 257,
+        "simulation_value": 23019.500000000033
+      },
+      {
+        "bound": 24009.82848657583,
+        "iteration": 258,
+        "simulation_value": 24521.80000000004
+      },
+      {
+        "bound": 24009.82854668463,
+        "iteration": 259,
+        "simulation_value": 23769.9
+      },
+      {
+        "bound": 24009.828753636546,
+        "iteration": 260,
+        "simulation_value": 24208.3
+      },
+      {
+        "bound": 24009.828840668335,
+        "iteration": 261,
+        "simulation_value": 21252.249354250307
+      },
+      {
+        "bound": 24009.82884066834,
+        "iteration": 262,
+        "simulation_value": 23491.500000000025
+      },
+      {
+        "bound": 24009.82888982961,
+        "iteration": 263,
+        "simulation_value": 25788.0000000003
+      },
+      {
+        "bound": 24009.82888982961,
+        "iteration": 264,
+        "simulation_value": 23663.899999999998
+      },
+      {
+        "bound": 24009.82901511469,
+        "iteration": 265,
+        "simulation_value": 23462.50000000004
+      },
+      {
+        "bound": 24009.829120095164,
+        "iteration": 266,
+        "simulation_value": 26010.400000000052
+      },
+      {
+        "bound": 24009.829146340282,
+        "iteration": 267,
+        "simulation_value": 22791.899999999987
+      },
+      {
+        "bound": 24009.8291463403,
+        "iteration": 268,
+        "simulation_value": 26004.5999999996
+      },
+      {
+        "bound": 24009.829232561096,
+        "iteration": 269,
+        "simulation_value": 24814.100000000002
+      },
+      {
+        "bound": 24009.829300337464,
+        "iteration": 270,
+        "simulation_value": 25764.599999999962
+      },
+      {
+        "bound": 24009.82986716304,
+        "iteration": 271,
+        "simulation_value": 21844.9958526607
+      },
+      {
+        "bound": 24009.829955640493,
+        "iteration": 272,
+        "simulation_value": 25508.50000000363
+      },
+      {
+        "bound": 24009.830659695162,
+        "iteration": 273,
+        "simulation_value": 23484.607968086624
+      },
+      {
+        "bound": 24009.831537833958,
+        "iteration": 274,
+        "simulation_value": 24387.29999999947
+      },
+      {
+        "bound": 24009.83155477804,
+        "iteration": 275,
+        "simulation_value": 22246.20796812462
+      },
+      {
+        "bound": 24009.831556955618,
+        "iteration": 276,
+        "simulation_value": 22796.100480294714
+      },
+      {
+        "bound": 24009.833288167694,
+        "iteration": 277,
+        "simulation_value": 24056.89999997087
+      },
+      {
+        "bound": 24009.83329130187,
+        "iteration": 278,
+        "simulation_value": 22821.90672164454
+      },
+      {
+        "bound": 24009.833291535124,
+        "iteration": 279,
+        "simulation_value": 24539.499999998257
+      },
+      {
+        "bound": 24009.833383577774,
+        "iteration": 280,
+        "simulation_value": 23107.904686596143
+      },
+      {
+        "bound": 24009.83355295714,
+        "iteration": 281,
+        "simulation_value": 29133.699999999983
+      },
+      {
+        "bound": 24009.83368817605,
+        "iteration": 282,
+        "simulation_value": 23100.401583983454
+      },
+      {
+        "bound": 24009.833688995044,
+        "iteration": 283,
+        "simulation_value": 28859.20000003011
+      },
+      {
+        "bound": 24009.833688995044,
+        "iteration": 284,
+        "simulation_value": 25657.599999999995
+      },
+      {
+        "bound": 24009.83382462031,
+        "iteration": 285,
+        "simulation_value": 23341.69999999771
+      },
+      {
+        "bound": 24009.833960070704,
+        "iteration": 286,
+        "simulation_value": 23312.90796810032
+      },
+      {
+        "bound": 24009.83411238726,
+        "iteration": 287,
+        "simulation_value": 24777.70000448599
+      },
+      {
+        "bound": 24009.834206790612,
+        "iteration": 288,
+        "simulation_value": 22489.299999999927
+      },
+      {
+        "bound": 24009.834330662714,
+        "iteration": 289,
+        "simulation_value": 24737.499999999996
+      },
+      {
+        "bound": 24009.840205885048,
+        "iteration": 290,
+        "simulation_value": 24152.0
+      },
+      {
+        "bound": 24009.84119497291,
+        "iteration": 291,
+        "simulation_value": 22846.70000000018
+      },
+      {
+        "bound": 24009.841712447313,
+        "iteration": 292,
+        "simulation_value": 26357.799999999963
+      },
+      {
+        "bound": 24009.841745878242,
+        "iteration": 293,
+        "simulation_value": 23472.61593609675
+      },
+      {
+        "bound": 24009.841745908125,
+        "iteration": 294,
+        "simulation_value": 23401.899999999983
+      },
+      {
+        "bound": 24009.842523983476,
+        "iteration": 295,
+        "simulation_value": 24397.500000000044
+      },
+      {
+        "bound": 24009.842810655107,
+        "iteration": 296,
+        "simulation_value": 26714.400000000063
+      },
+      {
+        "bound": 24009.845828400088,
+        "iteration": 297,
+        "simulation_value": 22617.099999999802
+      },
+      {
+        "bound": 24009.845846483884,
+        "iteration": 298,
+        "simulation_value": 22883.407968127693
+      },
+      {
+        "bound": 24009.845930340503,
+        "iteration": 299,
+        "simulation_value": 24255.799999997085
+      },
+      {
+        "bound": 24009.845930340507,
+        "iteration": 300,
+        "simulation_value": 25848.399999999954
+      }
+    ],
+    "simulation": {
+      "max": 27172.100000064478,
+      "mean": 23913.29548705343,
+      "min": 21751.897579967237,
+      "replications": 50,
+      "seed": 42,
+      "std": 1408.5449370532351
+    }
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  },
+  "warnings": {
+    "initial_bound_lb_0": {
+      "bound": 3.5,
+      "log": [
+        {
+          "bound": 3.0,
+          "iteration": 1,
+          "simulation_value": 6.5
+        },
+        {
+          "bound": 3.5,
+          "iteration": 2,
+          "simulation_value": 3.5
+        },
+        {
+          "bound": 3.5,
+          "iteration": 3,
+          "simulation_value": 3.5
+        },
+        {
+          "bound": 3.5,
+          "iteration": 4,
+          "simulation_value": 3.5
+        },
+        {
+          "bound": 3.5,
+          "iteration": 5,
+          "simulation_value": 3.5
+        }
+      ]
+    },
+    "initial_bound_lb_10": {
+      "bound": 11.0,
+      "log": [
+        {
+          "bound": 11.0,
+          "iteration": 1,
+          "simulation_value": 6.5
+        },
+        {
+          "bound": 11.0,
+          "iteration": 2,
+          "simulation_value": 5.5
+        },
+        {
+          "bound": 11.0,
+          "iteration": 3,
+          "simulation_value": 5.5
+        },
+        {
+          "bound": 11.0,
+          "iteration": 4,
+          "simulation_value": 5.5
+        },
+        {
+          "bound": 11.0,
+          "iteration": 5,
+          "simulation_value": 5.5
+        }
+      ]
+    },
+    "recourse_error": "Unable to retrieve solution from node 2.\n\n  Termination status : INFEASIBLE\n  Primal status      : NO_SOLUTION\n  Dual status        : INFEASIBILITY_CERTIFICATE.\n\nThe current subproblem was written to `subproblem_2.mof.json`.\n\nThere are two common causes of this error:\n  1) you have a mistake in your formulation, or you violated\n     the assumption of relatively complete recourse\n  2) the solver encountered numerical issues\n\nSee https://odow.github.io/SDDP.jl/stable/tutorial/warnings/ for more information.",
+    "report": "numerical stability report\n  matrix range     [1e-06, 1e+09]\n  objective range  [1e+00, 1e+09]\n  bounds range     [1e+07, 1e+10]\n  rhs range        [1e-08, 1e-08]\nWARNING: numerical stability issues detected\n  - matrix range contains small coefficients\n  - matrix range contains large coefficients\n  - objective range contains large coefficients\n  - bounds range contains large coefficients\n  - rhs range contains small coefficients\nVery large or small absolute values of coefficients\ncan cause numerical stability issues. Consider\nreformulating the model.\n",
+    "report_by_node": "numerical stability report for node: 1\n  matrix range     [1e-06, 1e+09]\n  objective range  [1e+00, 1e+09]\n  bounds range     [1e+07, 1e+10]\n  rhs range        [1e-08, 1e-08]\nWARNING: numerical stability issues detected\n  - matrix range contains small coefficients\n  - matrix range contains large coefficients\n  - objective range contains large coefficients\n  - bounds range contains large coefficients\n  - rhs range contains small coefficients\nVery large or small absolute values of coefficients\ncan cause numerical stability issues. Consider\nreformulating the model.\nnumerical stability report for node: 2\n  matrix range     [1e-06, 1e+09]\n  objective range  [1e+00, 1e+09]\n  bounds range     [1e+07, 1e+07]\n  rhs range        [1e-08, 1e-08]\nWARNING: numerical stability issues detected\n  - matrix range contains small coefficients\n  - matrix range contains large coefficients\n  - objective range contains large coefficients\n  - rhs range contains small coefficients\nVery large or small absolute values of coefficients\ncan cause numerical stability issues. Consider\nreformulating the model.\n"
+  }
+}
