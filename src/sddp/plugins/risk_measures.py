@@ -30,7 +30,14 @@ def _isapprox(a: float, b: float, atol: float = 0.0) -> bool:
 class Expectation(RiskMeasure):
     """The expectation with respect to the nominal distribution."""
 
-    def adjust_probability(self, q: list[float], p: Sequence[float], supports: Sequence[Any], V: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        V: Sequence[float],
+        is_min: bool,
+    ) -> float:
         q[:] = list(p)
         return 0.0
 
@@ -47,7 +54,14 @@ class Expectation(RiskMeasure):
 class WorstCase(RiskMeasure):
     """All probability weight on the worst outcome (among outcomes with ``p > 0``)."""
 
-    def adjust_probability(self, q: list[float], p: Sequence[float], supports: Sequence[Any], V: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        V: Sequence[float],
+        is_min: bool,
+    ) -> float:
         q[:] = [0.0] * len(p)
         worst_index = 0
         worst_observation = -math.inf if is_min else math.inf
@@ -79,7 +93,14 @@ class AVaR(RiskMeasure):
             raise ValueError(f"Risk-quantile β must be in [0, 1]. Currently it is {beta}.")
         self.beta = float(beta)
 
-    def adjust_probability(self, q: list[float], p: Sequence[float], supports: Sequence[Any], V: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        V: Sequence[float],
+        is_min: bool,
+    ) -> float:
         if _isapprox(self.beta, 0.0):
             return WorstCase().adjust_probability(q, p, supports, V, is_min)
         elif _isapprox(self.beta, 1.0):
@@ -113,9 +134,18 @@ class ConvexCombination(RiskMeasure):
     """A weighted combination ``Σ wᵢ · measureᵢ`` of risk measures."""
 
     def __init__(self, *measures: tuple[float, RiskMeasure]):
-        self.measures: tuple[tuple[float, RiskMeasure], ...] = tuple((float(w), m) for w, m in measures)
+        self.measures: tuple[tuple[float, RiskMeasure], ...] = tuple(
+            (float(w), m) for w, m in measures
+        )
 
-    def adjust_probability(self, q: list[float], p: Sequence[float], supports: Sequence[Any], V: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        V: Sequence[float],
+        is_min: bool,
+    ) -> float:
         q[:] = [0.0] * len(p)
         alpha = 0.0
         for weight, measure in self.measures:
@@ -162,14 +192,24 @@ class ModifiedChiSquared(RiskMeasure):
         if abs(radius) < 1e-9:
             import warnings
 
-            warnings.warn("Radius is very small. You should probably use `Expectation()` instead.", stacklevel=2)
+            warnings.warn(
+                "Radius is very small. You should probably use `Expectation()` instead.",
+                stacklevel=2,
+            )
         self.radius = float(radius)
         self.minimum_std = float(minimum_std)
 
     def __repr__(self) -> str:
         return f"ModifiedChiSquared with radius={self.radius}"
 
-    def adjust_probability(self, q: list[float], p: Sequence[float], supports: Sequence[Any], V: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        V: Sequence[float],
+        is_min: bool,
+    ) -> float:
         if float(np.std(np.asarray(V, dtype=float))) < self.minimum_std:  # uncorrected std
             return Expectation().adjust_probability(q, p, supports, V, is_min)
         m = len(V)
@@ -180,7 +220,13 @@ class ModifiedChiSquared(RiskMeasure):
         return 0.0
 
 
-def _non_uniform_dro(measure: ModifiedChiSquared, p: list[float], q: Sequence[float], z_in: Sequence[float], is_min: bool) -> float:
+def _non_uniform_dro(
+    measure: ModifiedChiSquared,
+    p: list[float],
+    q: Sequence[float],
+    z_in: Sequence[float],
+    is_min: bool,
+) -> float:
     """Algorithm (1) of Philpott et al.: nominal distribution is not uniform."""
     m = len(z_in)
     z = list(z_in)
@@ -225,7 +271,8 @@ def _non_uniform_dro(measure: ModifiedChiSquared, p: list[float], q: Sequence[fl
             sum_qj_squared = sum(q[i] ** 2 for i in not_in_K)
         len_k = len(K)
         computed_r = [
-            (((-q[i] * len_k - sum_qj) / (z[i] - z_bar) / s) ** 2 + sum_qj_squared**2) / len_k + sum_qj_squared
+            (((-q[i] * len_k - sum_qj) / (z[i] - z_bar) / s) ** 2 + sum_qj_squared**2) / len_k
+            + sum_qj_squared
             for i in negative_p
         ]
         i_K = negative_p[int(np.argmin(computed_r))]
@@ -237,7 +284,13 @@ def _non_uniform_dro(measure: ModifiedChiSquared, p: list[float], q: Sequence[fl
     return 0.0
 
 
-def _uniform_dro(measure: ModifiedChiSquared, q_out: list[float], p: Sequence[float], V: Sequence[float], is_min: bool) -> float:
+def _uniform_dro(
+    measure: ModifiedChiSquared,
+    q_out: list[float],
+    p: Sequence[float],
+    V: Sequence[float],
+    is_min: bool,
+) -> float:
     """Algorithm (2) of Philpott et al.: nominal distribution is uniform."""
     m = len(V)
     perm = sorted(range(m), key=lambda i: V[i], reverse=not is_min)
@@ -276,7 +329,9 @@ def _uniform_dro(measure: ModifiedChiSquared, q_out: list[float], p: Sequence[fl
 class Wasserstein(RiskMeasure):
     """Distributionally robust measure based on the Wasserstein distance (solves a small LP)."""
 
-    def __init__(self, norm: Callable[[Any, Any], float], optimizer: OptimizerFactory, alpha: float):
+    def __init__(
+        self, norm: Callable[[Any, Any], float], optimizer: OptimizerFactory, alpha: float
+    ):
         if alpha < 0.0:
             raise ValueError(f"alpha cannot be {alpha} as it must be in the range [0, ∞).")
         self.alpha = float(alpha)
@@ -286,19 +341,32 @@ class Wasserstein(RiskMeasure):
     def __repr__(self) -> str:
         return "Wasserstein"
 
-    def adjust_probability(self, q: list[float], p: Sequence[float], supports: Sequence[Any], V: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        V: Sequence[float],
+        is_min: bool,
+    ) -> float:
         N = len(V)
         m = Model(self.optimizer)
         z = [[m.add_variable(lb=0.0) for _ in range(N)] for _ in range(N)]
         pv = [m.add_variable(lb=0.0) for _ in range(N)]
         for i in range(N):
-            m.add_constraint_normalized(Model.expression([(z[k][i], 1.0) for k in range(N)]), "==", p[i])
+            m.add_constraint_normalized(
+                Model.expression([(z[k][i], 1.0) for k in range(N)]), "==", p[i]
+            )
             m.add_constraint_normalized(
                 Model.expression([(z[i][k], 1.0) for k in range(N)] + [(pv[i], -1.0)]), "==", 0.0
             )
         m.add_constraint_normalized(
             Model.expression(
-                [(z[i][j], float(self.norm(supports[i], supports[j]))) for i in range(N) for j in range(N)]
+                [
+                    (z[i][j], float(self.norm(supports[i], supports[j])))
+                    for i in range(N)
+                    for j in range(N)
+                ]
             ),
             "<=",
             self.alpha,
@@ -322,7 +390,14 @@ class Entropic(RiskMeasure):
     def __repr__(self) -> str:
         return f"Entropic risk measure with γ = {self.gamma}"
 
-    def adjust_probability(self, Q: list[float], p: Sequence[float], supports: Sequence[Any], X: Sequence[float], is_min: bool) -> float:
+    def adjust_probability(
+        self,
+        Q: list[float],
+        p: Sequence[float],
+        supports: Sequence[Any],
+        X: Sequence[float],
+        is_min: bool,
+    ) -> float:
         if self.gamma == 0.0:
             Q[:] = list(p)
             return 0.0

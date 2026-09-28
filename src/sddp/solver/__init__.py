@@ -1,9 +1,9 @@
 """Thin solver abstraction (ported from SDDP.jl's use of JuMP/MOI)."""
 
 from sddp.solver.model import (
-    HiGHS,
     Constraint,
     Expression,
+    HiGHS,
     Model,
     OptimizerFactory,
     ResultStatus,

@@ -30,4 +30,6 @@ class MonteCarloSampler(BackwardSamplingScheme):
 
     def sample_backward_noise_terms(self, node: Node, rng: random.Random) -> list[Noise]:
         prob = 1 / self.number_of_samples
-        return [Noise(sample_noise(node.noise_terms, rng), prob) for _ in range(self.number_of_samples)]
+        return [
+            Noise(sample_noise(node.noise_terms, rng), prob) for _ in range(self.number_of_samples)
+        ]

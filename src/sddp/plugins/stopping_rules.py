@@ -89,7 +89,10 @@ class Statistical(StoppingRule):
         sample_mean = statistics.mean(objectives)
         sample_ci = self.z_score * statistics.stdev(objectives) / math.sqrt(self.num_replications)
         if self.verbose:
-            print(f"Simulated policy value: [{sample_mean - sample_ci:1.6e}, {sample_mean + sample_ci:1.6e}]")
+            print(
+                f"Simulated policy value: [{sample_mean - sample_ci:1.6e}, "
+                f"{sample_mean + sample_ci:1.6e}]"
+            )
         current_bound = log[-1].bound
         if graph.is_minimization:
             return sample_mean - sample_ci <= current_bound
@@ -223,10 +226,14 @@ class FirstStageStoppingRule(StoppingRule):
         from sddp.algorithm import get_outgoing_state, parameterize, set_incoming_state
 
         if len(model.root_children) != 1:
-            raise ValueError("FirstStageStoppingRule cannot be applied because first-stage is not deterministic")
+            raise ValueError(
+                "FirstStageStoppingRule cannot be applied because first-stage is not deterministic"
+            )
         node = model[model.root_children[0].term]
         if len(node.noise_terms) > 1:
-            raise ValueError("FirstStageStoppingRule cannot be applied because first-stage is not deterministic")
+            raise ValueError(
+                "FirstStageStoppingRule cannot be applied because first-stage is not deterministic"
+            )
         set_incoming_state(node, model.initial_root_state)
         parameterize(node, node.noise_terms[0].term)
         node.model.optimize()

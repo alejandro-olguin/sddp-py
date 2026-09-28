@@ -29,7 +29,9 @@ def build_hydro_thermal() -> sddp.PolicyGraph:
         fuel_cost = [50.0, 100.0, 150.0]
         sp.set_stage_objective(fuel_cost[t - 1] * thermal)
 
-    return sddp.LinearPolicyGraph(builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(
+        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS
+    )
 
 
 def build_fast_quickstart() -> sddp.PolicyGraph:
@@ -58,7 +60,9 @@ def build_fast_hydro_thermal() -> sddp.PolicyGraph:
         sp.parameterize(lambda w: sp.fix(xi, w), rainfall)
         sp.set_stage_objective(-5 * p)
 
-    return sddp.LinearPolicyGraph(builder, stages=2, upper_bound=0.0, sense="Max", optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(
+        builder, stages=2, upper_bound=0.0, sense="Max", optimizer=sddp.HiGHS
+    )
 
 
 def build_fast_production_management() -> sddp.PolicyGraph:
@@ -75,7 +79,9 @@ def build_fast_production_management() -> sddp.PolicyGraph:
             sp.add_constraint(s[i] <= x[i].in_)
         sp.add_constraint(sum(s) <= d)
         sp.parameterize(lambda w: sp.fix(d, w), [0] if t == 1 else DEMAND)
-        sp.set_stage_objective(sum(C[i] * x[i].out for i in range(N)) - sum(S[i] * s[i] for i in range(N)))
+        sp.set_stage_objective(
+            sum(C[i] * x[i].out for i in range(N)) - sum(S[i] * s[i] for i in range(N))
+        )
 
     return sddp.LinearPolicyGraph(builder, stages=H, lower_bound=-50.0, optimizer=sddp.HiGHS)
 
@@ -112,22 +118,35 @@ def build_farmers() -> sddp.PolicyGraph:
         else:
             yield_ = {c: sp.add_variable(f"yield[{c}]", lb=0.0) for c in CROPS}
             buy = {c: sp.add_variable(f"buy[{c}]", lb=0.0) for c in CROPS}
-            sell_in = {c: sp.add_variable(f"sell_in_quota[{c}]", lb=0.0, ub=QUOTA_MAX[c]) for c in CROPS}
+            sell_in = {
+                c: sp.add_variable(f"sell_in_quota[{c}]", lb=0.0, ub=QUOTA_MAX[c]) for c in CROPS
+            }
             sell_no = {c: sp.add_variable(f"sell_no_quota[{c}]", lb=0.0) for c in CROPS}
             for c in CROPS:
                 sp.add_constraint(yield_[c] + buy[c] - sell_in[c] - sell_no[c] >= MIN_QUANTITIES[c])
-            uncertainty = {c: sp.add_constraint(1.0 * area[c].in_ - yield_[c] == 0.0) for c in CROPS}
+            uncertainty = {
+                c: sp.add_constraint(1.0 * area[c].in_ - yield_[c] == 0.0) for c in CROPS
+            }
 
             def modify(w: str) -> None:
                 for c in CROPS:
-                    sp.set_normalized_coefficient(uncertainty[c], area[c].in_, MEAN_YIELD[c] * YIELD_MULTIPLIER[w])
+                    sp.set_normalized_coefficient(
+                        uncertainty[c], area[c].in_, MEAN_YIELD[c] * YIELD_MULTIPLIER[w]
+                    )
 
             sp.parameterize(modify, ["good", "fair", "bad"])
             sp.set_stage_objective(
-                sum(SELL_IN_QUOTA[c] * sell_in[c] + SELL_NO_QUOTA[c] * sell_no[c] - BUY_PRICE[c] * buy[c] for c in CROPS)
+                sum(
+                    SELL_IN_QUOTA[c] * sell_in[c]
+                    + SELL_NO_QUOTA[c] * sell_no[c]
+                    - BUY_PRICE[c] * buy[c]
+                    for c in CROPS
+                )
             )
 
-    return sddp.LinearPolicyGraph(builder, stages=2, sense="Max", upper_bound=500_000.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(
+        builder, stages=2, sense="Max", upper_bound=500_000.0, optimizer=sddp.HiGHS
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -176,11 +195,15 @@ def build_objective_uncertainty() -> sddp.PolicyGraph:
     def builder(sp: sddp.Subproblem, t: int) -> None:
         _hydro_markov_body(sp, t, [1 / 3, 1 / 3, 1 / 3])
 
-    return sddp.LinearPolicyGraph(builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(
+        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS
+    )
 
 
 def build_infinite_trivial() -> sddp.PolicyGraph:
-    graph = sddp.Graph.from_edges("root_node", ["week"], [(("root_node", "week"), 1.0), (("week", "week"), 0.9)])
+    graph = sddp.Graph.from_edges(
+        "root_node", ["week"], [(("root_node", "week"), 1.0), (("week", "week"), 0.9)]
+    )
 
     def builder(sp: sddp.Subproblem, node: str) -> None:
         state = sp.add_state("state", initial_value=0.0)
@@ -191,7 +214,9 @@ def build_infinite_trivial() -> sddp.PolicyGraph:
 
 
 def build_no_strong_duality() -> sddp.PolicyGraph:
-    graph = sddp.Graph.from_edges("root", ["node"], [(("root", "node"), 1.0), (("node", "node"), 0.5)])
+    graph = sddp.Graph.from_edges(
+        "root", ["node"], [(("root", "node"), 1.0), (("node", "node"), 0.5)]
+    )
 
     def builder(sp: sddp.Subproblem, node: str) -> None:
         x = sp.add_state("x", initial_value=1.0)
@@ -202,8 +227,14 @@ def build_no_strong_duality() -> sddp.PolicyGraph:
 
 
 def build_infinite_hydro_thermal() -> sddp.PolicyGraph:
-    omega = [{"inflow": 0.0, "demand": 7.5}, {"inflow": 5.0, "demand": 5.0}, {"inflow": 10.0, "demand": 2.5}]
-    graph = sddp.Graph.from_edges("root_node", ["week"], [(("root_node", "week"), 1.0), (("week", "week"), 0.9)])
+    omega = [
+        {"inflow": 0.0, "demand": 7.5},
+        {"inflow": 5.0, "demand": 5.0},
+        {"inflow": 10.0, "demand": 2.5},
+    ]
+    graph = sddp.Graph.from_edges(
+        "root_node", ["week"], [(("root_node", "week"), 1.0), (("week", "week"), 0.9)]
+    )
 
     def builder(sp: sddp.Subproblem, node: str) -> None:
         reservoir = sp.add_state("reservoir", lb=5.0, ub=15.0, initial_value=10.0)
@@ -256,7 +287,12 @@ def build_asset_management_stagewise() -> sddp.PolicyGraph:
     return sddp.MarkovianPolicyGraph(
         builder,
         sense="Max",
-        transition_matrices=[[[1.0]], [[0.5, 0.5]], [[0.5, 0.5], [0.5, 0.5]], [[0.5, 0.5], [0.5, 0.5]]],
+        transition_matrices=[
+            [[1.0]],
+            [[0.5, 0.5]],
+            [[0.5, 0.5], [0.5, 0.5]],
+            [[0.5, 0.5], [0.5, 0.5]],
+        ],
         upper_bound=1000.0,
         optimizer=sddp.HiGHS,
     )
@@ -282,7 +318,9 @@ def build_objective_states() -> sddp.PolicyGraph:
             lower_bound=50.0,
             upper_bound=150.0,
         )
-        omega = [{"fuel": f, "inflow": w} for f in [0.75, 0.9, 1.1, 1.25] for w in [0.0, 50.0, 100.0]]
+        omega = [
+            {"fuel": f, "inflow": w} for f in [0.75, 0.9, 1.1, 1.25] for w in [0.0, 50.0, 100.0]
+        ]
 
         def modify(w: dict[str, float]) -> None:
             fuel_cost = sp.objective_state()
@@ -291,7 +329,9 @@ def build_objective_states() -> sddp.PolicyGraph:
 
         sp.parameterize(modify, omega)
 
-    return sddp.LinearPolicyGraph(builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(
+        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS
+    )
 
 
 def build_belief() -> sddp.PolicyGraph:
@@ -334,7 +374,9 @@ def build_belief() -> sddp.PolicyGraph:
 # ---------------------------------------------------------------------------
 def build_air_conditioning() -> sddp.PolicyGraph:
     def builder(sp: sddp.Subproblem, stage: int) -> None:
-        stored = sp.add_state("stored_production", lb=0.0, ub=100.0, integer=True, initial_value=0.0)
+        stored = sp.add_state(
+            "stored_production", lb=0.0, ub=100.0, integer=True, initial_value=0.0
+        )
         production = sp.add_variable("production", lb=0.0, ub=200.0, integer=True)
         overtime = sp.add_variable("overtime", lb=0.0, integer=True)
         demand = sp.add_variable("demand")
@@ -352,7 +394,10 @@ def build_stochastic_all_blacks() -> sddp.PolicyGraph:
     offers = [[[1, 1], [0, 0], [1, 1]], [[1, 0], [0, 0], [0, 0]], [[0, 1], [1, 0], [1, 1]]]
 
     def builder(sp: sddp.Subproblem, stage: int) -> None:
-        x = [sp.add_state(f"x[{i + 1}]", lb=0.0, ub=1.0, binary=True, initial_value=1.0) for i in range(N)]
+        x = [
+            sp.add_state(f"x[{i + 1}]", lb=0.0, ub=1.0, binary=True, initial_value=1.0)
+            for i in range(N)
+        ]
         accept = [sp.add_variable(f"accept_offer[{i + 1}]", binary=True) for i in range(N)]
         offers_made = [sp.add_variable(f"offers_made[{i + 1}]") for i in range(N)]
         for i in range(N):
@@ -367,7 +412,9 @@ def build_stochastic_all_blacks() -> sddp.PolicyGraph:
         for i in range(N):
             sp.add_constraint(accept[i] <= offers_made[i])
 
-    return sddp.LinearPolicyGraph(builder, stages=T, sense="Max", upper_bound=100.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(
+        builder, stages=T, sense="Max", upper_bound=100.0, optimizer=sddp.HiGHS
+    )
 
 
 def build_sldp_example_one() -> sddp.PolicyGraph:
@@ -381,7 +428,13 @@ def build_sldp_example_one() -> sddp.PolicyGraph:
         sp.add_constraint(x.out == x.in_ + 2 * u - 1 + w)
         sp.add_constraint(xp >= x.out)
         sp.add_constraint(xm >= -1.0 * x.out)
-        points = [-0.3089653673606697, -0.2718277412744214, -0.09611178608243474, 0.24645863921577763, 0.5204224537256875]
+        points = [
+            -0.3089653673606697,
+            -0.2718277412744214,
+            -0.09611178608243474,
+            0.24645863921577763,
+            0.5204224537256875,
+        ]
         sp.parameterize(lambda phi: sp.fix(w, phi), points + [-p for p in points])
 
     return sddp.LinearPolicyGraph(builder, stages=8, lower_bound=0.0, optimizer=sddp.HiGHS)

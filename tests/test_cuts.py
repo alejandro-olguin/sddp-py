@@ -35,7 +35,9 @@ def test_backward_pass_cut_matches_hand_solution():
     for node in model.nodes.values():
         node.bellman_function.cut_type = sddp.SINGLE_CUT
     options = sddp.algorithm.Options.create(model, model.initial_root_state)
-    cuts = sddp.algorithm.backward_pass(model, options, [(1, None), (2, 2.0)], [{"x": 4.0}, {"x": 0.0}], [], [])
+    cuts = sddp.algorithm.backward_pass(
+        model, options, [(1, None), (2, 2.0)], [{"x": 4.0}, {"x": 0.0}], [], []
+    )
     (cut,) = cuts[1]
     assert math.isclose(cut["theta"], -9.0)
     assert math.isclose(cut["pi"]["x"], -1.5)
@@ -43,9 +45,13 @@ def test_backward_pass_cut_matches_hand_solution():
     assert math.isclose(stored.intercept, -3.0)  # -9 - (-1.5 * 4)
     assert math.isclose(stored.coefficients["x"], -1.5)
     # Child duals: check the stage-2 subproblem duals individually.
-    r2 = sddp.algorithm.solve_subproblem(model, node2, {"x": 4.0}, 2.0, [], duality_handler=sddp.ContinuousConicDuality())
+    r2 = sddp.algorithm.solve_subproblem(
+        model, node2, {"x": 4.0}, 2.0, [], duality_handler=sddp.ContinuousConicDuality()
+    )
     assert math.isclose(r2.objective, -6.0) and math.isclose(r2.duals["x"], 0.0)
-    r6 = sddp.algorithm.solve_subproblem(model, node2, {"x": 4.0}, 6.0, [], duality_handler=sddp.ContinuousConicDuality())
+    r6 = sddp.algorithm.solve_subproblem(
+        model, node2, {"x": 4.0}, 6.0, [], duality_handler=sddp.ContinuousConicDuality()
+    )
     assert math.isclose(r6.objective, -12.0) and math.isclose(r6.duals["x"], -3.0)
 
 
@@ -71,11 +77,15 @@ def test_max_sense_cut_signs():
             sp.set_stage_objective(3.0 * s)
             sp.add_constraint(x.out == 0.0)
 
-    model = sddp.LinearPolicyGraph(builder, stages=2, sense="Max", upper_bound=100.0, optimizer=sddp.HiGHS)
+    model = sddp.LinearPolicyGraph(
+        builder, stages=2, sense="Max", upper_bound=100.0, optimizer=sddp.HiGHS
+    )
     for node in model.nodes.values():
         node.bellman_function.cut_type = sddp.SINGLE_CUT
     options = sddp.algorithm.Options.create(model, model.initial_root_state)
-    cuts = sddp.algorithm.backward_pass(model, options, [(1, None), (2, 2.0)], [{"x": 4.0}, {"x": 0.0}], [], [])
+    cuts = sddp.algorithm.backward_pass(
+        model, options, [(1, None), (2, 2.0)], [{"x": 4.0}, {"x": 0.0}], [], []
+    )
     (cut,) = cuts[1]
     assert math.isclose(cut["theta"], 9.0)
     assert math.isclose(cut["pi"]["x"], 1.5)

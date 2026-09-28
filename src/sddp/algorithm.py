@@ -59,7 +59,7 @@ from sddp.print import (
     print_iteration_header,
     print_problem_statistics,
 )
-from sddp.solver.model import Model, Sense
+from sddp.solver.model import Model, Sense, to_expression
 
 
 # ---------------------------------------------------------------------------
@@ -143,12 +143,14 @@ class Options:
         root_node_risk_measure: RiskMeasure | None = None,
         rng: random.Random | None = None,
     ) -> Options:
+        log_frequency_fn: Callable[[list[Log]], bool]
         if isinstance(log_frequency, int):
             n = log_frequency
 
-            def log_frequency_fn(lg: list[Log]) -> bool:
+            def _every_n(lg: list[Log]) -> bool:
                 return len(lg) % n == 0
 
+            log_frequency_fn = _every_n
         else:
             log_frequency_fn = log_frequency
         return cls(
@@ -156,7 +158,9 @@ class Options:
             sampling_scheme=sampling_scheme or InSampleMonteCarlo(),
             backward_sampling_scheme=backward_sampling_scheme or CompleteSampler(),
             starting_states={k: [] for k in model.nodes},
-            risk_measures=to_nodal_form(model, risk_measures if risk_measures is not None else Expectation()),
+            risk_measures=to_nodal_form(
+                model, risk_measures if risk_measures is not None else Expectation()
+            ),
             cycle_discretization_delta=cycle_discretization_delta,
             refine_at_similar_nodes=refine_at_similar_nodes,
             phi=build_phi(model),
@@ -211,10 +215,9 @@ def set_objective(node: Node) -> None:
         node.stage_objective_set = False
     if not node.stage_objective_set:
         m = node.model
-        expr = Model.expression(obj_component + belief_component + [(bellman_term(node.bellman_function), 1.0)])
-        expr = expr + m.expression([]) if False else expr  # keep type
-        from sddp.solver.model import to_expression
-
+        expr = Model.expression(
+            obj_component + belief_component + [(bellman_term(node.bellman_function), 1.0)]
+        )
         total = to_expression(node.stage_objective) + expr
         m.set_objective(total, m.objective_sense)
     node.stage_objective_set = True
@@ -255,7 +258,9 @@ def set_numerical_difficulty_callback(model: PolicyGraph, callback: Callable[...
     model.ext["numerical_difficulty_callback"] = callback
 
 
-def default_numerical_difficulty_callback(model: PolicyGraph, node: Node, require_dual: bool = False) -> None:
+def default_numerical_difficulty_callback(
+    model: PolicyGraph, node: Node, require_dual: bool = False
+) -> None:
     node.model.reset_optimizer()
     node.model.optimize()
 
@@ -298,7 +303,9 @@ def solve_subproblem(
     parameterize(node, noise)
     pre_optimize_ret = None
     if node.pre_optimize_hook is not None:
-        pre_optimize_ret = node.pre_optimize_hook(model, node, state, noise, scenario_path, duality_handler)
+        pre_optimize_ret = node.pre_optimize_hook(
+            model, node, state, noise, scenario_path, duality_handler
+        )
     node.model.optimize()
     model.ext["total_solves"] = model.ext.get("total_solves", 0) + 1
     if not node.model.has_primal_solution():
@@ -360,16 +367,26 @@ def backward_pass(
     for index in range(len(scenario_path) - 1, -1, -1):
         outgoing_state = sampled_states[index]
         objective_state = objective_states[index] if index < len(objective_states) else None
-        partition_index, belief_state = belief_states[index] if index < len(belief_states) else (0, None)
+        partition_index, belief_state = (
+            belief_states[index] if index < len(belief_states) else (0, None)
+        )
         items = BackwardPassItems()
         if belief_state is not None:
             for node_index, belief in belief_state.items():
                 if belief == 0.0:
                     continue
                 solve_all_children(
-                    model, model[node_index], items, belief, belief_state, objective_state,
-                    outgoing_state, options.backward_sampling_scheme, scenario_path[: index + 1],
-                    options.duality_handler, options,
+                    model,
+                    model[node_index],
+                    items,
+                    belief,
+                    belief_state,
+                    objective_state,
+                    outgoing_state,
+                    options.backward_sampling_scheme,
+                    scenario_path[: index + 1],
+                    options.duality_handler,
+                    options,
                 )
             for node_index in model.belief_partition[partition_index]:
                 node = model[node_index]
@@ -378,8 +395,14 @@ def backward_pass(
                 for idx, belief in belief_state.items():
                     current_belief.belief[idx] = belief
                 new_cuts = refine_bellman_function(
-                    model, node, node.bellman_function, options.risk_measures[node_index], outgoing_state,
-                    items.duals, items.supports, [p * b for p, b in zip(items.probability, items.belief)],
+                    model,
+                    node,
+                    node.bellman_function,
+                    options.risk_measures[node_index],
+                    outgoing_state,
+                    items.duals,
+                    items.supports,
+                    [p * b for p, b in zip(items.probability, items.belief)],
                     items.objectives,
                 )
                 cuts[node_index].append(new_cuts)
@@ -389,12 +412,28 @@ def backward_pass(
             if len(node.children) == 0:
                 continue
             solve_all_children(
-                model, node, items, 1.0, belief_state, objective_state, outgoing_state,
-                options.backward_sampling_scheme, scenario_path[: index + 1], options.duality_handler, options,
+                model,
+                node,
+                items,
+                1.0,
+                belief_state,
+                objective_state,
+                outgoing_state,
+                options.backward_sampling_scheme,
+                scenario_path[: index + 1],
+                options.duality_handler,
+                options,
             )
             new_cuts = refine_bellman_function(
-                model, node, node.bellman_function, options.risk_measures[node_index], outgoing_state,
-                items.duals, items.supports, items.probability, items.objectives,
+                model,
+                node,
+                node.bellman_function,
+                options.risk_measures[node_index],
+                outgoing_state,
+                items.duals,
+                items.supports,
+                items.probability,
+                items.objectives,
             )
             cuts[node_index].append(new_cuts)
             if options.refine_at_similar_nodes:
@@ -403,12 +442,20 @@ def backward_pass(
                     other_children = {c.term for c in other_node.children}
                     assert not (other_children - set(items.nodes))
                     copied_probability = [
-                        options.phi.get((other_index, child_index), 0.0) * items.supports[idx].probability
+                        options.phi.get((other_index, child_index), 0.0)
+                        * items.supports[idx].probability
                         for idx, child_index in enumerate(items.nodes)
                     ]
                     new_cuts = refine_bellman_function(
-                        model, other_node, other_node.bellman_function, options.risk_measures[other_index],
-                        outgoing_state, items.duals, items.supports, copied_probability, items.objectives,
+                        model,
+                        other_node,
+                        other_node.bellman_function,
+                        options.risk_measures[other_index],
+                        outgoing_state,
+                        items.duals,
+                        items.supports,
+                        copied_probability,
+                        items.objectives,
                     )
                     cuts[other_index].append(new_cuts)
     return cuts
@@ -454,11 +501,21 @@ def solve_all_children(
                 if belief_state is not None:
                     current_belief = child_node.belief_state
                     assert current_belief is not None
-                    current_belief.updater(current_belief.belief, belief_state, current_belief.partition_index, noise.term)
+                    current_belief.updater(
+                        current_belief.belief,
+                        belief_state,
+                        current_belief.partition_index,
+                        noise.term,
+                    )
                 if objective_state is not None:
                     update_objective_state(child_node.objective_state, objective_state, noise.term)
                 subproblem_results = solve_subproblem(
-                    model, child_node, outgoing_state, noise.term, scenario_path, duality_handler=duality_handler
+                    model,
+                    child_node,
+                    outgoing_state,
+                    noise.term,
+                    scenario_path,
+                    duality_handler=duality_handler,
                 )
                 items.duals.append(subproblem_results.duals)
                 items.supports.append(noise)
@@ -495,12 +552,19 @@ def calculate_bound(
         node = model[child.term]
         for noise in node.noise_terms:
             if node.objective_state is not None:
-                update_objective_state(node.objective_state, node.objective_state.initial_value, noise.term)
+                update_objective_state(
+                    node.objective_state, node.objective_state.initial_value, noise.term
+                )
             if node.belief_state is not None:
                 belief = node.belief_state
                 belief.updater(belief.belief, current_belief, belief.partition_index, noise.term)
             subproblem_results = solve_subproblem(
-                model, node, root_state, noise.term, [(child.term, noise.term)], duality_handler=None
+                model,
+                node,
+                root_state,
+                noise.term,
+                [(child.term, noise.term)],
+                duality_handler=None,
             )
             objectives.append(subproblem_results.objective)
             probabilities.append(child.probability * noise.probability)
@@ -531,8 +595,12 @@ def iteration(model: PolicyGraph, options: Options) -> IterationResult:
     forward_trajectory = options.forward_pass.forward_pass(model, options)
     options.forward_pass_callback(forward_trajectory)
     cuts = backward_pass(
-        model, options, forward_trajectory.scenario_path, forward_trajectory.sampled_states,
-        forward_trajectory.objective_states, forward_trajectory.belief_states,
+        model,
+        options,
+        forward_trajectory.scenario_path,
+        forward_trajectory.sampled_states,
+        forward_trajectory.objective_states,
+        forward_trajectory.belief_states,
     )
     bound = calculate_bound(model, risk_measure=options.root_node_risk_measure)
     options.log.append(
@@ -549,7 +617,13 @@ def iteration(model: PolicyGraph, options: Options) -> IterationResult:
     )
     has_converged, status = convergence_test(model, options.log, options.stopping_rules)
     return IterationResult(
-        1, bound, forward_trajectory.cumulative_value, has_converged, status, cuts, model.ext["numerical_issue"]
+        1,
+        bound,
+        forward_trajectory.cumulative_value,
+        has_converged,
+        status,
+        cuts,
+        model.ext["numerical_issue"],
     )
 
 
@@ -678,8 +752,13 @@ def train(
     if print_level > 0:
         _print_helper(print_banner, log_file_handle)
         _print_helper(
-            print_problem_statistics, log_file_handle, model,
-            model.most_recent_training_results is not None, parallel_scheme, risk_measure, sampling_scheme,
+            print_problem_statistics,
+            log_file_handle,
+            model,
+            model.most_recent_training_results is not None,
+            parallel_scheme,
+            risk_measure,
+            sampling_scheme,
         )
         _print_helper(print_iteration_header, log_file_handle)
     rules: list[StoppingRule] = list(stopping_rules)
@@ -756,16 +835,25 @@ def _simulate_one(
     objective_states: list[tuple[float, ...]] = []
     for depth, (node_index, noise) in enumerate(scenario_path, start=1):
         node = model[node_index]
-        objective_state_vector = update_objective_state(node.objective_state, objective_state_vector, noise)
+        objective_state_vector = update_objective_state(
+            node.objective_state, objective_state_vector, noise
+        )
         if objective_state_vector is not None:
             objective_states.append(objective_state_vector)
         if node.belief_state is not None:
             belief = node.belief_state
-            current_belief = belief.updater(belief.belief, current_belief, belief.partition_index, noise)
+            current_belief = belief.updater(
+                belief.belief, current_belief, belief.partition_index, noise
+            )
         else:
             current_belief = {node_index: 1.0}
         subproblem_results = solve_subproblem(
-            model, node, incoming_state, noise, scenario_path[:depth], duality_handler=duality_handler
+            model,
+            node,
+            incoming_state,
+            noise,
+            scenario_path[:depth],
+            duality_handler=duality_handler,
         )
         cumulative_value += subproblem_results.stage_objective
         store: dict[str, Any] = {
@@ -786,8 +874,9 @@ def _simulate_one(
                 store[variable] = math.nan
             else:
                 raise KeyError(
-                    f"No variable named {variable} exists in the subproblem. If you want to simulate "
-                    "the value of a variable, make sure it is defined in _all_ subproblems, or pass "
+                    f"No variable named {variable} exists in the subproblem. If you want to "
+                    "simulate the value of a variable, make sure it is defined in _all_ "
+                    "subproblems, or pass "
                     "`skip_undefined_variables=True` to `simulate`."
                 )
         for sym, recorder in custom_recorders.items():
@@ -830,7 +919,9 @@ def simulate(
         custom_recorders=custom_recorders or {},
         duality_handler=duality_handler,
         skip_undefined_variables=skip_undefined_variables,
-        incoming_state=dict(incoming_state) if incoming_state is not None else dict(model.initial_root_state),
+        incoming_state=dict(incoming_state)
+        if incoming_state is not None
+        else dict(model.initial_root_state),
         rng=rng,
     )
 

@@ -176,7 +176,7 @@ def _cut_selection_update(V: ConvexApproximation, cut: Cut, state: dict[str, flo
             V.cuts_to_be_deleted.append(c)
     if len(V.cuts_to_be_deleted) >= V.deletion_minimum:
         for c in V.cuts_to_be_deleted:
-            model.delete_constraint(c.constraint_ref)  # type: ignore[arg-type]
+            model.delete_constraint(c.constraint_ref)
             c.constraint_ref = None
             c.non_dominated_count = 0
     V.cuts_to_be_deleted.clear()
@@ -295,7 +295,10 @@ def refine_bellman_function(
     objective_realizations: Sequence[float],
 ) -> Any:
     assert (
-        len(dual_variables) == len(noise_supports) == len(nominal_probability) == len(objective_realizations)
+        len(dual_variables)
+        == len(noise_supports)
+        == len(nominal_probability)
+        == len(objective_realizations)
     )
     risk_adjusted_probability = [0.0] * len(nominal_probability)
     offset = risk_measure.adjust_probability(
@@ -307,12 +310,22 @@ def refine_bellman_function(
     )
     if bellman_function.cut_type is CutType.SINGLE_CUT:
         return _add_average_cut(
-            node, outgoing_state, risk_adjusted_probability, objective_realizations, dual_variables, offset
+            node,
+            outgoing_state,
+            risk_adjusted_probability,
+            objective_realizations,
+            dual_variables,
+            offset,
         )
     assert bellman_function.cut_type is CutType.MULTI_CUT
     _add_locals_if_necessary(node, bellman_function, len(dual_variables))
     return _add_multi_cut(
-        node, outgoing_state, risk_adjusted_probability, objective_realizations, dual_variables, offset
+        node,
+        outgoing_state,
+        risk_adjusted_probability,
+        objective_realizations,
+        dual_variables,
+        offset,
     )
 
 
@@ -423,7 +436,8 @@ def cuts_to_list(
     for node_name, node in model.nodes.items():
         if node.objective_state is not None or node.belief_state is not None:
             raise ValueError(
-                "Unable to write cuts to file because model contains objective states or belief states."
+                "Unable to write cuts to file because model contains objective states or "
+                "belief states."
             )
         node_cuts: dict[str, Any] = {
             "node": node_name_parser(node_name),
@@ -439,7 +453,11 @@ def cuts_to_list(
             for key, pi in cut.coefficients.items():
                 intercept += pi * state.state[key]
             node_cuts["single_cuts"].append(
-                {"intercept": intercept, "coefficients": dict(cut.coefficients), "state": dict(state.state)}
+                {
+                    "intercept": intercept,
+                    "coefficients": dict(cut.coefficients),
+                    "state": dict(state.state),
+                }
             )
         for i, theta in enumerate(node.bellman_function.local_thetas, start=1):
             for cut, state in zip(theta.cuts, theta.sampled_states):
@@ -463,7 +481,10 @@ def cuts_to_list(
 
 
 def write_cuts_to_file(
-    model: PolicyGraph, filename: str, node_name_parser: Any = str, write_only_selected_cuts: bool = False
+    model: PolicyGraph,
+    filename: str,
+    node_name_parser: Any = str,
+    write_only_selected_cuts: bool = False,
 ) -> None:
     """Write the cuts to ``filename`` in SDDP.jl's JSON format."""
     with open(filename, "w") as io:
@@ -479,7 +500,9 @@ def _default_node_name_parser(model: PolicyGraph, name: str) -> Any:
     if isinstance(sample, tuple):
         keys = [int(s.strip()) for s in name.strip("()").split(",") if s.strip()]
         if len(keys) != len(sample):
-            raise ValueError(f"Unable to parse node called {name}. Expected {len(sample)} elements.")
+            raise ValueError(
+                f"Unable to parse node called {name}. Expected {len(sample)} elements."
+            )
         return tuple(keys)
     raise ValueError(
         f"Unable to read name {name}. Provide a custom parser to `read_cuts_from_file` using "

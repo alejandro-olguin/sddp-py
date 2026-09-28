@@ -38,7 +38,9 @@ class DefaultForwardPass(ForwardPass):
     def forward_pass(self, model: PolicyGraph, options: Options) -> ForwardPassResult:
         from sddp.algorithm import distance, initialize_belief, solve_subproblem
 
-        scenario_path, terminated_due_to_cycle = options.sampling_scheme.sample_scenario(model, options.rng)
+        scenario_path, terminated_due_to_cycle = options.sampling_scheme.sample_scenario(
+            model, options.rng
+        )
         final_node = scenario_path[-1]
         if terminated_due_to_cycle and not self.include_last_node:
             scenario_path.pop()
@@ -51,33 +53,49 @@ class DefaultForwardPass(ForwardPass):
         objective_states: list[tuple[float, ...]] = []
         for depth, (node_index, noise) in enumerate(scenario_path, start=1):
             node = model[node_index]
-            objective_state_vector = update_objective_state(node.objective_state, objective_state_vector, noise)
+            objective_state_vector = update_objective_state(
+                node.objective_state, objective_state_vector, noise
+            )
             if objective_state_vector is not None:
                 objective_states.append(objective_state_vector)
             if node.belief_state is not None:
                 belief = node.belief_state
                 partition_index = belief.partition_index
-                current_belief = belief.updater(belief.belief, current_belief, partition_index, noise)
+                current_belief = belief.updater(
+                    belief.belief, current_belief, partition_index, noise
+                )
                 belief_states.append((partition_index, dict(current_belief)))
             # ===== starting state for infinite horizon =====
             starting_states = options.starting_states[node_index]
             if len(starting_states) > 0:
-                if distance(starting_states, incoming_state_value) > options.cycle_discretization_delta:
+                if (
+                    distance(starting_states, incoming_state_value)
+                    > options.cycle_discretization_delta
+                ):
                     starting_states.append(incoming_state_value)
                 idx = options.rng.randrange(len(starting_states))
                 incoming_state_value = starting_states.pop(idx)
             subproblem_results = solve_subproblem(
-                model, node, incoming_state_value, noise, scenario_path[:depth], duality_handler=None
+                model,
+                node,
+                incoming_state_value,
+                noise,
+                scenario_path[:depth],
+                duality_handler=None,
             )
             cumulative_value += subproblem_results.stage_objective
             incoming_state_value = dict(subproblem_results.state)
             sampled_states.append(incoming_state_value)
         if terminated_due_to_cycle:
             starting_states = options.starting_states[final_node[0]]
-            incoming_state_value = sampled_states[-2] if self.include_last_node else sampled_states[-1]
+            incoming_state_value = (
+                sampled_states[-2] if self.include_last_node else sampled_states[-1]
+            )
             if distance(starting_states, incoming_state_value) > options.cycle_discretization_delta:
                 starting_states.append(incoming_state_value)
-        return ForwardPassResult(scenario_path, sampled_states, objective_states, belief_states, cumulative_value)
+        return ForwardPassResult(
+            scenario_path, sampled_states, objective_states, belief_states, cumulative_value
+        )
 
 
 class RevisitingForwardPass(ForwardPass):
@@ -152,7 +170,11 @@ class RiskAdjustedForwardPass(ForwardPass):
         self.archive.append(result)
         self.resample_count.append(1)
         self.risk_measure.adjust_probability(
-            self.adjusted_probability, self.nominal_probability, self.objectives, self.objectives, model.is_minimization
+            self.adjusted_probability,
+            self.nominal_probability,
+            self.objectives,
+            self.objectives,
+            model.is_minimization,
         )
         return result
 
@@ -168,10 +190,14 @@ class RegularizedForwardPass(ForwardPass):
 
     def forward_pass(self, model: PolicyGraph, options: Options) -> ForwardPassResult:
         if len(model.root_children) != 1:
-            raise ValueError("RegularizedForwardPass cannot be applied because first-stage is not deterministic")
+            raise ValueError(
+                "RegularizedForwardPass cannot be applied because first-stage is not deterministic"
+            )
         node = model[model.root_children[0].term]
         if len(node.noise_terms) > 1:
-            raise ValueError("RegularizedForwardPass cannot be applied because first-stage is not deterministic")
+            raise ValueError(
+                "RegularizedForwardPass cannot be applied because first-stage is not deterministic"
+            )
         m = node.model
         for k, v in node.states.items():
             if not (m.has_lower_bound(v.out) and m.has_upper_bound(v.out)):

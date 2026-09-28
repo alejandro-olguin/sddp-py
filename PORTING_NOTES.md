@@ -276,3 +276,50 @@ relaxation), and the same code path works for Gurobi/COPT/Mosek later. Raw highs
 require me to write an expression layer and gains nothing measurable.
 The solver is hidden behind `sddp.solver.Model` (a thin wrapper) so another backend can be
 added by implementing ~20 methods.
+
+## 7. Parity findings and justified deviations
+
+### 7.1 Cut slopes at dual-degenerate points (markov_uncertainty deterministic run)
+With fixed `Historical` scenarios, iterations 1–3 of `markov_uncertainty` match SDDP.jl
+exactly (bounds 3753.3698, 7975.336, 7975.336; forward values identical). At iteration 3
+the sampled outgoing volume of stage 2 is exactly 150, where the stage-3 subproblem
+(`hydro + thermal == 150`, `hydro <= volume`) is **dual degenerate**: ∂V/∂volume can be any
+value in `[-fuel_cost, 0]`. SDDP.jl's HiGHS returned λ = 0 for every noise; the Python
+HiGHS (via pyoptinterface, HiGHS 1.13.1) returned a mix, giving an average slope of −56.25.
+Both cuts have the same height (0.0) at the sampled state, and both are valid. From there the
+trajectories differ (Julia reaches 8072.9167 at iteration 4, Python at a later Historical
+pass; both converge to the deterministic-equivalent value 8072.916667).
+Consequence: for this problem `tests/test_parity.py` compares forward values, cut heights,
+sampled states and the converged bound, not the slopes. The exact cut-set comparison
+(slopes included) is retained for `hydro_thermal` (5 and 20 iterations, single and multi
+cut, AVaR), `fast_quickstart` and `fast_hydro_thermal`, which are non-degenerate at their
+sampled points and match to 1e-6.
+Evidence script: see the per-node cut listing produced during the session (node (2,1),
+cut 2: py `(0.0, −56.25, 150.0)` vs jl `(0.0, 0.0, 150.0)`).
+
+### 7.2 Iteration counts vs. convergence (objective_states)
+The oracle trains `objective_states` for 60 iterations with `Random.seed!(1234)` and
+reaches 5092.592593. With Python's RNG, 60 iterations give 5087.57 (seed 1234) or 5065.47
+(seed 7), while 200 and 600 iterations give 5092.592592592593 for both seeds. Since
+Monte Carlo trajectories cannot match Julia's RNG, the test trains for 200 iterations and
+compares the converged value at 1e-6 relative. Nothing in the oracle was changed.
+
+### 7.3 Entropic docstring
+SDDP.jl's `Entropic` docstring lists the γ = 1.0 offset as −0.1203806; running
+`SDDP.adjust_probability` in Julia gives −0.6671608119259349, which is also what the
+hand calculation and the Python port give. The unit test pins the computed value.
+
+## 8. Performance vs SDDP.jl (hydro-thermal family, `reference/bench_hydro_thermal.{jl,py}`)
+
+macOS arm64, HiGHS on both sides, serial, single thread, Julia timings exclude compilation
+(a warm-up train precedes the timed run). Same problem, same iteration counts; RNG differs.
+
+| stages | noises | iterations | Julia train | Python train | Julia simulate(1000) | Python simulate(1000) | bound (Julia / Python) |
+|---|---|---|---|---|---|---|---|
+| 3 | 3 | 100 | 0.202 s | 0.069 s | 0.213 s | 0.087 s | 7277.7778 / 7277.7778 |
+| 12 | 10 | 100 | 0.907 s | 0.545 s | 0.684 s | 0.342 s | 106299.7222 / 106299.7222 |
+| 24 | 20 | 200 | 5.29 s | 3.24 s | 1.152 s | 0.683 s | 364357.92 / 364358.21 (not converged at 200 its) |
+
+The Python port is 1.6–2.9× faster on these sizes. Both are dominated by HiGHS; the
+difference is wrapper overhead (JuMP's caching-optimizer bridge layer vs pyoptinterface's
+direct calls). This is not a claim about larger models.

@@ -25,11 +25,13 @@ def test_in_sample_monte_carlo_linear():
 
 def test_in_sample_monte_carlo_cycle_and_max_depth():
     model = build_infinite_trivial()
-    path, cycle = sddp.InSampleMonteCarlo(terminate_on_cycle=True).sample_scenario(model, random.Random(1))
-    assert cycle and [n for n, _ in path] == ["week", "week"]
-    path, cycle = sddp.InSampleMonteCarlo(max_depth=4, terminate_on_dummy_leaf=False).sample_scenario(
+    path, cycle = sddp.InSampleMonteCarlo(terminate_on_cycle=True).sample_scenario(
         model, random.Random(1)
     )
+    assert cycle and [n for n, _ in path] == ["week", "week"]
+    path, cycle = sddp.InSampleMonteCarlo(
+        max_depth=4, terminate_on_dummy_leaf=False
+    ).sample_scenario(model, random.Random(1))
     assert not cycle and len(path) == 4
 
 
@@ -86,16 +88,27 @@ def test_stopping_rules():
     model = build_hydro_thermal()
     sddp.train(
         model,
-        stopping_rules=[sddp.StoppingChain(sddp.IterationLimit(5), sddp.BoundStalling(2, atol=1e-6))],
+        stopping_rules=[
+            sddp.StoppingChain(sddp.IterationLimit(5), sddp.BoundStalling(2, atol=1e-6))
+        ],
         print_level=0,
         seed=1,
     )
     assert sddp.termination_status(model) == "iteration_limit ∧ bound_stalling"
     model = build_fast_quickstart()  # deterministic first stage
-    sddp.train(model, stopping_rules=[sddp.FirstStageStoppingRule(iterations=5)], print_level=0, seed=1)
+    sddp.train(
+        model, stopping_rules=[sddp.FirstStageStoppingRule(iterations=5)], print_level=0, seed=1
+    )
     assert sddp.termination_status(model) == "first_stage_stopping"
     with pytest.raises(ValueError, match="not deterministic"):
-        sddp.train(build_hydro_thermal(), stopping_rules=[sddp.FirstStageStoppingRule()], print_level=0)
+        sddp.train(
+            build_hydro_thermal(), stopping_rules=[sddp.FirstStageStoppingRule()], print_level=0
+        )
     model = build_hydro_thermal()
-    sddp.train(model, stopping_rules=[sddp.Statistical(num_replications=20, disable_warning=True, verbose=False)], print_level=0, seed=1)
+    sddp.train(
+        model,
+        stopping_rules=[sddp.Statistical(num_replications=20, disable_warning=True, verbose=False)],
+        print_level=0,
+        seed=1,
+    )
     assert sddp.termination_status(model) == "statistical"

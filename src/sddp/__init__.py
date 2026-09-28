@@ -28,13 +28,20 @@ from sddp.plugins.bellman_functions import (
     read_cuts_from_file,
     write_cuts_to_file,
 )
-from sddp.plugins.duality_handlers import ContinuousConicDuality
+from sddp.plugins.duality_handlers import (
+    BanditDuality,
+    ContinuousConicDuality,
+    FixedDiscreteDuality,
+    LagrangianDuality,
+    StrengthenedConicDuality,
+)
 from sddp.plugins.forward_passes import (
     DefaultForwardPass,
     RegularizedForwardPass,
     RevisitingForwardPass,
     RiskAdjustedForwardPass,
 )
+from sddp.plugins.local_improvement_search import BFGS, OuterApproximation
 from sddp.plugins.parallel_schemes import Serial
 from sddp.plugins.risk_measures import (
     AVaR,
@@ -73,11 +80,14 @@ from sddp.policy_graph import (
     Subproblem,
 )
 from sddp.solver.model import HiGHS, Model, OptimizerFactory, Sense, pyoptinterface_optimizer
+from sddp.visualization import publication_data, publication_plot, spaghetti_plot
 
 __version__ = "0.1.0"
 
 __all__ = [
     "AVaR",
+    "BFGS",
+    "BanditDuality",
     "BellmanFunction",
     "BoundStalling",
     "CVaR",
@@ -91,11 +101,13 @@ __all__ = [
     "Entropic",
     "Expectation",
     "FirstStageStoppingRule",
+    "FixedDiscreteDuality",
     "Graph",
     "HiGHS",
     "Historical",
     "InSampleMonteCarlo",
     "IterationLimit",
+    "LagrangianDuality",
     "LinearGraph",
     "LinearPolicyGraph",
     "MULTI_CUT",
@@ -108,6 +120,7 @@ __all__ = [
     "Noise",
     "OptimizerFactory",
     "OutOfSampleMonteCarlo",
+    "OuterApproximation",
     "PSRSamplingScheme",
     "PolicyGraph",
     "RegularizedForwardPass",
@@ -121,6 +134,7 @@ __all__ = [
     "StateValue",
     "Statistical",
     "StoppingChain",
+    "StrengthenedConicDuality",
     "Subproblem",
     "TimeLimit",
     "UnicyclicGraph",
@@ -132,10 +146,13 @@ __all__ = [
     "deterministic_equivalent",
     "evaluate",
     "is_cyclic",
+    "publication_data",
+    "publication_plot",
     "pyoptinterface_optimizer",
     "read_cuts_from_file",
     "set_numerical_difficulty_callback",
     "simulate",
+    "spaghetti_plot",
     "termination_status",
     "train",
     "write_cuts_to_file",

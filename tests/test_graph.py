@@ -17,7 +17,9 @@ def test_markovian_graph():
     assert g.root_node == (0, 1)
     assert g.nodes[(1, 1)] == [((2, 1), 0.5), ((2, 2), 0.5)]
     assert g.nodes[(2, 2)] == [((3, 1), 0.2), ((3, 2), 0.8)]
-    g2 = sddp.MarkovianGraph(stages=3, transition_matrix=[[0.8, 0.2], [0.2, 0.8]], root_node_transition=[0.5, 0.5])
+    g2 = sddp.MarkovianGraph(
+        stages=3, transition_matrix=[[0.8, 0.2], [0.2, 0.8]], root_node_transition=[0.5, 0.5]
+    )
     assert g2.nodes[(0, 1)] == [((1, 1), 0.5), ((1, 2), 0.5)]
     assert len(g2.nodes) == 7
 

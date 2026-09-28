@@ -77,7 +77,9 @@ class Graph(Generic[T]):
                 return
         self.add_edge(parent, child, probability)
 
-    def add_ambiguity_set(self, nodes: Sequence[T], lipschitz: float | Sequence[float] = 1e5) -> None:
+    def add_ambiguity_set(
+        self, nodes: Sequence[T], lipschitz: float | Sequence[float] = 1e5
+    ) -> None:
         """Add ``nodes`` to the belief partition with the given Lipschitz constant(s)."""
         if isinstance(lipschitz, (int, float)):
             lip = [float(lipschitz)] * len(nodes)
@@ -120,7 +122,7 @@ class Graph(Generic[T]):
         lines = ["Root", f" {self.root_node}", "Nodes"]
         nodes = [n for n in self.nodes if n != self.root_node]
         try:
-            nodes = sorted(nodes)
+            nodes = sorted(nodes)  # type: ignore[type-var]
         except TypeError:
             pass
         if not nodes:

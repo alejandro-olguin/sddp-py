@@ -4,6 +4,7 @@ Workload: hydro-thermal-like stage LP. 1 state (volume), 3 controls, 2 rows.
 Loop N times: fix x_in to a random value, change the inflow RHS, add one cut row,
 solve, read objective / primal / reduced cost of x_in.
 """
+
 import random
 import time
 import sys
@@ -59,7 +60,13 @@ def bench_highspy():
     h.addVars(7, lbs, ubs)
     h.changeColsCost(7, np.arange(7, dtype=np.int32), cost)
     # rows
-    h.addRow(0.0, 0.0, 5, np.array([1, 0, 3, 4, 5], dtype=np.int32), np.array([1, -1, 1, 1, -1], dtype=float))
+    h.addRow(
+        0.0,
+        0.0,
+        5,
+        np.array([1, 0, 3, 4, 5], dtype=np.int32),
+        np.array([1, -1, 1, 1, -1], dtype=float),
+    )
     h.addRow(150.0, 150.0, 2, np.array([2, 3], dtype=np.int32), np.array([1, 1], dtype=float))
     rng = random.Random(1)
     t0 = time.perf_counter()
@@ -99,7 +106,10 @@ def dual_sign_check():
         m.set_raw_parameter("output_flag", False)
         x = m.add_variable(lb=3.0, ub=3.0)
         y = m.add_variable(lb=1.0)
-        m.set_objective(c * (2.0 * x + y), poi.ObjectiveSense.Minimize if sense == "min" else poi.ObjectiveSense.Maximize)
+        m.set_objective(
+            c * (2.0 * x + y),
+            poi.ObjectiveSense.Minimize if sense == "min" else poi.ObjectiveSense.Maximize,
+        )
         m.optimize()
         rc = m.get_variable_attribute(x, poi.VariableAttribute.ReducedCost)
         out[f"poi_{sense}_reduced_cost_fixed_var"] = (rc, m.get_obj_value())
@@ -107,9 +117,14 @@ def dual_sign_check():
         m2.set_raw_parameter("output_flag", False)
         z = m2.add_variable()
         con = m2.add_linear_constraint(1.0 * z, poi.Geq, 1.0)
-        m2.set_objective(c * z, poi.ObjectiveSense.Minimize if sense == "min" else poi.ObjectiveSense.Maximize)
+        m2.set_objective(
+            c * z, poi.ObjectiveSense.Minimize if sense == "min" else poi.ObjectiveSense.Maximize
+        )
         m2.optimize()
-        out[f"poi_{sense}_row_dual"] = (m2.get_constraint_attribute(con, poi.ConstraintAttribute.Dual), m2.get_obj_value())
+        out[f"poi_{sense}_row_dual"] = (
+            m2.get_constraint_attribute(con, poi.ConstraintAttribute.Dual),
+            m2.get_obj_value(),
+        )
         # raw highspy
         h = highspy.Highs()
         h.setOptionValue("output_flag", False)
@@ -117,9 +132,14 @@ def dual_sign_check():
         h.addVar(1.0, highspy.kHighsInf)
         h.changeColCost(0, c * 2.0)
         h.changeColCost(1, c * 1.0)
-        h.changeObjectiveSense(highspy.ObjSense.kMinimize if sense == "min" else highspy.ObjSense.kMaximize)
+        h.changeObjectiveSense(
+            highspy.ObjSense.kMinimize if sense == "min" else highspy.ObjSense.kMaximize
+        )
         h.run()
-        out[f"highspy_{sense}_reduced_cost_fixed_var"] = (h.getSolution().col_dual[0], h.getInfo().objective_function_value)
+        out[f"highspy_{sense}_reduced_cost_fixed_var"] = (
+            h.getSolution().col_dual[0],
+            h.getInfo().objective_function_value,
+        )
     return out
 
 
@@ -127,6 +147,10 @@ if __name__ == "__main__":
     for k, v in dual_sign_check().items():
         print(f"{k:45s} dual={v[0]:+.3f} obj={v[1]:+.3f}")
     dt, obj = bench_poi()
-    print(f"pyoptinterface: N={N} solves+cuts in {dt:.3f}s ({1e3*dt/N:.3f} ms/solve), last obj {obj:.4f}")
+    print(
+        f"pyoptinterface: N={N} solves+cuts in {dt:.3f}s ({1e3 * dt / N:.3f} ms/solve), last obj {obj:.4f}"
+    )
     dt, obj = bench_highspy()
-    print(f"highspy raw   : N={N} solves+cuts in {dt:.3f}s ({1e3*dt/N:.3f} ms/solve), last obj {obj:.4f}")
+    print(
+        f"highspy raw   : N={N} solves+cuts in {dt:.3f}s ({1e3 * dt / N:.3f} ms/solve), last obj {obj:.4f}"
+    )

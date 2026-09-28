@@ -24,15 +24,15 @@ import enum
 import math
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, TypeAlias
 
 import pyoptinterface as poi
 
-Variable = poi.VariableIndex
-Constraint = poi.ConstraintIndex
-Expression = poi.ScalarAffineFunction
-TerminationStatus = poi.TerminationStatusCode
-ResultStatus = poi.ResultStatusCode
+Variable: TypeAlias = poi.VariableIndex
+Constraint: TypeAlias = poi.ConstraintIndex
+Expression: TypeAlias = poi.ScalarAffineFunction
+TerminationStatus: TypeAlias = poi.TerminationStatusCode
+ResultStatus: TypeAlias = poi.ResultStatusCode
 
 INF = math.inf
 
@@ -131,9 +131,9 @@ def expr_constant(f: Expression) -> float:
 
 def to_expression(x: Any) -> Expression:
     """Convert a number, variable, or affine expression into a ScalarAffineFunction."""
-    if isinstance(x, Expression):
+    if isinstance(x, Expression):  # type: ignore[misc]
         return x
-    if isinstance(x, Variable):
+    if isinstance(x, Variable):  # type: ignore[misc]
         return 1.0 * x
     if _is_number(x):
         e = poi.ScalarAffineFunction()
@@ -203,8 +203,10 @@ class Model:
         return self._var_info[v.index].name
 
     def variable_by_index(self, index: int) -> Variable:
-        return self._vars[index] if self._vars[index].index == index else next(
-            x for x in self._vars if x.index == index
+        return (
+            self._vars[index]
+            if self._vars[index].index == index
+            else next(x for x in self._vars if x.index == index)
         )
 
     def lower_bound(self, v: Variable) -> float:
@@ -450,7 +452,7 @@ class Model:
 
     def value(self, x: Any) -> float:
         """Primal value of a variable, expression, or number."""
-        if isinstance(x, Variable):
+        if isinstance(x, Variable):  # type: ignore[misc]
             return float(self._m.get_value(x)) + 0.0
         if _is_number(x):
             return float(x)

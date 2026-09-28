@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Any, Generic, NamedTuple, TypeVar
 
 from sddp.graph import Graph, LinearGraph, MarkovianGraph
-from sddp.solver.model import HiGHS, Constraint, Model, OptimizerFactory, Sense, Variable
+from sddp.solver.model import Constraint, HiGHS, Model, OptimizerFactory, Sense, Variable
 
 T = TypeVar("T", bound=Hashable)
 
@@ -150,7 +150,9 @@ class Subproblem:
         """
         if name in self.node.states:
             raise ValueError(f"A state variable named {name!r} already exists.")
-        if initial_value is None or (isinstance(initial_value, float) and math.isnan(initial_value)):
+        if initial_value is None or (
+            isinstance(initial_value, float) and math.isnan(initial_value)
+        ):
             raise ValueError(
                 "When creating a state variable, you must set the `initial_value` keyword "
                 "to the value of the state variable at the root node."
@@ -186,7 +188,7 @@ class Subproblem:
         return [self.add_constraint(c) for c in cons]
 
     def set_stage_objective(self, stage_objective: Any) -> None:
-        """Set the stage objective (``@stageobjective``). Accepts a number, variable, or expression."""
+        """Set the stage objective (``@stageobjective``): a number, variable, or expression."""
         self.node.stage_objective = stage_objective
         self.node.stage_objective_set = False
 
@@ -207,7 +209,9 @@ class Subproblem:
         """
         if callable(modify_or_realizations):
             if realizations is None:
-                raise TypeError("parameterize(modify, realizations, probability) requires realizations")
+                raise TypeError(
+                    "parameterize(modify, realizations, probability) requires realizations"
+                )
             self._parameterize(modify_or_realizations, realizations, probability)
             return None
         support = modify_or_realizations
@@ -222,7 +226,10 @@ class Subproblem:
         return decorator
 
     def _parameterize(
-        self, modify: Callable[[Any], Any], realizations: Sequence[Any], probability: Sequence[float] | None
+        self,
+        modify: Callable[[Any], Any],
+        realizations: Sequence[Any],
+        probability: Sequence[float] | None,
     ) -> None:
         node = self.node
         if node.noise_terms:
@@ -415,7 +422,7 @@ class PolicyGraph(Generic[T]):
     def __repr__(self) -> str:
         nodes = list(self.nodes)
         try:
-            nodes = sorted(nodes)
+            nodes = sorted(nodes)  # type: ignore[type-var]
         except TypeError:
             pass
         if len(nodes) < 10:
@@ -497,7 +504,9 @@ def _noise_key(term: Any) -> Any:
         return repr(term)
 
 
-def construct_belief_update(graph: PolicyGraph, partition: list[set]) -> Callable[..., dict[Any, float]]:
+def construct_belief_update(
+    graph: PolicyGraph, partition: list[set]
+) -> Callable[..., dict[Any, float]]:
     """Bayes update of the belief. See ``construct_belief_update`` in SDDP.jl."""
     phi = build_phi(graph)
     omega: dict[Any, dict[Any, float]] = {}
@@ -556,7 +565,9 @@ def _initialize_belief_states(policy_graph: PolicyGraph, graph: Graph) -> None:
     partition_sets = [set(p) for p in graph.belief_partition]
     belief_updater = construct_belief_update(policy_graph, partition_sets)
     belief = {k: 0.0 for k in graph.nodes if k != graph.root_node}
-    for partition_index, (part, lips) in enumerate(zip(graph.belief_partition, graph.belief_lipschitz)):
+    for partition_index, (part, lips) in enumerate(
+        zip(graph.belief_partition, graph.belief_lipschitz)
+    ):
         policy_graph.belief_partition.append(set(part))
         for node_index in part:
             node = policy_graph[node_index]
@@ -579,7 +590,9 @@ def _initialize_belief_states(policy_graph: PolicyGraph, graph: Graph) -> None:
                 local_theta.belief_states = mu
 
 
-def _get_incoming_domain(model: PolicyGraph) -> dict[Any, dict[str, tuple[float, float, bool] | None]]:
+def _get_incoming_domain(
+    model: PolicyGraph,
+) -> dict[Any, dict[str, tuple[float, float, bool] | None]]:
     """Bounds of the incoming state at each node (used by Lagrangian duality)."""
     from sddp.algorithm import parameterize
 

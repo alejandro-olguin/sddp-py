@@ -74,7 +74,9 @@ class StoppingRule(abc.ABC):
     def convergence_test(self, graph: PolicyGraph, log: list[Log]) -> bool: ...
 
 
-def convergence_test(graph: PolicyGraph, log: list[Log], rules: Sequence[StoppingRule]) -> tuple[bool, str]:
+def convergence_test(
+    graph: PolicyGraph, log: list[Log], rules: Sequence[StoppingRule]
+) -> tuple[bool, str]:
     for rule in rules:
         if rule.convergence_test(graph, log):
             return True, rule.stopping_rule_status()
@@ -94,7 +96,7 @@ class BackwardSamplingScheme(abc.ABC):
 
 
 class DualityHandler(abc.ABC):
-    """Interface: :meth:`get_dual_solution`, :meth:`prepare_backward_pass`, :meth:`duality_log_key`."""
+    """Interface: ``get_dual_solution``, ``prepare_backward_pass``, ``duality_log_key``."""
 
     @abc.abstractmethod
     def get_dual_solution(self, node: Node) -> tuple[float, dict[str, float]]:
