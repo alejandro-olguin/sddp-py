@@ -25,9 +25,19 @@ Revisiting, RiskAdjusted, Regularized; objective states; belief states.
 search, OuterApproximation), StrengthenedConicDuality, FixedDiscreteDuality,
 BanditDuality; cut serialisation; publication and spaghetti plots via matplotlib.
 
-**Not ported:** Threaded/Asynchronous parallel schemes, numerical stability report,
-SimulatorSamplingScheme and simulator-fitted Markovian graphs, MSPFormat, Inner
-approximation, biobjective, alternative forward, dashboard, value-function plots.
+**Tier 4 (complete, verified against a second Julia oracle run):** stand-alone value
+functions (`ValueFunction`/`evaluate`, incl. multi-cut, objective- and belief-state cases);
+inner (vertex) approximations with deterministic upper bounds (`InnerPolicyGraph`,
+`inner_dp`, `dp_vertices_from_visited_states`, vertex selection, vertex files); MSPFormat
+reader; StochOptFormat writer/reader with a MathOptFormat subset, validation scenarios and
+`evaluate`; simulator-fitted Markov chains (`lattice_approximation`, budget allocation,
+`SimulatorSamplingScheme`); biobjective training; numerical stability report and CSV log;
+importance-sampling, logging and alternative forward passes; `Threaded` and `Multiprocess`
+parallel schemes; binary expansion; d3 spaghetti plot, Cytoscape graph plot, value-function
+HTML plot and the SSE dashboard (templates copied from SDDP.jl).
+
+**Not ported:** nothing of substance; SDDP.jl's Distributed.jl-based `Asynchronous` scheme is
+replaced by a multiprocessing equivalent with the same cut-shipping protocol.
 
 ## Parity table (Julia oracle `reference/oracle/*.json` vs Python)
 
@@ -72,6 +82,13 @@ Relative error is `|py − jl| / max(1, |jl|)`. Tolerance 1e-6 unless stated. Ge
 | stochastic_all_blacks | bound, conic, 30 its | 8.333333333 | 8.333333333 | 0.0e+00 | pass |
 | stochastic_all_blacks | bound, lagrangian, 30 its | 8 | 8 | 0.0e+00 | pass |
 | sldp_example_one | bound after 50 its (unconverged MIP) | 1.167415686 | 1.167187861 | 2.0e-04 | pass |
+| value functions | hydro-thermal V(x) and ∂V at 6 volumes × 3 nodes, multi-cut CVaR, objective-state and belief-state cases | exact match | (all points) | ≤ 1e-6 | pass |
+| inner approximation | outer bound, inner upper bound, vertex values/states (150 vertices), 20-stage DP bounds with/without vertex selection | 45.87963 | 45.87963 | 0 | pass |
+| MSPFormat | hydro_thermal and electric: structure, det-equiv, bound; electric tree lattice | 381.85333 | 381.85333 | 0 | pass |
+| StochOptFormat | electric.sof.json (bound, SHA-256, validation objectives); Julia-written experimental files (bound, per-stage objectives, primals) | -39.826 | -39.826 | 0 | pass |
+| lattice fit | support and transition matrices on 60 saved sample paths, budget allocation | exact | exact | ≤ 1e-12 | pass |
+| biobjective | 5 trade-off weights, 500 iterations | 347.31405 (w=0.5) | 347.31405 | ≤ 1e-6 | pass |
+| stability report, forward passes | report text byte-equal; importance sampling & alternative forward bounds | 8333.3333 | 8333.3333 | 0 | pass |
 | belief | bound at 1500 its, tolerance 1e-5 (slow cyclic convergence: Julia 18.816820 @1500 → 18.816913 @5000; Python 18.816866 @1500 with 1e-9 solver tolerances) | 18.81682027 | 18.81686608 | 2.4e-06 | pass |
 
 Additional exact-match checks in the test suite (not in the table): with fixed `Historical`
@@ -83,7 +100,7 @@ means agree within a 99% confidence interval for hydro_thermal (1000 reps), fast
 fast_production_management, farmers, stock_example (1000 reps), markov_uncertainty,
 objective_uncertainty, infinite_hydro_thermal (single and multi cut), objective_states, belief.
 
-## Known gaps and deviations (details and evidence in PORTING_NOTES.md §7)
+## Known gaps and deviations (details and evidence in PORTING_NOTES.md §7 and §10)
 1. **Cut slopes at dual-degenerate points** can differ from SDDP.jl (markov_uncertainty at
    volume = 150): both are valid subgradients, heights and converged bounds agree. For that
    problem the deterministic-run test compares unique quantities only.
@@ -101,6 +118,8 @@ objective_uncertainty, infinite_hydro_thermal (single and multi cut), objective_
    JuMP's negated convention for maximisation; documented and pinned by `tests/test_solver.py`.
 6. The SDDP.jl `Entropic` docstring value for γ = 1 is stale; the port matches what SDDP.jl
    computes (verified by running it).
+8. pyoptinterface's HiGHS backend `set_normalized_rhs` turns inequality rows into equalities;
+   the solver layer sets row bounds through the HiGHS C API instead (PORTING_NOTES §10.1).
 7. pyoptinterface's HiGHS backend returns the wrong bound from `get_normalized_rhs` for `<=`
    rows; the solver layer tracks the RHS itself.
 
@@ -151,7 +170,7 @@ used to crash on a stale solver state; a fresh solve of the dumped LP succeeded)
 ```bash
 cd sddp-py
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python -m pytest tests              # full suite (Tier 1–3 parity + unit tests)
+.venv/bin/python -m pytest tests              # full suite: 118 tests, Tier 1–4 parity + unit tests (~10 min)
 .venv/bin/python -m pytest tests -m tier1     # Tier 1 only
 .venv/bin/ruff check src tests && .venv/bin/mypy
 .venv/bin/python examples/hydro_thermal.py
@@ -160,11 +179,15 @@ python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 Regenerate the oracle (requires Julia 1.12 with the `reference/Project.toml` environment):
 
 ```bash
-cd reference && julia --project=. -e 'using Pkg; Pkg.instantiate()' && julia --project=. generate.jl all
+cd reference && julia --project=. -e 'using Pkg; Pkg.instantiate()' && julia --project=. generate.jl all && julia --project=. generate_tier4.jl
 ```
 
 ## Unverified
-- Plotting output is only smoke-tested (no numeric oracle).
+- Plot HTML/PNG outputs are smoke-tested; the spaghetti plot's data payload is compared
+  structurally with SDDP.jl's control file.
+- StochOptFormat files written by the port are read back by the port; reading them with
+  SDDP.jl was not exercised (files written by SDDP.jl are read and verified).
+- `Multiprocess` is verified for convergence on two problems, not for speed.
 - OutOfSampleMonteCarlo, PSRSamplingScheme, RiskAdjusted/Regularized/Revisiting forward
   passes, BanditDuality, FixedDiscreteDuality, OuterApproximation, and the Statistical /
   FirstStage stopping rules are unit-tested for behaviour but have no Julia numeric oracle.

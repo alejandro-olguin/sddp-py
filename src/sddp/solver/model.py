@@ -101,6 +101,19 @@ def _highs_library() -> Any:
         lib = ctypes.CDLL(paths[0])
         lib.Highs_clearSolver.argtypes = [ctypes.c_void_p]
         lib.Highs_clearSolver.restype = ctypes.c_int
+        lib.Highs_getRowByName.argtypes = [
+            ctypes.c_void_p,
+            ctypes.c_char_p,
+            ctypes.POINTER(ctypes.c_int),
+        ]
+        lib.Highs_getRowByName.restype = ctypes.c_int
+        lib.Highs_changeRowBounds.argtypes = [
+            ctypes.c_void_p,
+            ctypes.c_int,
+            ctypes.c_double,
+            ctypes.c_double,
+        ]
+        lib.Highs_changeRowBounds.restype = ctypes.c_int
         ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
         ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object, ctypes.c_char_p]
         ctypes.pythonapi.PyCapsule_GetName.restype = ctypes.c_char_p
@@ -148,6 +161,7 @@ class _ConInfo:
     sense: poi.ConstraintSense
     rhs: float
     variables: dict[int, Variable] = field(default_factory=dict)
+    row_name: str = ""  # unique name given to the solver row (needed for HiGHS row lookup)
 
 
 _SENSES = {
@@ -197,6 +211,7 @@ class Model:
         self._cons: list[Constraint] = []
         self._con_info: dict[int, _ConInfo] = {}
         self._deleted: set[int] = set()
+        self._deleted_vars: set[int] = set()
         self._fixed: dict[int, float] = {}
         self.names: dict[str, Any] = {}
         self._objective: Expression | None = None
@@ -241,7 +256,18 @@ class Model:
         return v
 
     def variables(self) -> list[Variable]:
-        return list(self._vars)
+        return [v for v in self._vars if v.index not in self._deleted_vars]
+
+    def delete_variable(self, v: Variable) -> None:
+        """Delete a variable from the model (``JuMP.delete``)."""
+        self._m.delete_variable(v)
+        self._deleted_vars.add(v.index)
+        for info in self._con_info.values():
+            info.variables.pop(v.index, None)
+        self._obj_coefs = None  # force a full objective reload on the next set_objective
+        name = self._var_info[v.index].name
+        if name and self.names.get(name) is v:
+            del self.names[name]
 
     def variable_name(self, v: Variable) -> str:
         return self._var_info[v.index].name
@@ -412,9 +438,10 @@ class Model:
 
     def add_row(self, expr: Expression, sense: str, rhs: float) -> Constraint:
         """Fast path for internal rows (cuts): ``expr`` is a ready, duplicate-free expression."""
-        c = self._m.add_linear_constraint(expr, _SENSES[sense], float(rhs))
+        row_name = f"_sddp_row_{len(self._cons)}"
+        c = self._m.add_linear_constraint(expr, _SENSES[sense], float(rhs), name=row_name)
         self._cons.append(c)
-        self._con_info[c.index] = _ConInfo("", _SENSES[sense], float(rhs), {})
+        self._con_info[c.index] = _ConInfo("", _SENSES[sense], float(rhs), {}, row_name)
         return c
 
     def _add_normalized(
@@ -425,9 +452,10 @@ class Model:
         name: str | None,
         var_map: dict[int, Variable],
     ) -> Constraint:
-        c = self._m.add_linear_constraint(g, sense, rhs, name=name or "")
+        row_name = name or f"_sddp_row_{len(self._cons)}"
+        c = self._m.add_linear_constraint(g, sense, rhs, name=row_name)
         self._cons.append(c)
-        self._con_info[c.index] = _ConInfo(name or "", sense, float(rhs), var_map)
+        self._con_info[c.index] = _ConInfo(name or "", sense, float(rhs), var_map, row_name)
         if name:
             if name in self.names:
                 raise ValueError(f"An object named {name!r} is already registered.")
@@ -447,7 +475,7 @@ class Model:
     def constraint_data(self, c: Constraint) -> tuple[list[tuple[Variable, float]], str, float]:
         """Return the *current* ``(terms, sense, rhs)`` of a constraint."""
         info = self._con_info[c.index]
-        variables = info.variables.values() if info.variables else self._vars
+        variables = info.variables.values() if info.variables else self.variables()
         terms = [
             (v, coef)
             for v in variables
@@ -461,10 +489,34 @@ class Model:
         return terms, sense, info.rhs
 
     def set_normalized_rhs(self, c: Constraint, value: float) -> None:
-        # The RHS is tracked here rather than read back from the solver: pyoptinterface's
-        # HiGHS `get_normalized_rhs` returns the row *lower* bound for `<=` rows.
-        self._m.set_normalized_rhs(c, float(value))
-        self._con_info[c.index].rhs = float(value)
+        """Change the right-hand side of a constraint, keeping its sense.
+
+        pyoptinterface 0.6.1's HiGHS backend has two defects here: ``get_normalized_rhs``
+        returns the row lower bound for ``<=`` rows, and ``set_normalized_rhs`` sets *both*
+        row bounds, turning an inequality into an equality. The RHS is therefore tracked in
+        this class, and for inequality rows on HiGHS the bounds are set through the HiGHS C
+        API (``Highs_changeRowBounds``), locating the row by a unique row name.
+        """
+        info = self._con_info[c.index]
+        value = float(value)
+        if info.sense == poi.ConstraintSense.Equal or self.optimizer.name != "HiGHS":
+            self._m.set_normalized_rhs(c, value)
+        else:
+            lo, hi = (-INF, value) if info.sense == poi.ConstraintSense.LessEqual else (value, INF)
+            self._change_row_bounds(c, lo, hi)
+        info.rhs = value
+
+    def _change_row_bounds(self, c: Constraint, lo: float, hi: float) -> None:
+        lib = _highs_library()
+        name = self._con_info[c.index].row_name
+        cap = self._m.get_raw_model()
+        ptr = ctypes.pythonapi.PyCapsule_GetPointer(cap, ctypes.pythonapi.PyCapsule_GetName(cap))
+        row = ctypes.c_int(-1)
+        status = lib.Highs_getRowByName(ptr, name.encode(), ctypes.byref(row))
+        if status != 0 or row.value < 0:
+            raise RuntimeError(f"HiGHS could not locate row {name!r}")
+        if lib.Highs_changeRowBounds(ptr, row.value, lo, hi) != 0:
+            raise RuntimeError(f"HiGHS could not change the bounds of row {name!r}")
 
     def get_normalized_rhs(self, c: Constraint) -> float:
         return self._con_info[c.index].rhs

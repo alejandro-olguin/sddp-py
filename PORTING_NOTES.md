@@ -29,7 +29,17 @@ This file is my memory across context resets. Keep it current.
 | `deterministic_equivalent.jl`           | `deterministic_equivalent.py`| 1 | |
 | `cyclic.jl`                             | `graph.py::is_cyclic`        | 2 | Tarjan |
 | `print.jl`                              | `print.py`                   | 1 | log table; numerical stability report optional |
-| `modeling_aids.jl`, `MSPFormat.jl`, `Inner.jl`, `Experimental.jl`, `biobjective.jl`, `alternative_forward.jl`, `binary_expansion.jl`, `visualization/*` | not ported (or Tier 3 plotting) | — | |
+| `visualization/value_functions.jl` | `value_function.py` | 4 | |
+| `Inner.jl` | `inner.py` | 4 | |
+| `MSPFormat.jl` | `msp_format.py` | 4 | |
+| `Experimental.jl` (StochOptFormat) | `stochoptformat.py` | 4 | MOF subset |
+| `modeling_aids.jl` + `SimulatorSamplingScheme` | `modeling_aids.py` | 4 | |
+| `biobjective.jl` | `biobjective.py` | 4 | |
+| `alternative_forward.jl`, `ImportanceSamplingForwardPass`, `LoggingForwardPass` | `plugins/forward_passes.py` | 4 | |
+| `binary_expansion.jl` | `binary_expansion.py` | 4 | |
+| `print.jl` numerical stability report, `write_log_to_csv` | `print.py` | 4 | |
+| `parallel_schemes.jl` Threaded / Asynchronous | `plugins/parallel_schemes.py` (`Threaded`, `Multiprocess`) | 2/4 | |
+| `visualization/*` (spaghetti, graph, dashboard) | `visualization.py` + `assets/` | 4 | |
 | solver abstraction (JuMP/MOI)           | `solver/` (`base.py`, `pyoptinterface_backend.py`) | 1 | see §4 |
 
 ## 2. Key algorithmic invariants (what must hold for parity)
@@ -474,3 +484,29 @@ cut): warm run, 2000 iterations: **6 invalid cuts of 78,532**, the worst pair (n
 cut #15545, inventory 1.9997, belief 0.858/0.142) recorded 17.348148 vs 17.347367, an excess
 of 7.8e-4, which is the size of the bound overshoot; the other four exceed by 1.7e-6. Cold
 run, 1000 iterations: 0 invalid of 37,812. Script: `belief_cutcheck.py` (session scratch).
+
+## 10. Tier 4 port (value functions, inner approximation, formats, lattice, biobjective, ...)
+
+### 10.1 Upstream defect: pyoptinterface HiGHS `set_normalized_rhs`
+Found while round-tripping the StochOptFormat test model: pyoptinterface 0.6.1's HiGHS
+backend implements `set_normalized_rhs` by setting *both* row bounds, so a `<=` or `>=` row
+silently becomes an equality (probe: row `x+y <= 1`, after `set_normalized_rhs(3)` the range of
+`x+y` over the box is `[3, 3]` instead of `[0, 3]`). Earlier parity problems were unaffected
+because they change RHS only on equality rows or use `fix`/coefficients. Workaround in
+`Model.set_normalized_rhs`: equality rows use pyoptinterface; inequality rows on HiGHS set
+the row bounds through the HiGHS C API (`Highs_changeRowBounds`), locating the row by a unique
+name that every row now receives at creation (`_sddp_row_<n>` unless the user named it).
+Pinned by `tests/test_solver.py::test_set_normalized_rhs_keeps_inequality_sense`, including
+the case where an earlier row was deleted.
+
+### 10.2 SDDP.jl quirks replicated on purpose
+* `_lattice_approximation` loops `for i in 1:length(states[t])` where `states[t]` is an `Int`,
+  so only the first node of each stage is ever re-seeded from a sample path. The port loops
+  over `range(1)` for parity; the oracle (`lattice.json`, 60 fixed sample paths) matches to
+  1e-12 with this, and not without it.
+* `ValueFunction` in SDDP.jl passes `belief_state, objective_state` in swapped order when
+  copying local (multi-cut) thetas; the port uses the correct order (only matters for models
+  that combine multi-cut with objective/belief states, which SDDP.jl does not exercise).
+* The StochOptFormat reader registers states without an initial value (so the root-state
+  feasibility check does not run during construction) and sets `initial_root_state` from the
+  file afterwards, exactly as `Base.read` does in Julia.

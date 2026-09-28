@@ -74,3 +74,31 @@ def test_delete_constraint_and_relax_integrality():
     m.optimize()
     assert m.objective_value() == 0.0
     assert m.num_constraints() == 0
+
+
+def test_set_normalized_rhs_keeps_inequality_sense():
+    """pyoptinterface's HiGHS set_normalized_rhs makes inequalities equalities; ours must not."""
+    for sense, lo_hi in (("<=", (0.0, 3.0)), (">=", (3.0, 20.0)), ("==", (3.0, 3.0))):
+        m = Model(sddp.HiGHS)
+        x = m.add_variable("x", lb=0.0, ub=10.0)
+        y = m.add_variable("y", lb=0.0, ub=10.0)
+        c = m.add_constraint_normalized(x + y, sense, 1.0)
+        m.set_normalized_rhs(c, 3.0)
+        assert m.get_normalized_rhs(c) == 3.0
+        m.set_objective(x + y, Sense.MIN)
+        m.optimize()
+        lo = m.objective_value()
+        m.set_objective(x + y, Sense.MAX)
+        m.optimize()
+        hi = m.objective_value()
+        assert (lo, hi) == lo_hi, (sense, lo, hi)
+        # also after a deletion shifts the HiGHS row positions
+        m2 = Model(sddp.HiGHS)
+        a = m2.add_variable("a", lb=0.0, ub=10.0)
+        c0 = m2.add_constraint_normalized(1.0 * a, "==", 5.0)
+        c1 = m2.add_constraint_normalized(1.0 * a, sense, 1.0)
+        m2.delete_constraint(c0)
+        m2.set_normalized_rhs(c1, 3.0)
+        m2.set_objective(1.0 * a, Sense.MIN)
+        m2.optimize()
+        assert m2.objective_value() == {"<=": 0.0, ">=": 3.0, "==": 3.0}[sense]

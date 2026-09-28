@@ -207,6 +207,9 @@ class BellmanFunctionFactory:
     deletion_minimum: int = 1
     cut_type: CutType = CutType.MULTI_CUT
 
+    def initialize(self, model: PolicyGraph, node: Node) -> BellmanFunctionInstance:
+        return initialize_bellman_function(self, model, node)
+
 
 def BellmanFunction(
     lower_bound: float = -math.inf,
@@ -293,7 +296,7 @@ def _add_initial_bounds(obj_state: Any, theta: Variable, m: Model) -> None:
 def refine_bellman_function(
     model: PolicyGraph,
     node: Node,
-    bellman_function: BellmanFunctionInstance,
+    bellman_function: Any,
     risk_measure: RiskMeasure,
     outgoing_state: dict[str, float],
     dual_variables: Sequence[dict[str, float]],
@@ -301,6 +304,19 @@ def refine_bellman_function(
     nominal_probability: Sequence[float],
     objective_realizations: Sequence[float],
 ) -> Any:
+    refine = getattr(bellman_function, "refine", None)
+    if refine is not None:  # e.g. the inner approximation
+        with node.lock:
+            return refine(
+                model,
+                node,
+                risk_measure,
+                outgoing_state,
+                dual_variables,
+                noise_supports,
+                nominal_probability,
+                objective_realizations,
+            )
     with node.lock:
         return _refine_bellman_function_no_lock(
             model,

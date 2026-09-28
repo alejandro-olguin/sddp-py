@@ -31,6 +31,10 @@ def sample_noise(noise_terms: Sequence[Noise], rng: random.Random) -> Any:
     raise RuntimeError(f"Internal SDDP error: unable to sample noise from {noise_terms}")
 
 
+def _no_rollout_limit(i: int) -> int:
+    return sys.maxsize
+
+
 class _Rollout:
     def __init__(self, rollout_limit: Callable[[int], int]):
         self.i = 0
@@ -49,7 +53,7 @@ class InSampleMonteCarlo(SamplingScheme):
         max_depth: int = 0,
         terminate_on_cycle: bool = False,
         terminate_on_dummy_leaf: bool = True,
-        rollout_limit: Callable[[int], int] = lambda i: sys.maxsize,
+        rollout_limit: Callable[[int], int] = _no_rollout_limit,
         initial_node: Any = None,
     ):
         if not terminate_on_cycle and not terminate_on_dummy_leaf and max_depth == 0:
@@ -93,7 +97,7 @@ class OutOfSampleMonteCarlo(SamplingScheme):
         max_depth: int = 0,
         terminate_on_cycle: bool = False,
         terminate_on_dummy_leaf: bool = True,
-        rollout_limit: Callable[[int], int] = lambda i: sys.maxsize,
+        rollout_limit: Callable[[int], int] = _no_rollout_limit,
         initial_node: Any = None,
     ):
         if not terminate_on_cycle and not terminate_on_dummy_leaf and max_depth == 0:

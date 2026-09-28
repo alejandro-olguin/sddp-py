@@ -226,3 +226,104 @@ __all__ = [
     "RiskAdjustedForwardPass",
     "math",
 ]
+
+
+class ImportanceSamplingForwardPass(ForwardPass):
+    """Risk-adjusted exploration of Dias Garcia et al. (2023): the next node/noise is sampled
+    from the risk-adjusted probabilities of the multi-cut cost-to-go variables."""
+
+    def forward_pass(self, model: PolicyGraph, options: Options) -> ForwardPassResult:
+        from sddp.algorithm import solve_subproblem
+        from sddp.plugins.sampling_schemes import sample_noise
+        from sddp.policy_graph import Noise
+
+        assert not model.belief_partition
+        rng = options.rng
+        scenario_path: list[tuple[Any, Any]] = []
+        sampled_states: list[dict[str, float]] = []
+        cumulative_value = 0.0
+        incoming_state_value = dict(options.initial_state)
+        node_index = sample_noise(model.root_children, rng)
+        node = model[node_index]
+        noise = sample_noise(node.noise_terms, rng)
+        while node_index is not None:
+            node = model[node_index]
+            with node.lock:
+                scenario_path.append((node_index, noise))
+                results = solve_subproblem(
+                    model, node, incoming_state_value, noise, scenario_path, duality_handler=None
+                )
+                cumulative_value += results.stage_objective
+                incoming_state_value = dict(results.state)
+                sampled_states.append(incoming_state_value)
+                if not node.bellman_function.local_thetas:
+                    node_index = sample_noise(node.children, rng)
+                    if node_index is not None:
+                        noise = sample_noise(model[node_index].noise_terms, rng)
+                else:
+                    objectives = [
+                        node.model.value(t.theta) for t in node.bellman_function.local_thetas
+                    ]
+                    nominal: list[float] = []
+                    support: list[Any] = []
+                    for child in node.children:
+                        for w in model[child.term].noise_terms:
+                            nominal.append(child.probability * w.probability)
+                            support.append((child.term, w.term))
+                    assert len(nominal) == len(objectives)
+                    adjusted = [0.0] * len(objectives)
+                    options.risk_measures[node_index].adjust_probability(
+                        adjusted, nominal, support, objectives, model.is_minimization
+                    )
+                    terms: list[Noise] = [Noise(s, p) for s, p in zip(support, adjusted)]
+                    picked = sample_noise(terms, rng)
+                    node_index, noise = picked
+        return ForwardPassResult(scenario_path, sampled_states, [], [], cumulative_value)
+
+
+class LoggingForwardPass(ForwardPass):
+    """Wrap a forward pass and append the sampled states to a CSV file."""
+
+    def __init__(self, inner: ForwardPass | None = None, *, filename: str):
+        self.inner = inner if inner is not None else DefaultForwardPass()
+        self.filename = filename
+        self.iteration = 0
+
+    def forward_pass(self, model: PolicyGraph, options: Options) -> ForwardPassResult:
+        ret = self.inner.forward_pass(model, options)
+        with options.lock:
+            self.iteration += 1
+            with open(self.filename, "a") as io:
+                for index, state in enumerate(ret.sampled_states, start=1):
+                    keys = sorted(state)
+                    if self.iteration == 1 and index == 1:
+                        io.write("iteration,index" + "".join(f",{k}" for k in keys) + "\n")
+                    io.write(
+                        f"{self.iteration},{index}" + "".join(f",{state[k]}" for k in keys) + "\n"
+                    )
+        return ret
+
+
+class AlternativeForwardPass(ForwardPass):
+    """Simulate the forward pass on ``forward_model`` (e.g. a non-convex model) while the
+    backward pass uses the trained model. Pair with :class:`AlternativePostIterationCallback`."""
+
+    def __init__(self, forward_model: PolicyGraph, forward_pass: ForwardPass | None = None):
+        self.model = forward_model
+        self.forward_pass_ = forward_pass if forward_pass is not None else DefaultForwardPass()
+
+    def forward_pass(self, model: PolicyGraph, options: Options) -> ForwardPassResult:
+        return self.forward_pass_.forward_pass(self.model, options)
+
+
+class AlternativePostIterationCallback:
+    """Copy the cuts of each iteration into ``forward_model``."""
+
+    def __init__(self, forward_model: PolicyGraph):
+        self.model = forward_model
+
+    def __call__(self, result: Any) -> None:
+        from sddp.plugins.parallel_schemes import slave_update
+
+        with self.model.lock:
+            slave_update(self.model, result)

@@ -2,7 +2,13 @@
 
 Updated: 2026-09-28 (session 2: performance work)
 
-## Current tier: Tiers 1–3 implemented and verified (see FINAL_REPORT.md); performance steps 1–5 done
+## Current tier: Tiers 1–4 implemented and verified (see FINAL_REPORT.md); performance steps 1–5 done
+
+Tier 4 (session 3): value functions, inner approximation, MSPFormat, StochOptFormat, lattice
+fitting + SimulatorSamplingScheme, biobjective, stability report, extra forward passes,
+Multiprocess scheme, binary expansion, HTML plots and dashboard. Oracle:
+`reference/generate_tier4.jl` → `value_functions/inner/mspformat/stochoptformat/lattice/
+biobjective/misc_tier4.json`. Suite: 118 passed.
 
 Performance (PORTING_NOTES §9): objective coefficient diffs, cached outgoing-state info,
 cached cut expressions, `Threaded` scheme, Cython rejected; HiGHS tolerances tightened to 1e-9

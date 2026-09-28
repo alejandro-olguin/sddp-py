@@ -1,0 +1,37 @@
+{
+  "alternative_forward_bound_40": 8333.333333333332,
+  "alternative_forward_model_bound_40": 8333.333333333332,
+  "bad_report": "numerical stability report\n  matrix range     [1e-06, 1e+00]\n  objective range  [1e+00, 1e+08]\n  bounds range     [1e+09, 1e+09]\n  rhs range        [1e-05, 1e-05]\nWARNING: numerical stability issues detected\n  - matrix range contains small coefficients\n  - objective range contains large coefficients\n  - bounds range contains large coefficients\n  - rhs range contains small coefficients\nVery large or small absolute values of coefficients\ncan cause numerical stability issues. Consider\nreformulating the model.\n",
+  "bad_report_by_node": "numerical stability report for node: 1\n  matrix range     [1e-06, 1e+00]\n  objective range  [1e+00, 1e+08]\n  bounds range     [1e+09, 1e+09]\n  rhs range        [1e-05, 1e-05]\nWARNING: numerical stability issues detected\n  - matrix range contains small coefficients\n  - objective range contains large coefficients\n  - bounds range contains large coefficients\n  - rhs range contains small coefficients\nVery large or small absolute values of coefficients\ncan cause numerical stability issues. Consider\nreformulating the model.\nnumerical stability report for node: 2\n  matrix range     [1e-06, 1e+00]\n  objective range  [1e+00, 1e+08]\n  bounds range     [1e+09, 1e+09]\n  rhs range        [1e-05, 1e-05]\nWARNING: numerical stability issues detected\n  - matrix range contains small coefficients\n  - objective range contains large coefficients\n  - bounds range contains large coefficients\n  - rhs range contains small coefficients\nVery large or small absolute values of coefficients\ncan cause numerical stability issues. Consider\nreformulating the model.\n",
+  "binexpand": {
+    "0.54_0.54_0.01": [
+      0,
+      1,
+      1,
+      0,
+      1,
+      1
+    ],
+    "0.56_0.56_0.1": [
+      0,
+      1,
+      1
+    ],
+    "5_5": [
+      1,
+      0,
+      1
+    ],
+    "bincontract_101": 5,
+    "bincontract_eps": 0.5
+  },
+  "hydro_thermal_report": "numerical stability report\n  matrix range     [1e+00, 1e+00]\n  objective range  [1e+00, 2e+02]\n  bounds range     [2e+02, 2e+02]\n  rhs range        [2e+02, 2e+02]\n",
+  "importance_sampling_bound_60": 8333.333333333332,
+  "name": "misc_tier4",
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

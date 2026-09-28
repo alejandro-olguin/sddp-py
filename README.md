@@ -59,6 +59,20 @@ belief states, integer states).
 | `SDDP.Expectation()`, `AVaR`, `EAVaR`, `WorstCase`, `Entropic`, `ModifiedChiSquared`, `Wasserstein` | same names (`EAVaR(lambda_=, beta=)`) |
 | `SDDP.write_cuts_to_file` / `read_cuts_from_file` | same names; JSON format compatible with SDDP.jl |
 | `SDDP.publication_plot` | `sddp.publication_plot(sims, fn)` (matplotlib) |
+| `SDDP.SpaghettiPlot`, `add_spaghetti`, `plot` | `sddp.SpaghettiPlot(sims)`, `.add_spaghetti(fn, ...)`, `.plot(filename)` (same d3 HTML) |
+| `SDDP.plot(model)` (graph structure) | `sddp.plot_graph(model, filename)` |
+| `SDDP.ValueFunction(model; node)`, `SDDP.evaluate(V, point)` | `sddp.ValueFunction(model, node=...)`, `sddp.evaluate_value_function(V, point)` |
+| `SDDP.plot(V; x = ...)` | `sddp.plot_value_function(V, x=[...])` (matplotlib) / `sddp.plot_value_function_html` |
+| `SDDP.Inner.InnerPolicyGraph`, `inner_dp`, `dp_vertices_from_visited_states` | same names (`sddp.InnerPolicyGraph`, `sddp.inner_dp`, ...) |
+| `SDDP.MSPFormat.read_from_file` | `sddp.read_msp_format(path)` |
+| `SDDP.write_to_file` / `read_from_file` (StochOptFormat), `SDDP.evaluate(model, validation)` | `sddp.write_to_file`, `sddp.read_from_file`, `sddp.evaluate_validation_scenarios` |
+| `SDDP.MarkovianGraph(simulator; budget)`, `SimulatorSamplingScheme` | `sddp.markovian_graph_from_simulator(simulator, budget)`, `sddp.SimulatorSamplingScheme` |
+| `SDDP.train_biobjective` and helpers | same names |
+| `SDDP.numerical_stability_report`, `write_log_to_csv` | same names |
+| `SDDP.ImportanceSamplingForwardPass`, `AlternativeForwardPass`, `LoggingForwardPass` | same names |
+| `SDDP.Threaded()`, `SDDP.Asynchronous()` | `sddp.Threaded(n)`, `sddp.Multiprocess(model_factory, n)` |
+| `SDDP.binexpand`, `bincontract` | same names |
+| `dashboard = true` | `sddp.train(model, dashboard=True)` (SSE server + `assets/dashboard.html`) |
 
 Duals: `sp.dual(c)` and the cut duals are *sensitivities in the model's own sense*
 (`d objective / d rhs`), for both minimisation and maximisation (see PORTING_NOTES §4).

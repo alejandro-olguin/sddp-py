@@ -168,6 +168,20 @@ class Subproblem:
         self.model.names[name] = state
         return state
 
+    def register_state(
+        self, name: str, in_: Variable, out: Variable, initial_value: float | None = None
+    ) -> State:
+        """Register two existing variables as a state (used by the file-format readers)."""
+        if name in self.node.states:
+            raise ValueError(f"A state variable named {name!r} already exists.")
+        self.model.watch(out)
+        state = State(in_, out)
+        self.node.states[name] = state
+        if initial_value is not None:
+            self.policy_graph.initial_root_state[name] = float(initial_value)
+        self.model.names[name] = state
+        return state
+
     def add_variable(
         self,
         name: str | None = None,
@@ -359,7 +373,7 @@ class PolicyGraph(Generic[T]):
         optimizer: OptimizerFactory | None = None,
         bellman_function: Any = None,
     ):
-        from sddp.plugins.bellman_functions import BellmanFunction, initialize_bellman_function
+        from sddp.plugins.bellman_functions import BellmanFunction
 
         graph.validate()
         self.objective_sense: Sense = Sense.parse(sense)
@@ -406,7 +420,7 @@ class PolicyGraph(Generic[T]):
             node = self.nodes[node_index]
             for child, probability in children:
                 node.children.append(Noise(child, probability))
-            node.bellman_function = initialize_bellman_function(bellman_function, self, node)
+            node.bellman_function = bellman_function.initialize(self, node)
         # Add root nodes and check the initial point is feasible w.r.t. bounds (SDDP.jl#387).
         for child, probability in graph.nodes[graph.root_node]:
             self.root_children.append(Noise(child, probability))

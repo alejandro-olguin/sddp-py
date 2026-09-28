@@ -1,0 +1,52 @@
+<!--
+Copyright (c) 2017-26: Oscar Dowson and SDDP.jl contributors.
+
+This Source Code Form is subject to the terms of the Mozilla Public License,
+v2.0. If a copy of the MPL was not distributed with this file, You can obtain
+one at http://mozilla.org/MPL/2.0/.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="plot"></div>
+    <script>
+    (function() {
+        Plotly.newPlot(
+            'plot',
+            [
+                {x: [], y: [], name: 'Bound', type: 'lines', xaxis: 'x1', yaxis: 'y1'},
+                {x: [], y: [], name: 'Simulations', mode: 'markers', xaxis: 'x1', yaxis: 'y1'},
+                {x: [], y: [], name: 'Solution time', type: 'lines', xaxis: 'x2', yaxis: 'y2'},
+                {x: [], y: [], name: 'Total solves', type: 'lines', xaxis: 'x3', yaxis: 'y3'}
+            ],
+            {
+                grid: {rows: 3, columns: 1, pattern: 'independent'},
+                // xaxis:  {title: 'Iteration'},
+                yaxis:  {title: 'Objective'},
+                // xaxis2: {title: 'Iteration'},
+                yaxis2: {title: 'Time (s)'},
+                xaxis3: {title: 'Iteration'},
+                yaxis3: {title: '# solves'},
+                showlegend: false,
+            }
+        );
+        var plot_div = document.getElementById('plot')
+        var connection = new EventSource('http://localhost:8000/events');
+        connection.addEventListener("iteration", (event) => {
+            d = JSON.parse(event.data);
+            Plotly.extendTraces(
+                plot_div,
+                {
+                    x: [[d["iteration"]], [d["iteration"]], [d["iteration"]], [d["iteration"]]],
+                    y: [[d["bound"]], [d["simulation"]], [d["time"]], [d["solves"]]]
+                },
+                [0, 1, 2, 3]
+            );
+        });
+    })();
+    </script>
+</body>
+</html>

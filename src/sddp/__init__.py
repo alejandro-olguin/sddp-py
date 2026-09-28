@@ -16,8 +16,30 @@ from sddp.algorithm import (
     termination_status,
     train,
 )
+from sddp.binary_expansion import bincontract, binexpand
+from sddp.biobjective import (
+    initialize_biobjective_subproblem,
+    set_biobjective_functions,
+    set_trade_off_weight,
+    train_biobjective,
+)
 from sddp.deterministic_equivalent import deterministic_equivalent
 from sddp.graph import Graph, LinearGraph, MarkovianGraph, UnicyclicGraph, is_cyclic
+from sddp.inner import (
+    InnerBellmanFunction,
+    InnerPolicyGraph,
+    dp_vertices_from_visited_states,
+    inner_dp,
+    read_vertices_from_file,
+    write_vertices_to_file,
+)
+from sddp.modeling_aids import (
+    SimulatorSamplingScheme,
+    allocate_support_budget,
+    lattice_approximation,
+    markovian_graph_from_simulator,
+)
+from sddp.msp_format import read_from_file as read_msp_format
 from sddp.plugins.backward_sampling_schemes import CompleteSampler, MonteCarloSampler
 from sddp.plugins.bellman_functions import (
     MULTI_CUT,
@@ -36,13 +58,17 @@ from sddp.plugins.duality_handlers import (
     StrengthenedConicDuality,
 )
 from sddp.plugins.forward_passes import (
+    AlternativeForwardPass,
+    AlternativePostIterationCallback,
     DefaultForwardPass,
+    ImportanceSamplingForwardPass,
+    LoggingForwardPass,
     RegularizedForwardPass,
     RevisitingForwardPass,
     RiskAdjustedForwardPass,
 )
 from sddp.plugins.local_improvement_search import BFGS, OuterApproximation
-from sddp.plugins.parallel_schemes import Serial, Threaded
+from sddp.plugins.parallel_schemes import Multiprocess, Serial, Threaded
 from sddp.plugins.risk_measures import (
     AVaR,
     ConvexCombination,
@@ -79,12 +105,73 @@ from sddp.policy_graph import (
     StateValue,
     Subproblem,
 )
+from sddp.print import numerical_stability_report, write_log_to_csv
 from sddp.solver.model import HiGHS, Model, OptimizerFactory, Sense, pyoptinterface_optimizer
-from sddp.visualization import publication_data, publication_plot, spaghetti_plot
+from sddp.stochoptformat import (
+    ValidationScenario,
+    ValidationScenarios,
+    read_from_file,
+    write_to_file,
+)
+from sddp.stochoptformat import evaluate as evaluate_validation_scenarios
+from sddp.value_function import (
+    ValueFunction,
+    plot_value_function,
+)
+from sddp.value_function import (
+    evaluate as evaluate_value_function,
+)
+from sddp.visualization import (
+    SpaghettiPlot,
+    add_spaghetti,
+    launch_dashboard,
+    plot_graph,
+    plot_value_function_html,
+    publication_data,
+    publication_plot,
+    spaghetti_plot,
+)
 
 __version__ = "0.1.0"
 
 __all__ = [
+    "AlternativeForwardPass",
+    "AlternativePostIterationCallback",
+    "ImportanceSamplingForwardPass",
+    "InnerBellmanFunction",
+    "InnerPolicyGraph",
+    "LoggingForwardPass",
+    "Multiprocess",
+    "SimulatorSamplingScheme",
+    "SpaghettiPlot",
+    "ValidationScenario",
+    "ValidationScenarios",
+    "ValueFunction",
+    "add_spaghetti",
+    "allocate_support_budget",
+    "bincontract",
+    "binexpand",
+    "dp_vertices_from_visited_states",
+    "evaluate_validation_scenarios",
+    "evaluate_value_function",
+    "initialize_biobjective_subproblem",
+    "inner_dp",
+    "lattice_approximation",
+    "launch_dashboard",
+    "markovian_graph_from_simulator",
+    "numerical_stability_report",
+    "plot_graph",
+    "plot_value_function",
+    "plot_value_function_html",
+    "read_from_file",
+    "read_msp_format",
+    "read_vertices_from_file",
+    "set_biobjective_functions",
+    "set_trade_off_weight",
+    "train_biobjective",
+    "write_log_to_csv",
+    "write_to_file",
+    "write_vertices_to_file",
     "AVaR",
     "BFGS",
     "BanditDuality",

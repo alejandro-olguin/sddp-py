@@ -12,6 +12,7 @@ decision-rule evaluation.
 
 from __future__ import annotations
 
+import io
 import math
 import random
 import sys
@@ -149,6 +150,7 @@ class Options:
         post_iteration_callback: Callable[[Any], Any] = lambda r: None,
         root_node_risk_measure: RiskMeasure | None = None,
         rng: random.Random | None = None,
+        cut_type: Any = None,
     ) -> Options:
         log_frequency_fn: Callable[[list[Log]], bool]
         if isinstance(log_frequency, int):
@@ -870,6 +872,15 @@ def train(
             risk_measure,
             sampling_scheme,
         )
+    if run_numerical_stability_report:
+        from sddp.print import numerical_stability_report
+
+        report = numerical_stability_report(model, print=print_level > 0, io=io.StringIO())
+        if print_level > 0:
+            sys.stdout.write(report)
+            if log_file_handle is not None:
+                log_file_handle.write(report)
+    if print_level > 0:
         _print_helper(print_iteration_header, log_file_handle)
     rules: list[StoppingRule] = list(stopping_rules)
     if iteration_limit is not None:
@@ -885,6 +896,14 @@ def train(
         node.bellman_function.global_theta.deletion_minimum = cut_deletion_minimum
         for oracle in node.bellman_function.local_thetas:
             oracle.deletion_minimum = cut_deletion_minimum
+
+    def dashboard_callback(a: Any, b: Any) -> None:
+        return None
+
+    if dashboard:
+        from sddp.visualization import launch_dashboard
+
+        dashboard_callback = launch_dashboard()
     options = Options.create(
         model,
         model.initial_root_state,
@@ -906,6 +925,19 @@ def train(
         root_node_risk_measure=root_node_risk_measure,
         rng=rng,
     )
+    options.dashboard_callback = dashboard_callback
+    if hasattr(parallel_scheme, "train_kwargs"):
+        parallel_scheme.train_kwargs = {
+            "sampling_scheme": sampling_scheme,
+            "backward_sampling_scheme": backward_sampling_scheme,
+            "risk_measures": risk_measure,
+            "cycle_discretization_delta": cycle_discretization_delta,
+            "refine_at_similar_nodes": refine_at_similar_nodes,
+            "forward_pass": forward_pass,
+            "duality_handler": duality_handler,
+            "root_node_risk_measure": root_node_risk_measure,
+            "cut_type": cut_type,
+        }
     status = "not_solved"
     try:
         status = parallel_scheme.master_loop(model, options)
