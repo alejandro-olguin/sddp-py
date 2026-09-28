@@ -114,6 +114,29 @@ Counter-example: the belief-state problem (1500 iterations) took ~1200 s in Pyth
 in Julia, because its backward pass is dominated by per-solve Python overhead rather than by
 HiGHS (PORTING_NOTES §7.4).
 
+## Performance work after verification (steps evaluated one at a time)
+
+Cython was evaluated and rejected; see PORTING_NOTES.md §9 for profiles and evidence.
+Timings below: 12-core macOS arm64, one core busy with a Julia job, best of 2, seed 1,
+serial unless stated. Every step was checked to be numerically neutral (bit-identical
+bounds, cuts, dominance counts and active sets on 100-iteration traces, plus the full suite).
+
+| commit | change | hydro 24×20, 200 its | hydro 12×10, 400 its | belief, 200 its | objective states, 200 its |
+|---|---|---|---|---|---|
+| baseline | verified port | 3.48 s | 4.13 s | 22.54 s | 1.38 s |
+| step 1 | objective coefficient diffs instead of full objective resets | 3.39 s | 3.62 s | 5.41 s | 0.33 s |
+| step 2 | cached outgoing-state bounds/domain (−65% solver queries) | 3.22 s | 3.86 s | 6.18 s | 0.34 s |
+| step 3 | cached cut expressions + fast row add (numpy heights rejected: no gain) | 3.15 s | 3.36 s | 6.24 s | 0.33 s |
+| step 4 | `Threaded(4)` parallel scheme (SDDP.jl's per-node locking) | 2.31 s | 2.59 s | 2.88 s | n/a (objective states force Serial) |
+| step 5 | Cython: not adopted (remaining Python hotspot is worth ~6%, numpy already gets it) | | | | |
+
+The belief 5.41 s at step 1 was a lucky run: alternating re-measurement of step 1 vs step 4
+(serial) gave 6.20–6.42 s vs 6.14–6.29 s, i.e. steps 2–3 are neutral on that model.
+Net: 1.5× (hydro-thermal, solver-bound) to 7.8× (belief, threaded) versus the baseline; single-thread
+gains come almost entirely from step 1 and step 3, threading adds 1.4–2.2× more. Also added
+during this work: a HiGHS cold-restart numerical recovery ladder (a 2000-iteration belief run
+used to crash on a stale solver state; a fresh solve of the dumped LP succeeded).
+
 ## Install and run
 
 ```bash
