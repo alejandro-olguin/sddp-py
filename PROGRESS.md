@@ -2,7 +2,7 @@
 
 Updated: 2026-09-28 (session 1, late)
 
-## Current tier: Tier 3 implemented and verified; one Tier 2 problem (belief) under investigation
+## Current tier: Tiers 1–3 implemented and verified (see FINAL_REPORT.md)
 
 ## Verified (tests green)
 - Unit: solver dual-sign contract, risk measures vs hand values, cut formation vs a hand-solved
@@ -26,11 +26,10 @@ Updated: 2026-09-28 (session 1, late)
   definition as Statistics.quantile).
 
 ## Failing / open
-- `test_belief`: Julia bound after 100 iterations (seed 123) is 18.6909; Python after 100
-  iterations gives 18.77–18.79 depending on seed. The graph is cyclic (0.9 continuation) and
-  100 iterations is unlikely to be converged on either side. A convergence run (500 and 1500
-  iterations, two seeds) is in progress to decide whether both sides agree at convergence;
-  if so the oracle will be regenerated with more iterations via generate.jl (never by hand).
+- `test_belief`: resolved by convergence analysis (PORTING_NOTES §7.4): Julia and Python both
+  converge to 18.8168 at 1500 iterations (3.4e-7 relative); the oracle gained a 1500-iteration
+  entry via generate.jl and the test compares that. The seeded test run (~20 min in Python)
+  was the last thing in flight in session 1.
 
 ## Known gaps / deviations from SDDP.jl
 - Parallel schemes: Serial only (no Threaded/Asynchronous).
@@ -40,4 +39,5 @@ Updated: 2026-09-28 (session 1, late)
 - Cut slopes at dual-degenerate points may differ from SDDP.jl (valid subgradients either way).
 
 ## Next step
-1. Resolve belief (see above). 2. Full-suite run. 3. Final report.
+None required. Possible follow-ups: Threaded parallel scheme, numerical stability report,
+speeding up belief-state models (objective rebuild per solve).
