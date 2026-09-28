@@ -42,7 +42,7 @@ from sddp.plugins.forward_passes import (
     RiskAdjustedForwardPass,
 )
 from sddp.plugins.local_improvement_search import BFGS, OuterApproximation
-from sddp.plugins.parallel_schemes import Serial
+from sddp.plugins.parallel_schemes import Serial, Threaded
 from sddp.plugins.risk_measures import (
     AVaR,
     ConvexCombination,
@@ -136,6 +136,7 @@ __all__ = [
     "StoppingChain",
     "StrengthenedConicDuality",
     "Subproblem",
+    "Threaded",
     "TimeLimit",
     "UnicyclicGraph",
     "Wasserstein",

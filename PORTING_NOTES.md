@@ -398,3 +398,29 @@ default recovery is `MOI.Utilities.reset_optimizer` (a cold start); pyoptinterfa
 equivalent, so `Model.reset_optimizer` now calls `Highs_clearSolver` on the raw handle
 through ctypes (HiGHS only), and the default recovery callback is a ladder: cold restart →
 presolve off → interior point (cold, `output_flag=False`).
+
+### 9.5 Step 4: `Threaded` parallel scheme
+Ported SDDP.jl's `Threaded`: whole iterations run concurrently, one `RLock` per node (held
+while a node's subproblem is used in the forward pass, backward pass, bound, and simulation),
+an options lock for the log/callbacks/convergence test, and a model lock for counters.
+`Historical` and `PSRSamplingScheme` counters are locked. Objective states force `Serial`
+(as in SDDP.jl). Results are valid but not reproducible run to run. Measured (200
+iterations, one core busy with a Julia job at the time):
+
+| model | Serial | Threaded(2) | Threaded(4) | Threaded(8) |
+|---|---|---|---|---|
+| hydro-thermal 24×20 | 3.34 s | 2.13 s | 2.20 s | 2.36 s |
+| belief | 6.63 s | 4.27 s | 3.24 s | 3.08 s |
+
+The plateau is the GIL: only the solver runs in parallel, so the ceiling is
+`python_time + solver_time / threads`. Models with larger LPs scale better.
+
+### 9.6 Step 5: Cython decision
+After steps 1–4 the serial profile (hydro-thermal 24×20, 200 iterations) is 44% inside the
+solver; the only pure-Python hotspot left is the Level-1 cut-selection loop (~900k height
+evaluations, ≈17% of profiled time, less in wall-clock). A numpy rewrite of that loop
+(verified bit-identical on three 100-iteration traces) gains 6% wall-clock (3.38 s → 3.19 s).
+A Cython version of the same loop cannot beat that by much and would add a compiler and
+platform wheels to the install. Decision: no Cython; the scalar loop is kept for simplicity
+and fidelity (the numpy variant is preserved in the session scratch as
+`bellman_functions_vec.py`). Cumulative effect of steps 1–4 is summarised in FINAL_REPORT.md.

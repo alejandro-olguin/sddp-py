@@ -301,6 +301,31 @@ def refine_bellman_function(
     nominal_probability: Sequence[float],
     objective_realizations: Sequence[float],
 ) -> Any:
+    with node.lock:
+        return _refine_bellman_function_no_lock(
+            model,
+            node,
+            bellman_function,
+            risk_measure,
+            outgoing_state,
+            dual_variables,
+            noise_supports,
+            nominal_probability,
+            objective_realizations,
+        )
+
+
+def _refine_bellman_function_no_lock(
+    model: PolicyGraph,
+    node: Node,
+    bellman_function: BellmanFunctionInstance,
+    risk_measure: RiskMeasure,
+    outgoing_state: dict[str, float],
+    dual_variables: Sequence[dict[str, float]],
+    noise_supports: Sequence[Any],
+    nominal_probability: Sequence[float],
+    objective_realizations: Sequence[float],
+) -> Any:
     assert (
         len(dual_variables)
         == len(noise_supports)

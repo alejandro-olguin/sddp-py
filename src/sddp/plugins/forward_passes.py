@@ -53,6 +53,7 @@ class DefaultForwardPass(ForwardPass):
         objective_states: list[tuple[float, ...]] = []
         for depth, (node_index, noise) in enumerate(scenario_path, start=1):
             node = model[node_index]
+            node.lock.acquire()
             objective_state_vector = update_objective_state(
                 node.objective_state, objective_state_vector, noise
             )
@@ -83,6 +84,7 @@ class DefaultForwardPass(ForwardPass):
                 scenario_path[:depth],
                 duality_handler=None,
             )
+            node.lock.release()
             cumulative_value += subproblem_results.stage_objective
             incoming_state_value = dict(subproblem_results.state)
             sampled_states.append(incoming_state_value)

@@ -11,6 +11,7 @@ from __future__ import annotations
 import math
 import random
 import sys
+import threading
 from collections.abc import Callable, Sequence
 from typing import Any
 
@@ -198,6 +199,7 @@ class Historical(SamplingScheme):
             self.sequential = True
         self.counter = 0
         self.terminate_on_cycle = terminate_on_cycle
+        self._lock = threading.Lock()
 
     def __repr__(self) -> str:
         how = "sequentially" if self.sequential else "probabilistically"
@@ -208,10 +210,11 @@ class Historical(SamplingScheme):
     ) -> tuple[list[tuple[Any, Any]], bool]:
         ret = self.terminate_on_cycle
         if self.sequential:
-            self.counter += 1
-            if self.counter > len(self.scenarios):
-                self.counter = 1
-            return list(self.scenarios[self.counter - 1].term), ret
+            with self._lock:
+                self.counter += 1
+                if self.counter > len(self.scenarios):
+                    self.counter = 1
+                return list(self.scenarios[self.counter - 1].term), ret
         return list(sample_noise(self.scenarios, rng)), ret
 
 
@@ -225,6 +228,7 @@ class PSRSamplingScheme(SamplingScheme):
         )
         self.scenarios: list[tuple[list[tuple[Any, Any]], bool]] = []
         self.counter = 0
+        self._lock = threading.Lock()
 
     def __repr__(self) -> str:
         return f"A sampler with {len(self.scenarios)} scenarios like PSR does."
@@ -232,10 +236,11 @@ class PSRSamplingScheme(SamplingScheme):
     def sample_scenario(
         self, graph: PolicyGraph, rng: random.Random
     ) -> tuple[list[tuple[Any, Any]], bool]:
-        self.counter += 1
-        if self.counter > self.N:
-            self.counter = 1
-        if self.counter > len(self.scenarios):
-            self.scenarios.append(self.sampling_scheme.sample_scenario(graph, rng))
-        path, flag = self.scenarios[self.counter - 1]
-        return list(path), flag
+        with self._lock:
+            self.counter += 1
+            if self.counter > self.N:
+                self.counter = 1
+            if self.counter > len(self.scenarios):
+                self.scenarios.append(self.sampling_scheme.sample_scenario(graph, rng))
+            path, flag = self.scenarios[self.counter - 1]
+            return list(path), flag

@@ -14,6 +14,7 @@ parameterize, set_stage_objective, objective states, belief states) and
 from __future__ import annotations
 
 import math
+import threading
 from collections.abc import Callable, Hashable, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Generic, NamedTuple, TypeVar
@@ -106,6 +107,7 @@ class Node(Generic[T]):
         self.optimizer: OptimizerFactory | None = None
         self.ext: dict[str, Any] = {}
         self.incoming_state_bounds: dict[str, tuple[float, float, bool]] = {}
+        self.lock = threading.RLock()  # held while this node's subproblem is used
 
     @property
     def model(self) -> Model:
@@ -368,6 +370,7 @@ class PolicyGraph(Generic[T]):
         self.belief_partition: list[set] = []
         self.most_recent_training_results: TrainingResults | None = None
         self.ext: dict[str, Any] = {}
+        self.lock = threading.RLock()
         self.optimizer: OptimizerFactory = optimizer if optimizer is not None else HiGHS
         if bellman_function is None:
             if self.objective_sense is Sense.MIN and lower_bound == -math.inf:
