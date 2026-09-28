@@ -123,7 +123,14 @@ def pyoptinterface_optimizer(module_name: str, **options: Any) -> OptimizerFacto
     return OptimizerFactory(module_name, mod.Model, options)
 
 
-HiGHS = OptimizerFactory("HiGHS", _highs_constructor)
+# Tight feasibility tolerances by default: with warm-started re-solves (see PORTING_NOTES
+# §9.8) HiGHS's default 1e-7 tolerances produced duals inaccurate enough to build invalid
+# cuts on the belief-state model; 1e-9 removed the effect at ~12% cost on that model.
+HiGHS = OptimizerFactory(
+    "HiGHS",
+    _highs_constructor,
+    {"primal_feasibility_tolerance": 1e-9, "dual_feasibility_tolerance": 1e-9},
+)
 
 
 @dataclass

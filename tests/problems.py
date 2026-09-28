@@ -11,6 +11,20 @@ from typing import Any
 
 import sddp
 
+# Optimizer used by every builder. Tests may swap it (e.g. for Julia-equivalent solver
+# tolerances) via `set_optimizer`.
+_OPTIMIZER = sddp.HiGHS
+
+
+def set_optimizer(factory: sddp.OptimizerFactory) -> None:
+    global _OPTIMIZER
+    _OPTIMIZER = factory
+
+
+def _optimizer() -> sddp.OptimizerFactory:
+    return _OPTIMIZER
+
+
 # ---------------------------------------------------------------------------
 # Tier 1
 # ---------------------------------------------------------------------------
@@ -30,7 +44,7 @@ def build_hydro_thermal() -> sddp.PolicyGraph:
         sp.set_stage_objective(fuel_cost[t - 1] * thermal)
 
     return sddp.LinearPolicyGraph(
-        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS
+        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=_optimizer()
     )
 
 
@@ -45,7 +59,7 @@ def build_fast_quickstart() -> sddp.PolicyGraph:
             sp.parameterize(lambda w: sp.set_upper_bound(s, w), [2, 3])
             sp.set_stage_objective(-2 * s)
 
-    return sddp.PolicyGraph(builder, sddp.LinearGraph(2), lower_bound=-5, optimizer=sddp.HiGHS)
+    return sddp.PolicyGraph(builder, sddp.LinearGraph(2), lower_bound=-5, optimizer=_optimizer())
 
 
 def build_fast_hydro_thermal() -> sddp.PolicyGraph:
@@ -61,7 +75,7 @@ def build_fast_hydro_thermal() -> sddp.PolicyGraph:
         sp.set_stage_objective(-5 * p)
 
     return sddp.LinearPolicyGraph(
-        builder, stages=2, upper_bound=0.0, sense="Max", optimizer=sddp.HiGHS
+        builder, stages=2, upper_bound=0.0, sense="Max", optimizer=_optimizer()
     )
 
 
@@ -83,7 +97,7 @@ def build_fast_production_management() -> sddp.PolicyGraph:
             sum(C[i] * x[i].out for i in range(N)) - sum(S[i] * s[i] for i in range(N))
         )
 
-    return sddp.LinearPolicyGraph(builder, stages=H, lower_bound=-50.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(builder, stages=H, lower_bound=-50.0, optimizer=_optimizer())
 
 
 def build_stock_example() -> sddp.PolicyGraph:
@@ -95,7 +109,7 @@ def build_stock_example() -> sddp.PolicyGraph:
         sp.parameterize(lambda w: sp.fix(xi, w), [i * (1 / 30) for i in range(10)])
         sp.set_stage_objective((math.sin(3 * stage) - 1) * control)
 
-    return sddp.PolicyGraph(builder, sddp.LinearGraph(5), lower_bound=-2, optimizer=sddp.HiGHS)
+    return sddp.PolicyGraph(builder, sddp.LinearGraph(5), lower_bound=-2, optimizer=_optimizer())
 
 
 def build_farmers() -> sddp.PolicyGraph:
@@ -145,7 +159,7 @@ def build_farmers() -> sddp.PolicyGraph:
             )
 
     return sddp.LinearPolicyGraph(
-        builder, stages=2, sense="Max", upper_bound=500_000.0, optimizer=sddp.HiGHS
+        builder, stages=2, sense="Max", upper_bound=500_000.0, optimizer=_optimizer()
     )
 
 
@@ -187,7 +201,7 @@ def build_markov_uncertainty() -> sddp.PolicyGraph:
         transition_matrices=[[[1.0]], [[0.75, 0.25]], [[0.75, 0.25], [0.25, 0.75]]],
         sense="Min",
         lower_bound=0.0,
-        optimizer=sddp.HiGHS,
+        optimizer=_optimizer(),
     )
 
 
@@ -196,7 +210,7 @@ def build_objective_uncertainty() -> sddp.PolicyGraph:
         _hydro_markov_body(sp, t, [1 / 3, 1 / 3, 1 / 3])
 
     return sddp.LinearPolicyGraph(
-        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS
+        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=_optimizer()
     )
 
 
@@ -210,7 +224,7 @@ def build_infinite_trivial() -> sddp.PolicyGraph:
         sp.add_constraint(state.in_ == state.out)
         sp.set_stage_objective(2.0)
 
-    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=_optimizer())
 
 
 def build_no_strong_duality() -> sddp.PolicyGraph:
@@ -223,7 +237,7 @@ def build_no_strong_duality() -> sddp.PolicyGraph:
         sp.set_stage_objective(x.out)
         sp.add_constraint(x.in_ == x.out)
 
-    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=_optimizer())
 
 
 def build_infinite_hydro_thermal() -> sddp.PolicyGraph:
@@ -253,7 +267,7 @@ def build_infinite_hydro_thermal() -> sddp.PolicyGraph:
 
         sp.parameterize(modify, omega)
 
-    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=_optimizer())
 
 
 def build_asset_management_stagewise() -> sddp.PolicyGraph:
@@ -294,7 +308,7 @@ def build_asset_management_stagewise() -> sddp.PolicyGraph:
             [[0.5, 0.5], [0.5, 0.5]],
         ],
         upper_bound=1000.0,
-        optimizer=sddp.HiGHS,
+        optimizer=_optimizer(),
     )
 
 
@@ -330,7 +344,7 @@ def build_objective_states() -> sddp.PolicyGraph:
         sp.parameterize(modify, omega)
 
     return sddp.LinearPolicyGraph(
-        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=sddp.HiGHS
+        builder, stages=3, sense="Min", lower_bound=0.0, optimizer=_optimizer()
     )
 
 
@@ -366,7 +380,7 @@ def build_belief() -> sddp.PolicyGraph:
             sp.parameterize(lambda w: sp.fix(demand, w), demand_values, demand_prob[node])
             sp.set_stage_objective(2 * buy + inventory.out)
 
-    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.PolicyGraph(builder, graph, lower_bound=0.0, optimizer=_optimizer())
 
 
 # ---------------------------------------------------------------------------
@@ -385,7 +399,7 @@ def build_air_conditioning() -> sddp.PolicyGraph:
         sp.add_constraint(stored.out == stored.in_ + production + overtime - demand)
         sp.set_stage_objective(100 * production + 300 * overtime + 50 * stored.out)
 
-    return sddp.LinearPolicyGraph(builder, stages=3, lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(builder, stages=3, lower_bound=0.0, optimizer=_optimizer())
 
 
 def build_stochastic_all_blacks() -> sddp.PolicyGraph:
@@ -413,7 +427,7 @@ def build_stochastic_all_blacks() -> sddp.PolicyGraph:
             sp.add_constraint(accept[i] <= offers_made[i])
 
     return sddp.LinearPolicyGraph(
-        builder, stages=T, sense="Max", upper_bound=100.0, optimizer=sddp.HiGHS
+        builder, stages=T, sense="Max", upper_bound=100.0, optimizer=_optimizer()
     )
 
 
@@ -437,7 +451,7 @@ def build_sldp_example_one() -> sddp.PolicyGraph:
         ]
         sp.parameterize(lambda phi: sp.fix(w, phi), points + [-p for p in points])
 
-    return sddp.LinearPolicyGraph(builder, stages=8, lower_bound=0.0, optimizer=sddp.HiGHS)
+    return sddp.LinearPolicyGraph(builder, stages=8, lower_bound=0.0, optimizer=_optimizer())
 
 
 BUILDERS: dict[str, Any] = {

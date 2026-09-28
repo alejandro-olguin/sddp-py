@@ -72,7 +72,7 @@ Relative error is `|py − jl| / max(1, |jl|)`. Tolerance 1e-6 unless stated. Ge
 | stochastic_all_blacks | bound, conic, 30 its | 8.333333333 | 8.333333333 | 0.0e+00 | pass |
 | stochastic_all_blacks | bound, lagrangian, 30 its | 8 | 8 | 0.0e+00 | pass |
 | sldp_example_one | bound after 50 its (unconverged MIP) | 1.167415686 | 1.167187861 | 2.0e-04 | pass |
-| belief | converged bound, 1500 its (py seed 1234; test seed 123 also passes) | 18.81682027 | 18.81681382 | 3.4e-07 | pass |
+| belief | bound at 1500 its, tolerance 1e-5 (slow cyclic convergence: Julia 18.816820 @1500 → 18.816913 @5000; Python 18.816866 @1500 with 1e-9 solver tolerances) | 18.81682027 | 18.81686608 | 2.4e-06 | pass |
 
 Additional exact-match checks in the test suite (not in the table): with fixed `Historical`
 scenarios, the per-iteration bounds, forward values and the **full cut sets** (intercept,
@@ -93,11 +93,15 @@ objective_uncertainty, infinite_hydro_thermal (single and multi cut), objective_
    oracle was regenerated with a 1500-iteration run via `generate.jl`. No JSON was hand-edited.
 3. **sldp_example_one** (binary control, 8 stages) is not converged at 50 iterations on either
    side; compared at 2e-3 and against the Julia example's ceiling of 1.1675.
-4. **Duals** are exposed as sensitivities in the model's own sense (HiGHS convention), not
+4. **Solver tolerances**: the port sets HiGHS primal/dual feasibility tolerances to 1e-9 (SDDP.jl
+   uses HiGHS defaults, 1e-7) because warm-started re-solves at 1e-7 produced invalid cuts on
+   the belief model. One exact-trajectory test (fast_quickstart, primal-degenerate optimum)
+   is run with the Julia-equivalent 1e-7 setting.
+5. **Duals** are exposed as sensitivities in the model's own sense (HiGHS convention), not
    JuMP's negated convention for maximisation; documented and pinned by `tests/test_solver.py`.
-5. The SDDP.jl `Entropic` docstring value for γ = 1 is stale; the port matches what SDDP.jl
+6. The SDDP.jl `Entropic` docstring value for γ = 1 is stale; the port matches what SDDP.jl
    computes (verified by running it).
-6. pyoptinterface's HiGHS backend returns the wrong bound from `get_normalized_rhs` for `<=`
+7. pyoptinterface's HiGHS backend returns the wrong bound from `get_normalized_rhs` for `<=`
    rows; the solver layer tracks the RHS itself.
 
 ## Performance vs SDDP.jl (hydro-thermal family; `reference/bench_hydro_thermal.{jl,py}`)
@@ -132,6 +136,11 @@ bounds, cuts, dominance counts and active sets on 100-iteration traces, plus the
 
 The belief 5.41 s at step 1 was a lucky run: alternating re-measurement of step 1 vs step 4
 (serial) gave 6.20–6.42 s vs 6.14–6.29 s, i.e. steps 2–3 are neutral on that model.
+Step 1 initially produced *invalid* cuts on the belief model (warm-started dual simplex
+accepted 1e-7-inaccurate duals that the model's ±100 μ bounds amplified; the bound overshot
+the optimum by 9e-4). Diagnosed with forced cold starts and a direct cut-validity check, and
+fixed by making 1e-9 primal/dual feasibility tolerances the HiGHS default (no measurable
+cost at 200 iterations, ~12% at 2000 on belief). See PORTING_NOTES.md §9.7–9.8.
 Net: 1.5× (hydro-thermal, solver-bound) to 7.8× (belief, threaded) versus the baseline; single-thread
 gains come almost entirely from step 1 and step 3, threading adds 1.4–2.2× more. Also added
 during this work: a HiGHS cold-restart numerical recovery ladder (a 2000-iteration belief run

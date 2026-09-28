@@ -210,10 +210,34 @@ def test_tier1_bound_and_det_equiv(name, key, iters):
         assert_sim_mean_close(objs, d[sim_key])
 
 
+# HiGHS with SDDP.jl's (default) feasibility tolerances. The port defaults to 1e-9 (see
+# PORTING_NOTES §9.8); fast_quickstart's optimum is primal-degenerate (any x in [2, 3] is
+# optimal), so the forward-pass vertex, and hence the exact trajectory, depends on the
+# tolerance. The exact-match check is meaningful only under Julia-equivalent settings.
+JULIA_TOLERANCE_HIGHS = sddp.HiGHS.with_options(
+    primal_feasibility_tolerance=1e-7, dual_feasibility_tolerance=1e-7
+)
+
+
+@pytest.fixture
+def julia_tolerances():
+    import tests.problems as problems
+
+    problems.set_optimizer(JULIA_TOLERANCE_HIGHS)
+    yield
+    problems.set_optimizer(sddp.HiGHS)
+
+
 @pytest.mark.tier1
-@pytest.mark.parametrize("name", ["fast_quickstart", "fast_hydro_thermal"])
-def test_tier1_deterministic_runs(name):
-    check_deterministic_run(name, load_oracle(name)["deterministic_run"])
+def test_tier1_deterministic_run_fast_hydro_thermal():
+    check_deterministic_run(
+        "fast_hydro_thermal", load_oracle("fast_hydro_thermal")["deterministic_run"]
+    )
+
+
+@pytest.mark.tier1
+def test_tier1_deterministic_run_fast_quickstart(julia_tolerances):
+    check_deterministic_run("fast_quickstart", load_oracle("fast_quickstart")["deterministic_run"])
 
 
 @pytest.mark.tier1
@@ -396,7 +420,10 @@ def test_belief():
     # The cyclic belief graph converges slowly; Julia's 100-iteration value (18.69) is not
     # converged, both Julia seeds reach 18.8168 at 1500 iterations (PORTING_NOTES §7.4).
     sddp.train(model, iteration_limit=1500, seed=123, cut_type=sddp.SINGLE_CUT, **_train_kwargs())
-    assert rel_close(sddp.calculate_bound(model), d["train_1500"]["bound"])
+    # 1e-5 rather than 1e-6: the cyclic belief model is still converging at 1500 iterations
+    # on both sides (Julia 18.816820 @1500 vs 18.816913 @5000, a 5e-6 spread). Evidence and
+    # the warm-start/tolerance investigation are in PORTING_NOTES.md §9.7–9.8.
+    assert rel_close(sddp.calculate_bound(model), d["train_1500"]["bound"], rel=1e-5)
     objs = simulate_objectives(model, d["simulation_1500"]["replications"])
     assert_sim_mean_close(objs, d["simulation_1500"])
 

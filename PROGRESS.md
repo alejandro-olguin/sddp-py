@@ -1,8 +1,13 @@
 # PROGRESS.md
 
-Updated: 2026-09-28 (session 1, late)
+Updated: 2026-09-28 (session 2: performance work)
 
-## Current tier: Tiers 1–3 implemented and verified (see FINAL_REPORT.md)
+## Current tier: Tiers 1–3 implemented and verified (see FINAL_REPORT.md); performance steps 1–5 done
+
+Performance (PORTING_NOTES §9): objective coefficient diffs, cached outgoing-state info,
+cached cut expressions, `Threaded` scheme, Cython rejected; HiGHS tolerances tightened to 1e-9
+after warm-started solves produced invalid cuts on the belief model; cold-restart recovery
+ladder. Suite: 89 passed.
 
 ## Verified (tests green)
 - Unit: solver dual-sign contract, risk measures vs hand values, cut formation vs a hand-solved

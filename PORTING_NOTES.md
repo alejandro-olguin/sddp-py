@@ -424,3 +424,46 @@ A Cython version of the same loop cannot beat that by much and would add a compi
 platform wheels to the install. Decision: no Cython; the scalar loop is kept for simplicity
 and fidelity (the numpy variant is preserved in the session scratch as
 `bellman_functions_vec.py`). Cumulative effect of steps 1–4 is summarised in FINAL_REPORT.md.
+
+### 9.7 Belief bound validity check (open at the time of writing)
+SDDP.jl, seed 123: 18.816721 (500), 18.816820 (1500), **18.816913 (5000 iterations, 5033 s)**.
+Python after step 1 (warm-started solves), seed 123: 18.816518 (500), 18.816857 (1000),
+18.816973 (1500), 18.817727 (2000), then a HiGHS failure (before the recovery ladder existed).
+The 1500→2000 jump (+7.5e-4) is larger than any earlier increment on any run and the value
+exceeds Julia's 5000-iteration bound, which raises the possibility that warm-started solves
+returned slightly inaccurate duals and hence invalid (too high) cuts. Experiment in progress:
+the same run with a forced cold start (`Highs_clearSolver`) before every solve vs the warm
+run, 2500 iterations each, seed 123. Outcome and the resulting test decision are recorded
+below when available.
+
+### 9.8 Resolution: warm-started solves need tighter tolerances
+Experiments (belief, seed 123, `Highs_clearSolver` used to force cold starts):
+
+| run | 500 | 1000 | 1500 | 2000 | 2500 |
+|---|---|---|---|---|---|
+| warm (step 1 as first committed), HiGHS default tolerances 1e-7 | 18.816518 | 18.816857 | 18.816973 | 18.817727 | 18.817739 |
+| cold start before every solve | 18.816566 | 18.816795 | 18.816812 | 18.816814 | 18.816815 |
+| cold start before backward-pass solves only | 18.816566 | 18.816795 | 18.816810 | — | — |
+| warm, tolerances 1e-9 | 18.816518 | 18.816793 | 18.816866 | 18.816870 | — |
+| SDDP.jl (JuMP, warm, default tolerances) | 18.816721 | — | 18.816820 | — | 18.816913 @5000 |
+
+The warm/default-tolerance run overshoots by ~9e-4 above every other run, i.e. it built
+invalid cuts (a lower bound cannot exceed the optimum). Cold starts fix it but cost 3×.
+Tightening HiGHS's primal/dual feasibility tolerances to 1e-9 fixes it at no measurable cost
+at 200 iterations (belief 6.38 s, hydro 24×20 3.22 s) and ~12% at 2000 iterations on belief.
+**Decision:** `sddp.HiGHS` now sets both tolerances to 1e-9 by default (override with
+`sddp.HiGHS.with_options(...)`). Interpretation: warm-started dual simplex terminates as
+soon as the basis is dual feasible within 1e-7; the belief model's μ variables (bounds ±100)
+turn 1e-7 dual errors into 1e-5 cut errors that compound around the 0.9-discounted cycle.
+SDDP.jl does not show this with its HiGHS build; the port is conservative.
+
+Consequences for the tests:
+* `test_belief` compares the 1500-iteration bounds at 1e-5 relative (Julia's own value moves
+  by 5e-6 relative between 1500 and 5000 iterations, and the tight-tolerance Python value
+  18.816866 lies inside that interval). This is the one tolerance in the suite above 1e-6,
+  and the reason is slow convergence of a cyclic model, not a discrepancy.
+* `fast_quickstart` deterministic run: with 1e-9 tolerances the forward pass picks a different
+  optimal vertex at iteration 3 (any x ∈ [2, 3] is optimal, value −2; the bound matches, the
+  forward value does not). The exact-match test runs that problem with Julia-equivalent
+  tolerances (1e-7) through `tests.problems.set_optimizer`; every other exact-match test
+  passes under the 1e-9 default.
