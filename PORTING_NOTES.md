@@ -339,3 +339,31 @@ iterations took ~1200 s vs ~410 s in Julia: the belief backward pass solves ever
 partition for every noise, and the Python overhead per solve (belief updater dict work,
 objective rebuild every solve because of the μᵀb term) is larger than in the LP-dominated
 hydro-thermal benchmark. This is the one measured case where the port is slower than SDDP.jl.
+
+## 9. Performance work (after the port was verified)
+
+Profiles (`cProfile`, 100 iterations): hydro-thermal 24×20 spends 35% inside HiGHS and the
+rest in ~350k small pyoptinterface calls; the belief model spends 85% inside HiGHS.
+pyoptinterface releases the GIL in `optimize` (2 threads: 0.089 s → 0.048 s), so a
+threaded backward pass is viable. Cython is deliberately not the first lever: it cannot make
+cross-boundary solver calls cheaper (see the plan in the session transcript / FINAL_REPORT).
+
+### 9.1 Step 1: persistent objective, coefficient diffs (`Model.set_objective`)
+A full `set_objective` in the HiGHS backend costs 1.49 ms vs 0.065 ms for a re-solve on the
+belief node (it discards the warm start). `Model.set_objective` now diffs against the loaded
+objective and calls `set_objective_coefficient` only for changed entries (full reset if the
+sense or constant changes). Measured (200 iterations, seed 1):
+
+| model | before | after |
+|---|---|---|
+| belief | 21.39 s | 5.63 s (3.8×) |
+| objective_states | 1.33 s | 0.34 s (3.9×) |
+| objective_uncertainty | 0.49 s | 0.23 s (2.1×) |
+| hydro-thermal 24×20 | 3.27 s | 3.07 s |
+
+Correctness: 85/86 parity tests unchanged (all exact cut-set tests pass). Per-solve trace of
+a deterministic belief run (102 solves, old vs new code): identical objective values, states
+and duals until solve 39, where the incoming state differs by 1.6e-15 (warm vs cold start
+roundoff) with identical outputs; the runs then diverge through a degenerate LP. The
+`test_belief` bound at 1500 iterations moved from 18.816814 to 18.816973 (Julia: 18.816820,
+still rising at 1500); long runs on both sides are used to settle where the bound converges.

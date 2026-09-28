@@ -162,6 +162,8 @@ class Model:
         self._fixed: dict[int, float] = {}
         self.names: dict[str, Any] = {}
         self._objective: Expression | None = None
+        self._obj_coefs: dict[int, float] | None = None
+        self._obj_constant: float = 0.0
         self._sense: Sense = Sense.MIN
         self.solve_count = 0
 
@@ -403,14 +405,40 @@ class Model:
 
     # ------------------------------------------------------------ objective
     def set_objective(self, expr: Any, sense: Sense | None = None) -> None:
-        if sense is not None:
+        """Set the objective.
+
+        If an objective is already loaded with the same sense and constant, only the
+        coefficients that changed are pushed to the solver (``set_objective_coefficient``).
+        A full ``set_objective`` in the HiGHS backend is ~20x more expensive than a re-solve
+        and discards the warm start, so this matters when the objective changes every solve
+        (objective noise, objective states, belief states).
+        """
+        if sense is not None and sense is not self._sense:
             self._sense = sense
-        self._objective = to_expression(expr)
-        self._m.set_objective(self._objective, self._sense.poi)
+            self._obj_coefs = None
+        f = to_expression(expr)
+        coefs: dict[int, float] = {}
+        for i, c in zip(f.variables, f.coefficients):
+            coefs[int(i)] = coefs.get(int(i), 0.0) + float(c)
+        constant = expr_constant(f)
+        old = self._obj_coefs
+        if old is not None and constant == self._obj_constant:
+            for i, c in coefs.items():
+                if old.get(i, 0.0) != c:
+                    self._m.set_objective_coefficient(self._var_by_index(i), c)
+            for i in old:
+                if i not in coefs and old[i] != 0.0:
+                    self._m.set_objective_coefficient(self._var_by_index(i), 0.0)
+        else:
+            self._m.set_objective(f, self._sense.poi)
+        self._objective = f
+        self._obj_coefs = coefs
+        self._obj_constant = constant
 
     def set_objective_sense(self, sense: Sense) -> None:
         self._sense = sense
         self._m.set_obj_sense(sense.poi)
+        self._obj_coefs = None
 
     @property
     def objective_sense(self) -> Sense:
