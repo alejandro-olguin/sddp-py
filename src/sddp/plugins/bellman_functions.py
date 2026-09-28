@@ -31,6 +31,7 @@ class Cut:
     belief_y: dict[Any, float] | None
     non_dominated_count: int
     constraint_ref: Constraint | None
+    expr: Any = None  # cached solver expression of the cut row
 
 
 @dataclass
@@ -113,21 +114,27 @@ def _add_cut(
 
 
 def _add_cut_constraint_to_model(V: ConvexApproximation, cut: Cut) -> None:
+    """Add (or re-add) the cut's row to the solver.
+
+    Level-1 cut selection re-adds and deletes rows very frequently (a cut may be deleted
+    and re-added hundreds of times over a training run), so the solver expression is
+    built once per cut and cached on it.
+    """
     model = V.model
-    terms: list[tuple[Variable, float]] = [(V.theta, 1.0)]
-    if V.objective_states is not None and cut.obj_y is not None:
-        for y, mu in zip(cut.obj_y, V.objective_states):
-            terms.append((mu, y))
-    if V.belief_states is not None and cut.belief_y is not None:
-        for k, mu in V.belief_states.items():
-            terms.append((mu, cut.belief_y[k]))
-    for name, x in V.states.items():
-        terms.append((x, -cut.coefficients[name]))
-    expr = Model.expression(terms)
-    if model.objective_sense is Sense.MIN:
-        cut.constraint_ref = model.add_constraint_normalized(expr, ">=", cut.intercept)
-    else:
-        cut.constraint_ref = model.add_constraint_normalized(expr, "<=", cut.intercept)
+    expr = cut.expr
+    if expr is None:
+        terms: list[tuple[Variable, float]] = [(V.theta, 1.0)]
+        if V.objective_states is not None and cut.obj_y is not None:
+            for y, mu in zip(cut.obj_y, V.objective_states):
+                terms.append((mu, y))
+        if V.belief_states is not None and cut.belief_y is not None:
+            for k, mu in V.belief_states.items():
+                terms.append((mu, cut.belief_y[k]))
+        for name, x in V.states.items():
+            terms.append((x, -cut.coefficients[name]))
+        expr = cut.expr = Model.expression(terms)
+    sense = ">=" if model.objective_sense is Sense.MIN else "<="
+    cut.constraint_ref = model.add_row(expr, sense, cut.intercept)
 
 
 def _eval_height(cut: Cut, sampled_state: SampledState) -> float:

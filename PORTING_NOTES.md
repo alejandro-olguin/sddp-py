@@ -376,3 +376,25 @@ reading after every solve. Hydro-thermal 24×20, 100 iterations: pyoptinterface 
 1,399,878 → 492,894 (−65%), Python function calls 6.78M → 4.66M. Suite: identical results
 (85 passed, the belief value bit-identical to step 1). Wall-clock re-measured in §9.4 once the
 machine was idle.
+
+### 9.3 Step 3: cut selection — vectorisation rejected, expression caching adopted
+Profiling at 400 iterations (hydro-thermal 12×10, 4,400 cuts) showed cut selection at 60% of
+the run, but not in height evaluation: SDDP.jl's Level-1 selection with
+`cut_deletion_minimum = 1` deletes and re-adds rows constantly (357,413 row adds and
+357,304 deletes for 4,400 cuts, because ties count as domination and repeated backward passes
+produce identical cuts). A numpy version of the height loops (implemented, verified
+bit-identical on three 100-iteration traces, then discarded) reduced `_heights` to 0.02 s and
+changed nothing else. Adopted instead: each cut caches its solver expression, and rows are
+added through a fast path (`Model.add_row`) with no expression normalisation or name
+registration. Cut-selection time at 400 iterations: 4.87 s → 3.32 s; whole run 7.33 s →
+5.77 s (−21%). Verified bit-identical (bounds, cuts, counts, active sets) over 100 iterations
+on hydro-thermal 24×20, belief, and asset_management multi-cut; suite 85 passed with the
+belief value unchanged.
+
+### 9.4 Numerical recovery (found by the long belief run)
+A 5000-iteration belief run crashed at ~2000 iterations: HiGHS returned no solution for a
+node with 2,489 rows, and a fresh HiGHS instance solved the dumped LP immediately. SDDP.jl's
+default recovery is `MOI.Utilities.reset_optimizer` (a cold start); pyoptinterface has no
+equivalent, so `Model.reset_optimizer` now calls `Highs_clearSolver` on the raw handle
+through ctypes (HiGHS only), and the default recovery callback is a ladder: cold restart →
+presolve off → interior point (cold, `output_flag=False`).

@@ -285,8 +285,26 @@ def set_numerical_difficulty_callback(model: PolicyGraph, callback: Callable[...
 def default_numerical_difficulty_callback(
     model: PolicyGraph, node: Node, require_dual: bool = False
 ) -> None:
-    node.model.reset_optimizer()
-    node.model.optimize()
+    """Recovery ladder: cold restart (like SDDP.jl's ``reset_optimizer``), then presolve off,
+    then an interior-point solve, stopping at the first attempt that yields a solution."""
+    m = node.model
+
+    def ok() -> bool:
+        return m.has_primal_solution() and (not require_dual or m.has_dual_solution())
+
+    if m.reset_optimizer():
+        m.optimize()
+        if ok():
+            return
+    if m.optimizer.name == "HiGHS":
+        m.solve_with_options(presolve="off")
+        if ok():
+            return
+        m.reset_optimizer()
+        m.solve_with_options(solver="ipm", presolve="off", output_flag=False)
+        if ok():
+            return
+    m.optimize()
 
 
 def attempt_numerical_recovery(model: PolicyGraph, node: Node, require_dual: bool = False) -> None:

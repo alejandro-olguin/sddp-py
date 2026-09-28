@@ -20,8 +20,11 @@ maximisation problems (JuMP negates), which is why SDDP.jl applies a
 
 from __future__ import annotations
 
+import ctypes
 import enum
+import glob
 import math
+import os
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
 from typing import Any, TypeAlias
@@ -85,6 +88,27 @@ class OptimizerFactory:
         return f"OptimizerFactory({self.name!r})"
 
 
+_HIGHS_LIB: Any = None
+
+
+def _highs_library() -> Any:
+    """The HiGHS shared library shipped by ``highsbox``, loaded once through ctypes."""
+    global _HIGHS_LIB
+    if _HIGHS_LIB is None:
+        import highsbox
+
+        paths = glob.glob(os.path.join(highsbox.highs_lib_dir(), "*highs*"))
+        lib = ctypes.CDLL(paths[0])
+        lib.Highs_clearSolver.argtypes = [ctypes.c_void_p]
+        lib.Highs_clearSolver.restype = ctypes.c_int
+        ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
+        ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object, ctypes.c_char_p]
+        ctypes.pythonapi.PyCapsule_GetName.restype = ctypes.c_char_p
+        ctypes.pythonapi.PyCapsule_GetName.argtypes = [ctypes.py_object]
+        _HIGHS_LIB = lib
+    return _HIGHS_LIB
+
+
 def _highs_constructor() -> Any:
     from pyoptinterface import highs
 
@@ -117,6 +141,13 @@ class _ConInfo:
     sense: poi.ConstraintSense
     rhs: float
     variables: dict[int, Variable] = field(default_factory=dict)
+
+
+_SENSES = {
+    "==": poi.ConstraintSense.Equal,
+    "<=": poi.ConstraintSense.LessEqual,
+    ">=": poi.ConstraintSense.GreaterEqual,
+}
 
 
 def _is_number(x: Any) -> bool:
@@ -372,6 +403,13 @@ class Model:
             g.add_term(v, float(c))
         return self._add_normalized(g, s, float(rhs) - expr_constant(f), name, var_map)
 
+    def add_row(self, expr: Expression, sense: str, rhs: float) -> Constraint:
+        """Fast path for internal rows (cuts): ``expr`` is a ready, duplicate-free expression."""
+        c = self._m.add_linear_constraint(expr, _SENSES[sense], float(rhs))
+        self._cons.append(c)
+        self._con_info[c.index] = _ConInfo("", _SENSES[sense], float(rhs), {})
+        return c
+
     def _add_normalized(
         self,
         g: Expression,
@@ -402,8 +440,11 @@ class Model:
     def constraint_data(self, c: Constraint) -> tuple[list[tuple[Variable, float]], str, float]:
         """Return the *current* ``(terms, sense, rhs)`` of a constraint."""
         info = self._con_info[c.index]
+        variables = info.variables.values() if info.variables else self._vars
         terms = [
-            (v, float(self._m.get_normalized_coefficient(c, v))) for v in info.variables.values()
+            (v, coef)
+            for v in variables
+            if (coef := float(self._m.get_normalized_coefficient(c, v))) != 0.0
         ]
         sense = {
             poi.ConstraintSense.Equal: "==",
@@ -526,12 +567,36 @@ class Model:
     def constraint_primal(self, c: Constraint) -> float:
         return float(self._m.get_constraint_primal(c))
 
-    def reset_optimizer(self) -> None:
-        """Best-effort analogue of ``MOI.Utilities.reset_optimizer``: drop the warm start."""
+    def reset_optimizer(self) -> bool:
+        """Analogue of ``MOI.Utilities.reset_optimizer``: discard the solver's internal state.
+
+        For HiGHS this calls ``Highs_clearSolver`` on the raw handle (through ctypes), which
+        keeps the model but drops the basis, factorisation and previous solution, so the next
+        solve starts cold. Returns ``False`` if the backend does not support it.
+        """
+        if self.optimizer.name != "HiGHS":
+            return False
         try:
-            self._m.set_raw_parameter("presolve", "on")
-        except Exception:  # pragma: no cover - solver specific
-            pass
+            lib = _highs_library()
+            cap = self._m.get_raw_model()
+            ptr = ctypes.pythonapi.PyCapsule_GetPointer(
+                cap, ctypes.pythonapi.PyCapsule_GetName(cap)
+            )
+            return int(lib.Highs_clearSolver(ptr)) == 0
+        except Exception:  # pragma: no cover - depends on the highsbox build
+            return False
+
+    def solve_with_options(self, **options: Any) -> None:
+        """Solve once with temporary raw solver options, restoring the previous values after."""
+        saved: dict[str, Any] = {}
+        for k, v in options.items():
+            saved[k] = self._m.get_raw_parameter(k)
+            self._m.set_raw_parameter(k, v)
+        try:
+            self.optimize()
+        finally:
+            for k, v in saved.items():
+                self._m.set_raw_parameter(k, v)
 
     def set_raw_parameter(self, name: str, value: Any) -> None:
         self._m.set_raw_parameter(name, value)
