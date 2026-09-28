@@ -165,6 +165,10 @@ class Model:
         self._obj_coefs: dict[int, float] | None = None
         self._obj_constant: float = 0.0
         self._sense: Sense = Sense.MIN
+        # Bound/domain changes to *watched* variables (state variables) bump this counter so
+        # callers can cache derived information (see algorithm.get_outgoing_state).
+        self._watched: set[int] = set()
+        self.watch_version: int = 0
         self.solve_count = 0
 
     # ------------------------------------------------------------------ raw
@@ -211,6 +215,14 @@ class Model:
             else next(x for x in self._vars if x.index == index)
         )
 
+    def watch(self, v: Variable) -> None:
+        """Bump :attr:`watch_version` whenever the bounds or domain of ``v`` change."""
+        self._watched.add(v.index)
+
+    def _touched(self, v: Variable) -> None:
+        if v.index in self._watched:
+            self.watch_version += 1
+
     def lower_bound(self, v: Variable) -> float:
         return float(self._m.get_variable_attribute(v, poi.VariableAttribute.LowerBound))
 
@@ -225,9 +237,11 @@ class Model:
 
     def set_lower_bound(self, v: Variable, value: float) -> None:
         self._m.set_variable_attribute(v, poi.VariableAttribute.LowerBound, float(value))
+        self._touched(v)
 
     def set_upper_bound(self, v: Variable, value: float) -> None:
         self._m.set_variable_attribute(v, poi.VariableAttribute.UpperBound, float(value))
+        self._touched(v)
 
     def delete_lower_bound(self, v: Variable) -> None:
         self.set_lower_bound(v, -INF)
@@ -240,12 +254,14 @@ class Model:
         value = float(value)
         self._m.set_variable_bounds(v, value, value)
         self._fixed[v.index] = value
+        self._touched(v)
 
     def unfix(self, v: Variable) -> None:
         """Remove a fix, restoring the bounds the variable was created with."""
         info = self._var_info[v.index]
         self._m.set_variable_bounds(v, info.lb, info.ub)
         self._fixed.pop(v.index, None)
+        self._touched(v)
 
     def is_fixed(self, v: Variable) -> bool:
         return v.index in self._fixed
@@ -264,14 +280,21 @@ class Model:
 
     def set_integer(self, v: Variable) -> None:
         self._m.set_variable_attribute(v, poi.VariableAttribute.Domain, poi.VariableDomain.Integer)
+        self._touched(v)
 
     def set_binary(self, v: Variable) -> None:
         self._m.set_variable_attribute(v, poi.VariableAttribute.Domain, poi.VariableDomain.Binary)
+        self._touched(v)
 
     def set_continuous(self, v: Variable) -> None:
         self._m.set_variable_attribute(
             v, poi.VariableAttribute.Domain, poi.VariableDomain.Continuous
         )
+        self._touched(v)
+
+    def set_bounds(self, v: Variable, lb: float, ub: float) -> None:
+        self._m.set_variable_bounds(v, float(lb), float(ub))
+        self._touched(v)
 
     def relax_integrality(self) -> Callable[[], None]:
         """Relax all integer/binary variables; returns a function that undoes it."""
@@ -285,11 +308,13 @@ class Model:
                 if d == poi.VariableDomain.Binary:
                     # Binary variables keep their [0, 1] box when relaxed.
                     self._m.set_variable_bounds(v, max(lb, 0.0), min(ub, 1.0))
+                self._touched(v)
 
         def undo() -> None:
             for v, d, lb, ub in relaxed:
                 self._m.set_variable_attribute(v, poi.VariableAttribute.Domain, d)
                 self._m.set_variable_bounds(v, lb, ub)
+                self._touched(v)
 
         return undo
 

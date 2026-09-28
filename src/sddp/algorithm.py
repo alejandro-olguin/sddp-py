@@ -21,6 +21,8 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from typing import Any, TextIO
 
+import pyoptinterface as _poi
+
 from sddp.plugins.backward_sampling_schemes import CompleteSampler
 from sddp.plugins.base import (
     BackwardSamplingScheme,
@@ -60,6 +62,9 @@ from sddp.print import (
     print_problem_statistics,
 )
 from sddp.solver.model import Model, Sense, to_expression
+
+_INTEGER = _poi.VariableDomain.Integer
+_BINARY = _poi.VariableDomain.Binary
 
 
 # ---------------------------------------------------------------------------
@@ -188,20 +193,39 @@ def set_incoming_state(node: Node, state: dict[str, float]) -> None:
         node.model.fix(node.states[state_name].in_, value)
 
 
+def _outgoing_info(node: Node) -> list[tuple[str, Any, float, float, bool]]:
+    """``(name, out_var, lb, ub, is_discrete)`` per state, cached until a state's bounds change."""
+    m = node.model
+    cached = node.ext.get("_outgoing_info")
+    if cached is not None and cached[0] == m.watch_version:
+        return cached[1]
+    info = []
+    for name, state in node.states.items():
+        d = m.domain(state.out)
+        info.append(
+            (
+                name,
+                state.out,
+                m.lower_bound(state.out),
+                m.upper_bound(state.out),
+                d in (_INTEGER, _BINARY),
+            )
+        )
+    node.ext["_outgoing_info"] = (m.watch_version, info)
+    return info
+
+
 def get_outgoing_state(node: Node) -> dict[str, float]:
+    """Outgoing state values, projected onto their bounds and rounded if discrete."""
     m = node.model
     values: dict[str, float] = {}
-    for name, state in node.states.items():
-        outgoing_value = m.value(state.out)
-        if m.has_upper_bound(state.out):
-            current_bound = m.upper_bound(state.out)
-            if current_bound < outgoing_value:
-                outgoing_value = current_bound
-        if m.has_lower_bound(state.out):
-            current_bound = m.lower_bound(state.out)
-            if current_bound > outgoing_value:
-                outgoing_value = current_bound
-        if m.is_integer(state.out) or m.is_binary(state.out):
+    for name, out, lb, ub, discrete in _outgoing_info(node):
+        outgoing_value = m.value(out)
+        if ub < outgoing_value:
+            outgoing_value = ub
+        if lb > outgoing_value:
+            outgoing_value = lb
+        if discrete:
             outgoing_value = float(round(outgoing_value))
         values[name] = outgoing_value
     return values

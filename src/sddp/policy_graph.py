@@ -159,6 +159,7 @@ class Subproblem:
             )
         in_ = self.model.add_variable(name + "_in")
         out = self.model.add_variable(name + "_out", lb=lb, ub=ub, integer=integer, binary=binary)
+        self.model.watch(out)
         state = State(in_, out)
         self.node.states[name] = state
         self.policy_graph.initial_root_state[name] = float(initial_value)

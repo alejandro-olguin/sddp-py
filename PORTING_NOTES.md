@@ -367,3 +367,12 @@ and duals until solve 39, where the incoming state differs by 1.6e-15 (warm vs c
 roundoff) with identical outputs; the runs then diverge through a degenerate LP. The
 `test_belief` bound at 1500 iterations moved from 18.816814 to 18.816973 (Julia: 18.816820,
 still rising at 1500); long runs on both sides are used to settle where the bound converges.
+
+### 9.2 Step 2: fewer solver queries per solve
+`get_outgoing_state` read 7 attributes per state per solve; the bounds and domain of the
+outgoing state variables are now cached per node and invalidated by a version counter that
+every bound/domain change to a *state* variable bumps (`Model.watch`). Same semantics as
+reading after every solve. Hydro-thermal 24×20, 100 iterations: pyoptinterface calls
+1,399,878 → 492,894 (−65%), Python function calls 6.78M → 4.66M. Suite: identical results
+(85 passed, the belief value bit-identical to step 1). Wall-clock re-measured in §9.4 once the
+machine was idle.
