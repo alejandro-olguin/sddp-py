@@ -1,0 +1,218 @@
+{
+  "deterministic_equivalent": -2.0,
+  "deterministic_run": {
+    "bound": -2.0,
+    "cuts": [
+      {
+        "multi_cuts": [],
+        "node": "2",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "1",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "x": -2.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "x": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "x": -1.0
+            },
+            "intercept": -4.5,
+            "state": {
+              "x": 2.5
+            }
+          },
+          {
+            "coefficients": {
+              "x": 0.0
+            },
+            "intercept": -5.0,
+            "state": {
+              "x": 3.0
+            }
+          },
+          {
+            "coefficients": {
+              "x": 0.0
+            },
+            "intercept": -5.0,
+            "state": {
+              "x": 3.0
+            }
+          }
+        ]
+      }
+    ],
+    "iterations": 4,
+    "log": [
+      {
+        "bound": -2.5,
+        "iteration": 1,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 2,
+        "simulation_value": -2.5
+      },
+      {
+        "bound": -2.0,
+        "iteration": 3,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 4,
+        "simulation_value": -3.0
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          1,
+          null
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      [
+        [
+          1,
+          null
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    ]
+  },
+  "generated_seconds": 0.4934358596801758,
+  "name": "fast_quickstart",
+  "tier": 1,
+  "train_20": {
+    "bound": -2.0,
+    "iteration_limit": 20,
+    "log": [
+      {
+        "bound": -2.5,
+        "iteration": 1,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 2,
+        "simulation_value": -2.5
+      },
+      {
+        "bound": -2.0,
+        "iteration": 3,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 4,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 5,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 6,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 7,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 8,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 9,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 10,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 11,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 12,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 13,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 14,
+        "simulation_value": -3.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 15,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 16,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 17,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 18,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 19,
+        "simulation_value": -1.0
+      },
+      {
+        "bound": -2.0,
+        "iteration": 20,
+        "simulation_value": -3.0
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

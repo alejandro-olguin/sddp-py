@@ -1,0 +1,326 @@
+{
+  "generated_seconds": 1.2011911869049072,
+  "name": "stock_example",
+  "simulation_60": {
+    "max": -0.8525463475776814,
+    "mean": -1.4724651504194466,
+    "min": -1.864766402365631,
+    "replications": 1000,
+    "seed": 42,
+    "std": 0.18513728851952813
+  },
+  "tier": 1,
+  "train_60": {
+    "bound": -1.4710749176074294,
+    "iteration_limit": 60,
+    "log": [
+      {
+        "bound": -1.7426870337769118,
+        "iteration": 1,
+        "simulation_value": -1.1755423739282052
+      },
+      {
+        "bound": -1.6607511590294008,
+        "iteration": 2,
+        "simulation_value": -1.0440299473680272
+      },
+      {
+        "bound": -1.5558438609618195,
+        "iteration": 3,
+        "simulation_value": -1.3804509730369836
+      },
+      {
+        "bound": -1.5049763034824404,
+        "iteration": 4,
+        "simulation_value": -1.354157629070799
+      },
+      {
+        "bound": -1.4827746914283542,
+        "iteration": 5,
+        "simulation_value": -1.5454592163269063
+      },
+      {
+        "bound": -1.4814329663877377,
+        "iteration": 6,
+        "simulation_value": -1.5129078560525453
+      },
+      {
+        "bound": -1.4797369968173073,
+        "iteration": 7,
+        "simulation_value": -1.4034033988120502
+      },
+      {
+        "bound": -1.4779143383372633,
+        "iteration": 8,
+        "simulation_value": -1.6222157472666532
+      },
+      {
+        "bound": -1.4772167217168521,
+        "iteration": 9,
+        "simulation_value": -1.205593272452458
+      },
+      {
+        "bound": -1.477131264422146,
+        "iteration": 10,
+        "simulation_value": -1.5012507840577825
+      },
+      {
+        "bound": -1.4750165508953146,
+        "iteration": 11,
+        "simulation_value": -1.56375548016107
+      },
+      {
+        "bound": -1.4743652948226869,
+        "iteration": 12,
+        "simulation_value": -1.5716271598906688
+      },
+      {
+        "bound": -1.4739992096669534,
+        "iteration": 13,
+        "simulation_value": -1.6195260886442067
+      },
+      {
+        "bound": -1.4734745127624682,
+        "iteration": 14,
+        "simulation_value": -1.5647262617706033
+      },
+      {
+        "bound": -1.473248584626353,
+        "iteration": 15,
+        "simulation_value": -1.5439124499129582
+      },
+      {
+        "bound": -1.4732285966798357,
+        "iteration": 16,
+        "simulation_value": -1.5133676763742374
+      },
+      {
+        "bound": -1.472847506351306,
+        "iteration": 17,
+        "simulation_value": -1.637986922529396
+      },
+      {
+        "bound": -1.472843550148778,
+        "iteration": 18,
+        "simulation_value": -1.2659939882944007
+      },
+      {
+        "bound": -1.4727434140270679,
+        "iteration": 19,
+        "simulation_value": -1.4777506478339015
+      },
+      {
+        "bound": -1.4723382258989177,
+        "iteration": 20,
+        "simulation_value": -1.0264005688215825
+      },
+      {
+        "bound": -1.4722540755992866,
+        "iteration": 21,
+        "simulation_value": -1.4618216259998402
+      },
+      {
+        "bound": -1.4722382507891782,
+        "iteration": 22,
+        "simulation_value": -1.4196512800944434
+      },
+      {
+        "bound": -1.4721547586078554,
+        "iteration": 23,
+        "simulation_value": -1.4938145970626135
+      },
+      {
+        "bound": -1.4718186238313489,
+        "iteration": 24,
+        "simulation_value": -1.6364228714969753
+      },
+      {
+        "bound": -1.4717507334793478,
+        "iteration": 25,
+        "simulation_value": -1.5129078560525453
+      },
+      {
+        "bound": -1.4715731189346655,
+        "iteration": 26,
+        "simulation_value": -1.4031895163230836
+      },
+      {
+        "bound": -1.4715572162473134,
+        "iteration": 27,
+        "simulation_value": -1.559536144031597
+      },
+      {
+        "bound": -1.4714329218299522,
+        "iteration": 28,
+        "simulation_value": -1.4692978206876244
+      },
+      {
+        "bound": -1.4714286159152647,
+        "iteration": 29,
+        "simulation_value": -1.335936420262976
+      },
+      {
+        "bound": -1.4714022226166465,
+        "iteration": 30,
+        "simulation_value": -1.3080314669858208
+      },
+      {
+        "bound": -1.471346294331512,
+        "iteration": 31,
+        "simulation_value": -1.6189571523564275
+      },
+      {
+        "bound": -1.4713330299654603,
+        "iteration": 32,
+        "simulation_value": -1.5250677195493136
+      },
+      {
+        "bound": -1.4712879659741018,
+        "iteration": 33,
+        "simulation_value": -1.6577075361092501
+      },
+      {
+        "bound": -1.471287965974101,
+        "iteration": 34,
+        "simulation_value": -1.610888108512252
+      },
+      {
+        "bound": -1.471287965974101,
+        "iteration": 35,
+        "simulation_value": -1.5245649280473075
+      },
+      {
+        "bound": -1.4712163851604831,
+        "iteration": 36,
+        "simulation_value": -1.7294243469092614
+      },
+      {
+        "bound": -1.4712123123872356,
+        "iteration": 37,
+        "simulation_value": -1.5129078560525455
+      },
+      {
+        "bound": -1.4712123123872356,
+        "iteration": 38,
+        "simulation_value": -0.9819935486838377
+      },
+      {
+        "bound": -1.4711302698838638,
+        "iteration": 39,
+        "simulation_value": -1.7095594455910263
+      },
+      {
+        "bound": -1.4711078393325592,
+        "iteration": 40,
+        "simulation_value": -1.7017527608157657
+      },
+      {
+        "bound": -1.471107839332559,
+        "iteration": 41,
+        "simulation_value": -1.5907892665183008
+      },
+      {
+        "bound": -1.4711070766493648,
+        "iteration": 42,
+        "simulation_value": -1.7079818216581149
+      },
+      {
+        "bound": -1.4711064064515882,
+        "iteration": 43,
+        "simulation_value": -1.6613126195748564
+      },
+      {
+        "bound": -1.471106406451592,
+        "iteration": 44,
+        "simulation_value": -1.528785813046897
+      },
+      {
+        "bound": -1.4711059974155236,
+        "iteration": 45,
+        "simulation_value": -1.6739539461444082
+      },
+      {
+        "bound": -1.4711058799512529,
+        "iteration": 46,
+        "simulation_value": -1.7196328648627812
+      },
+      {
+        "bound": -1.4711058799512526,
+        "iteration": 47,
+        "simulation_value": -1.2659939882943998
+      },
+      {
+        "bound": -1.471105879951253,
+        "iteration": 48,
+        "simulation_value": -1.5765084051015172
+      },
+      {
+        "bound": -1.4710878502074558,
+        "iteration": 49,
+        "simulation_value": -1.5478790720368336
+      },
+      {
+        "bound": -1.471087850207455,
+        "iteration": 50,
+        "simulation_value": -1.6406117456524647
+      },
+      {
+        "bound": -1.4710788738099567,
+        "iteration": 51,
+        "simulation_value": -1.3754984455348924
+      },
+      {
+        "bound": -1.471078873809957,
+        "iteration": 52,
+        "simulation_value": -1.6443974493811624
+      },
+      {
+        "bound": -1.4710788738099576,
+        "iteration": 53,
+        "simulation_value": -1.2603764851622987
+      },
+      {
+        "bound": -1.4710788738099565,
+        "iteration": 54,
+        "simulation_value": -1.009898501960992
+      },
+      {
+        "bound": -1.4710788738099576,
+        "iteration": 55,
+        "simulation_value": -1.6237070948136572
+      },
+      {
+        "bound": -1.4710788738099572,
+        "iteration": 56,
+        "simulation_value": -1.4829495150864476
+      },
+      {
+        "bound": -1.4710749176074311,
+        "iteration": 57,
+        "simulation_value": -1.410469661519183
+      },
+      {
+        "bound": -1.4710749176074305,
+        "iteration": 58,
+        "simulation_value": -1.4539502577337344
+      },
+      {
+        "bound": -1.4710749176074305,
+        "iteration": 59,
+        "simulation_value": -1.7540347738356048
+      },
+      {
+        "bound": -1.4710749176074294,
+        "iteration": 60,
+        "simulation_value": -1.4779366400682574
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

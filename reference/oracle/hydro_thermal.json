@@ -1,0 +1,2872 @@
+{
+  "deterministic_equivalent": 8333.333333333332,
+  "deterministic_run": {
+    "bound": 8333.333333333332,
+    "cuts": [
+      {
+        "multi_cuts": [],
+        "node": "2",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 15000.0,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -50.0
+            },
+            "intercept": 1250.0000000000018,
+            "state": {
+              "volume": 124.99999999999997
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 5000.0,
+            "state": {
+              "volume": 75.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          }
+        ]
+      },
+      {
+        "multi_cuts": [],
+        "node": "3",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "1",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -133.33333333333331
+            },
+            "intercept": 15833.333333333334,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -99.99999999999999
+            },
+            "intercept": 5624.999999999996,
+            "state": {
+              "volume": 168.75000000000003
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -66.66666666666666
+            },
+            "intercept": 2916.666666666666,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          }
+        ]
+      }
+    ],
+    "iterations": 5,
+    "log": [
+      {
+        "bound": 3437.5000000000014,
+        "iteration": 1,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 7500.0,
+        "iteration": 2,
+        "simulation_value": 9062.5
+      },
+      {
+        "bound": 7916.666666666667,
+        "iteration": 3,
+        "simulation_value": 11250.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 4,
+        "simulation_value": 21250.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 5,
+        "simulation_value": 2500.0
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          50.0
+        ]
+      ],
+      [
+        [
+          1,
+          50.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          100.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ]
+    ]
+  },
+  "deterministic_run_20": {
+    "bound": 8333.333333333332,
+    "cuts": [
+      {
+        "multi_cuts": [],
+        "node": "2",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 15000.0,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -50.0
+            },
+            "intercept": 1250.0000000000018,
+            "state": {
+              "volume": 124.99999999999997
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 5000.0,
+            "state": {
+              "volume": 75.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          }
+        ]
+      },
+      {
+        "multi_cuts": [],
+        "node": "3",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "1",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -133.33333333333331
+            },
+            "intercept": 15833.333333333334,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -99.99999999999999
+            },
+            "intercept": 5624.999999999996,
+            "state": {
+              "volume": 168.75000000000003
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -66.66666666666666
+            },
+            "intercept": 2916.666666666666,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.33333333333331
+            },
+            "intercept": 3333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          }
+        ]
+      }
+    ],
+    "iterations": 20,
+    "log": [
+      {
+        "bound": 3437.5000000000014,
+        "iteration": 1,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 7500.0,
+        "iteration": 2,
+        "simulation_value": 9062.5
+      },
+      {
+        "bound": 7916.666666666667,
+        "iteration": 3,
+        "simulation_value": 11250.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 4,
+        "simulation_value": 21250.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 5,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 6,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 7,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 8,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 9,
+        "simulation_value": 20000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 10,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 11,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 12,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 13,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 14,
+        "simulation_value": 20000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 15,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 16,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 17,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 18,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 19,
+        "simulation_value": 20000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 20,
+        "simulation_value": 2500.0
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          50.0
+        ]
+      ],
+      [
+        [
+          1,
+          50.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          100.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ]
+    ]
+  },
+  "deterministic_run_avar": {
+    "bound": 13333.333333333332,
+    "cuts": [
+      {
+        "multi_cuts": [],
+        "node": "2",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 20000.0,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 1666.666666666666,
+            "state": {
+              "volume": 133.33333333333334
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 149.99999999999997
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.0
+            }
+          }
+        ]
+      },
+      {
+        "multi_cuts": [],
+        "node": "3",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "1",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 25000.0,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 8333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 8333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 8333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 8333.333333333332,
+            "state": {
+              "volume": 200.0
+            }
+          }
+        ]
+      }
+    ],
+    "iterations": 5,
+    "log": [
+      {
+        "bound": 7500.0,
+        "iteration": 1,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 13333.333333333328,
+        "iteration": 2,
+        "simulation_value": 10833.333333333334
+      },
+      {
+        "bound": 13333.333333333332,
+        "iteration": 3,
+        "simulation_value": 9999.999999999998
+      },
+      {
+        "bound": 13333.333333333332,
+        "iteration": 4,
+        "simulation_value": 17500.0
+      },
+      {
+        "bound": 13333.333333333332,
+        "iteration": 5,
+        "simulation_value": 2500.0
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          50.0
+        ]
+      ],
+      [
+        [
+          1,
+          50.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          100.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ]
+    ]
+  },
+  "deterministic_run_multi_cut": {
+    "bound": 8333.333333333332,
+    "cuts": [
+      {
+        "multi_cuts": [
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 22500.0,
+            "realization": 1,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 7500.0,
+            "realization": 1,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 7500.000000000002,
+            "realization": 1,
+            "state": {
+              "volume": 99.99999999999999
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 7500.0,
+            "realization": 1,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "realization": 1,
+            "state": {
+              "volume": 150.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 15000.0,
+            "realization": 2,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 0.0,
+            "realization": 2,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 0.0,
+            "realization": 2,
+            "state": {
+              "volume": 99.99999999999999
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 0.0,
+            "realization": 2,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "realization": 2,
+            "state": {
+              "volume": 150.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -150.0
+            },
+            "intercept": 7500.0,
+            "realization": 3,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 99.99999999999999
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 100.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 150.0
+            }
+          }
+        ],
+        "node": "2",
+        "risk_set_cuts": [
+          [
+            0.3333333333333333,
+            0.3333333333333333,
+            0.3333333333333333
+          ]
+        ],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "3",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 22500.0,
+            "realization": 1,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 7500.0,
+            "realization": 1,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 7500.0,
+            "realization": 1,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 7500.0,
+            "realization": 1,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 7500.0,
+            "realization": 1,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 17500.0,
+            "realization": 2,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "realization": 2,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "realization": 2,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "realization": 2,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.0
+            },
+            "intercept": 2500.0,
+            "realization": 2,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -100.00000000000001
+            },
+            "intercept": 12500.0,
+            "realization": 3,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -49.99999999999999
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -50.0
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -49.99999999999999
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -50.0
+            },
+            "intercept": 0.0,
+            "realization": 3,
+            "state": {
+              "volume": 200.0
+            }
+          }
+        ],
+        "node": "1",
+        "risk_set_cuts": [
+          [
+            0.3333333333333333,
+            0.3333333333333333,
+            0.3333333333333333
+          ]
+        ],
+        "single_cuts": []
+      }
+    ],
+    "iterations": 5,
+    "log": [
+      {
+        "bound": 8333.333333333332,
+        "iteration": 1,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 2,
+        "simulation_value": 7499.999999999998
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 3,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 4,
+        "simulation_value": 20000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 5,
+        "simulation_value": 2500.0
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          50.0
+        ]
+      ],
+      [
+        [
+          1,
+          50.0
+        ],
+        [
+          2,
+          50.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          0.0
+        ],
+        [
+          2,
+          0.0
+        ],
+        [
+          3,
+          0.0
+        ]
+      ],
+      [
+        [
+          1,
+          100.0
+        ],
+        [
+          2,
+          100.0
+        ],
+        [
+          3,
+          100.0
+        ]
+      ]
+    ]
+  },
+  "generated_seconds": 3.546154022216797,
+  "historical_simulation": {
+    "scenario": [
+      [
+        1,
+        50.0
+      ],
+      [
+        2,
+        0.0
+      ],
+      [
+        3,
+        100.0
+      ]
+    ],
+    "stages": [
+      {
+        "bellman_term": 3333.333333333332,
+        "hydro_generation": 50.0,
+        "hydro_spill": 0.0,
+        "node_index": 1,
+        "noise_term": 50.0,
+        "stage_objective": 5000.0,
+        "thermal_generation": 100.0,
+        "volume_in": 200.0,
+        "volume_out": 200.0
+      },
+      {
+        "bellman_term": 2500.0,
+        "hydro_generation": 100.0,
+        "hydro_spill": 0.0,
+        "node_index": 2,
+        "noise_term": 0.0,
+        "stage_objective": 5000.0,
+        "thermal_generation": 50.0,
+        "volume_in": 200.0,
+        "volume_out": 100.0
+      },
+      {
+        "bellman_term": 0.0,
+        "hydro_generation": 150.0,
+        "hydro_spill": 0.0,
+        "node_index": 3,
+        "noise_term": 100.0,
+        "stage_objective": 0.0,
+        "thermal_generation": 0.0,
+        "volume_in": 100.0,
+        "volume_out": 50.0
+      }
+    ]
+  },
+  "multi_cut_30": {
+    "bound": 8333.333333333332,
+    "iteration_limit": 30,
+    "log": [
+      {
+        "bound": 8333.333333333332,
+        "iteration": 1,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 2,
+        "simulation_value": 7500.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 3,
+        "simulation_value": 17500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 4,
+        "simulation_value": 7499.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 5,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 6,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 7,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 8,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 9,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 10,
+        "simulation_value": 7499.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 11,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 12,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 13,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 14,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 15,
+        "simulation_value": 20000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 16,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 17,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 18,
+        "simulation_value": 7499.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 19,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 20,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 21,
+        "simulation_value": 7499.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 22,
+        "simulation_value": 7499.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 23,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 24,
+        "simulation_value": 2500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 25,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 26,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 27,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 28,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 29,
+        "simulation_value": 4999.999999999999
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 30,
+        "simulation_value": 7500.0
+      }
+    ],
+    "seed": 1234
+  },
+  "name": "hydro_thermal",
+  "risk_measures": {
+    "AVaR_0.5": {
+      "bound": 13333.333333333332,
+      "iteration_limit": 30,
+      "log": [
+        {
+          "bound": 9444.444444444442,
+          "iteration": 1,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 2,
+          "simulation_value": 10833.333333333334
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 3,
+          "simulation_value": 14999.999999999998
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 4,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 5,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 6,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 7,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 8,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 9,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 10,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 11,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 12,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 13,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 14,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 15,
+          "simulation_value": 17500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 16,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 17,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 18,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 19,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 20,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 21,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 22,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 23,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 24,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 25,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 26,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 27,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 28,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 29,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 13333.333333333332,
+          "iteration": 30,
+          "simulation_value": 12500.0
+        }
+      ],
+      "seed": 1234
+    },
+    "EAVaR_0.5_0.25": {
+      "bound": 12500.0,
+      "iteration_limit": 30,
+      "log": [
+        {
+          "bound": 7499.999999999998,
+          "iteration": 1,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12499.999999999996,
+          "iteration": 2,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 3,
+          "simulation_value": 14999.999999999998
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 4,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 5,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 6,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 7,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 8,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 9,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 10,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 11,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 12,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 13,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 14,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 15,
+          "simulation_value": 17500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 16,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 17,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 18,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 19,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 20,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 21,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 22,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 23,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 24,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 25,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 26,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 27,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 28,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 29,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 12500.0,
+          "iteration": 30,
+          "simulation_value": 12500.0
+        }
+      ],
+      "seed": 1234
+    },
+    "Entropic_0.1": {
+      "bound": 14986.70338643479,
+      "iteration_limit": 30,
+      "log": [
+        {
+          "bound": 12478.027754226641,
+          "iteration": 1,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14985.94667538692,
+          "iteration": 2,
+          "simulation_value": 12492.675918075547
+        },
+        {
+          "bound": 14986.413992381844,
+          "iteration": 3,
+          "simulation_value": 15007.918921160277
+        },
+        {
+          "bound": 14986.413992381844,
+          "iteration": 4,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14986.61211454567,
+          "iteration": 5,
+          "simulation_value": 7505.582336185636
+        },
+        {
+          "bound": 14986.700626341268,
+          "iteration": 6,
+          "simulation_value": 9990.816549266994
+        },
+        {
+          "bound": 14986.702061746835,
+          "iteration": 7,
+          "simulation_value": 7489.84522199378
+        },
+        {
+          "bound": 14986.702769897294,
+          "iteration": 8,
+          "simulation_value": 10004.832426764426
+        },
+        {
+          "bound": 14986.70312175122,
+          "iteration": 9,
+          "simulation_value": 14990.576848366878
+        },
+        {
+          "bound": 14986.70312175122,
+          "iteration": 10,
+          "simulation_value": 7502.472362490385
+        },
+        {
+          "bound": 14986.703297142936,
+          "iteration": 11,
+          "simulation_value": 7490.696941144896
+        },
+        {
+          "bound": 14986.703384707054,
+          "iteration": 12,
+          "simulation_value": 14990.756804829842
+        },
+        {
+          "bound": 14986.703385628147,
+          "iteration": 13,
+          "simulation_value": 9990.78669183619
+        },
+        {
+          "bound": 14986.703385628649,
+          "iteration": 14,
+          "simulation_value": 2500.1825777817658
+        },
+        {
+          "bound": 14986.703386088753,
+          "iteration": 15,
+          "simulation_value": 17504.61412381355
+        },
+        {
+          "bound": 14986.70338631913,
+          "iteration": 16,
+          "simulation_value": 12504.617860353434
+        },
+        {
+          "bound": 14986.703386319283,
+          "iteration": 17,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 18,
+          "simulation_value": 12490.760540047788
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 19,
+          "simulation_value": 2500.0011021818423
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 20,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 21,
+          "simulation_value": 12490.758666895375
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 22,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 23,
+          "simulation_value": 12490.758682899672
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 24,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 25,
+          "simulation_value": 9990.758666895375
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 26,
+          "simulation_value": 12504.620653278234
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 27,
+          "simulation_value": 9990.758671214842
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 28,
+          "simulation_value": 14990.75866202732
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 29,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 14986.70338643479,
+          "iteration": 30,
+          "simulation_value": 12490.758682899672
+        }
+      ],
+      "seed": 1234
+    },
+    "ModifiedChiSquared_0.5": {
+      "bound": 13520.620726159657,
+      "iteration_limit": 30,
+      "log": [
+        {
+          "bound": 9760.09775590615,
+          "iteration": 1,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 2,
+          "simulation_value": 11020.620726159657
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 3,
+          "simulation_value": 14999.999999999998
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 4,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 5,
+          "simulation_value": 7500.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 6,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 7,
+          "simulation_value": 7500.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 8,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 9,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 10,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 11,
+          "simulation_value": 7500.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 12,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 13,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 14,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 15,
+          "simulation_value": 17500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 16,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 17,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 18,
+          "simulation_value": 12500.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 19,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 20,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 21,
+          "simulation_value": 12500.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 22,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 23,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 24,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 25,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 26,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 27,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 28,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 29,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 13520.620726159657,
+          "iteration": 30,
+          "simulation_value": 12500.0
+        }
+      ],
+      "seed": 1234
+    },
+    "Wasserstein_10": {
+      "bound": 10333.333333333332,
+      "iteration_limit": 30,
+      "log": [
+        {
+          "bound": 4842.105263157894,
+          "iteration": 1,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 9952.38095238095,
+          "iteration": 2,
+          "simulation_value": 8657.894736842103
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 3,
+          "simulation_value": 19285.714285714286
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 4,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 5,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 6,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 7,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 8,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 9,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 10,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 11,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 12,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 13,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 14,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 15,
+          "simulation_value": 20000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 16,
+          "simulation_value": 14999.999999999993
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 17,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 18,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 19,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 20,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 21,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 22,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 23,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 24,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 25,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 26,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 27,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 28,
+          "simulation_value": 10000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 29,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 10333.333333333332,
+          "iteration": 30,
+          "simulation_value": 7500.0
+        }
+      ],
+      "seed": 1234
+    },
+    "WorstCase": {
+      "bound": 14999.999999999998,
+      "iteration_limit": 30,
+      "log": [
+        {
+          "bound": 12500.0,
+          "iteration": 1,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 2,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 3,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 4,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 5,
+          "simulation_value": 7500.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 6,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 7,
+          "simulation_value": 7500.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 8,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 9,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 10,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 11,
+          "simulation_value": 7500.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 12,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 13,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 14,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 15,
+          "simulation_value": 17500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 16,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 17,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 18,
+          "simulation_value": 12500.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 19,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 20,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 21,
+          "simulation_value": 12500.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 22,
+          "simulation_value": 7500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 23,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 24,
+          "simulation_value": 2500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 25,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 26,
+          "simulation_value": 12500.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 27,
+          "simulation_value": 10000.000000000002
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 28,
+          "simulation_value": 15000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 29,
+          "simulation_value": 5000.0
+        },
+        {
+          "bound": 14999.999999999998,
+          "iteration": 30,
+          "simulation_value": 12500.0
+        }
+      ],
+      "seed": 1234
+    }
+  },
+  "simulation_10": {
+    "max": 20000.0,
+    "mean": 8510.0,
+    "min": 2499.9999999999995,
+    "replications": 500,
+    "seed": 42,
+    "std": 4684.9543856040245
+  },
+  "simulation_40": {
+    "max": 20000.0,
+    "mean": 8392.5,
+    "min": 2499.9999999999995,
+    "replications": 1000,
+    "seed": 42,
+    "std": 4723.028768782882
+  },
+  "stages": 3,
+  "tier": 1,
+  "train_10": {
+    "bound": 8333.333333333332,
+    "iteration_limit": 10,
+    "log": [
+      {
+        "bound": 5000.000000000002,
+        "iteration": 1,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333328,
+        "iteration": 2,
+        "simulation_value": 7500.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 3,
+        "simulation_value": 16250.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 4,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 5,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 6,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 7,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 8,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 9,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 10,
+        "simulation_value": 7500.0
+      }
+    ],
+    "seed": 1234
+  },
+  "train_40": {
+    "bound": 8333.333333333332,
+    "iteration_limit": 40,
+    "log": [
+      {
+        "bound": 5000.000000000002,
+        "iteration": 1,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333328,
+        "iteration": 2,
+        "simulation_value": 7500.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 3,
+        "simulation_value": 16250.000000000002
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 4,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 5,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 6,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 7,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 8,
+        "simulation_value": 12500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 9,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 10,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 11,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 12,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 13,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 14,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 15,
+        "simulation_value": 20000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 16,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 17,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 18,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 19,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 20,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 21,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 22,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 23,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 24,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 25,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 26,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 27,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 28,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 29,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 30,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 31,
+        "simulation_value": 10000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 32,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 33,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 34,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 35,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 36,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 37,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 38,
+        "simulation_value": 7500.0
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 39,
+        "simulation_value": 2499.9999999999995
+      },
+      {
+        "bound": 8333.333333333332,
+        "iteration": 40,
+        "simulation_value": 7500.0
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

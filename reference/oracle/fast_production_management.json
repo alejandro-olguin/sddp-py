@@ -1,0 +1,534 @@
+{
+  "deterministic_equivalent": -23.959999999999997,
+  "generated_seconds": 0.4218289852142334,
+  "name": "fast_production_management",
+  "simulation_50": {
+    "max": -5.32,
+    "mean": -23.84816,
+    "min": -42.6,
+    "replications": 500,
+    "seed": 42,
+    "std": 13.68539208526577
+  },
+  "tier": 1,
+  "train_50": {
+    "bound": -23.96,
+    "iteration_limit": 50,
+    "log": [
+      {
+        "bound": -49.63160124518779,
+        "iteration": 1,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -46.805150214592274,
+        "iteration": 2,
+        "simulation_value": -22.93160124518779
+      },
+      {
+        "bound": -24.828669527896995,
+        "iteration": 3,
+        "simulation_value": -4.925150214592275
+      },
+      {
+        "bound": -23.96,
+        "iteration": 4,
+        "simulation_value": -14.70866952789699
+      },
+      {
+        "bound": -23.96,
+        "iteration": 5,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 6,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 7,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 8,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 9,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 10,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 11,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 12,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 13,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 14,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 15,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 16,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 17,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 18,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 19,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 20,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 21,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 22,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 23,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 24,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 25,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 26,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 27,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 28,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 29,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 30,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 31,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 32,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 33,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 34,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 35,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 36,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 37,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 38,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 39,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 40,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 41,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 42,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 43,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 44,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 45,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 46,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 47,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 48,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 49,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 50,
+        "simulation_value": -5.32
+      }
+    ],
+    "seed": 1234
+  },
+  "train_50_multi_cut": {
+    "bound": -23.96,
+    "iteration_limit": 50,
+    "log": [
+      {
+        "bound": -49.63160124518779,
+        "iteration": 1,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -46.73648068669528,
+        "iteration": 2,
+        "simulation_value": -22.93160124518779
+      },
+      {
+        "bound": -23.960000000000004,
+        "iteration": 3,
+        "simulation_value": -4.056480686695281
+      },
+      {
+        "bound": -23.96,
+        "iteration": 4,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 5,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 6,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 7,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 8,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 9,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 10,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 11,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 12,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 13,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 14,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 15,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 16,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 17,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 18,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 19,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 20,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 21,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 22,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 23,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 24,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 25,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 26,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 27,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 28,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 29,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 30,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 31,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 32,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 33,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 34,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 35,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 36,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 37,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 38,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 39,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 40,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 41,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 42,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 43,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 44,
+        "simulation_value": -42.6
+      },
+      {
+        "bound": -23.96,
+        "iteration": 45,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 46,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 47,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 48,
+        "simulation_value": -5.32
+      },
+      {
+        "bound": -23.96,
+        "iteration": 49,
+        "simulation_value": -23.96
+      },
+      {
+        "bound": -23.96,
+        "iteration": 50,
+        "simulation_value": -5.32
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

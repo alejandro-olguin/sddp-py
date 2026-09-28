@@ -1,0 +1,462 @@
+{
+  "deterministic_equivalent": 8072.916666666667,
+  "deterministic_run": {
+    "bound": 8072.916666666666,
+    "cuts": [
+      {
+        "multi_cuts": [],
+        "node": "(3, 2)",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "(3, 1)",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "(1, 1)",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -124.47916666666667
+            },
+            "intercept": 16786.3810296846,
+            "state": {
+              "volume": 50.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.59375
+            },
+            "intercept": 4762.369280510766,
+            "state": {
+              "volume": 184.85293546859594
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -83.59375
+            },
+            "intercept": 3496.1693548387084,
+            "state": {
+              "volume": 200.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -95.05208333333333
+            },
+            "intercept": 3593.75,
+            "state": {
+              "volume": 200.0
+            }
+          }
+        ]
+      },
+      {
+        "multi_cuts": [],
+        "node": "(2, 2)",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -171.875
+            },
+            "intercept": 20468.75,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -93.75
+            },
+            "intercept": 4400.510204081633,
+            "state": {
+              "volume": 103.06122448979592
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.00000000000003
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -143.75
+            },
+            "intercept": 8165.322580645161,
+            "state": {
+              "volume": 75.80645161290323
+            }
+          }
+        ]
+      },
+      {
+        "multi_cuts": [],
+        "node": "(2, 1)",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "volume": -153.125
+            },
+            "intercept": 15781.25,
+            "state": {
+              "volume": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -56.25
+            },
+            "intercept": 2640.3061224489793,
+            "state": {
+              "volume": 103.06122448979592
+            }
+          },
+          {
+            "coefficients": {
+              "volume": 0.0
+            },
+            "intercept": 0.0,
+            "state": {
+              "volume": 150.00000000000003
+            }
+          },
+          {
+            "coefficients": {
+              "volume": -106.25
+            },
+            "intercept": 5383.064516129031,
+            "state": {
+              "volume": 75.80645161290323
+            }
+          }
+        ]
+      }
+    ],
+    "iterations": 4,
+    "log": [
+      {
+        "bound": 3753.369824536889,
+        "iteration": 1,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 7975.336021505373,
+        "iteration": 2,
+        "simulation_value": 22099.452923048266
+      },
+      {
+        "bound": 7975.3360215053735,
+        "iteration": 3,
+        "simulation_value": 11249.999999999998
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 4,
+        "simulation_value": 22439.516129032258
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          [
+            1,
+            1
+          ],
+          {
+            "fuel_multiplier": 1.5,
+            "inflow": 0.0
+          }
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          {
+            "fuel_multiplier": 0.75,
+            "inflow": 100.0
+          }
+        ],
+        [
+          [
+            3,
+            1
+          ],
+          {
+            "fuel_multiplier": 1.0,
+            "inflow": 50.0
+          }
+        ]
+      ],
+      [
+        [
+          [
+            1,
+            1
+          ],
+          {
+            "fuel_multiplier": 0.75,
+            "inflow": 100.0
+          }
+        ],
+        [
+          [
+            2,
+            1
+          ],
+          {
+            "fuel_multiplier": 1.5,
+            "inflow": 0.0
+          }
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          {
+            "fuel_multiplier": 1.5,
+            "inflow": 0.0
+          }
+        ]
+      ]
+    ]
+  },
+  "generated_seconds": 1.565255880355835,
+  "name": "markov_uncertainty",
+  "simulation_40": {
+    "max": 33750.000000000015,
+    "mean": 8483.75,
+    "min": 1874.9999999998972,
+    "replications": 500,
+    "seed": 42,
+    "std": 7696.992404286445
+  },
+  "tier": 2,
+  "train_40": {
+    "bound": 8072.916666666666,
+    "iteration_limit": 40,
+    "log": [
+      {
+        "bound": 5588.396722325297,
+        "iteration": 1,
+        "simulation_value": 15000.0
+      },
+      {
+        "bound": 7975.336021505374,
+        "iteration": 2,
+        "simulation_value": 9834.183673469388
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 3,
+        "simulation_value": 9375.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 4,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 5,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 6,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 7,
+        "simulation_value": 13125.000000000022
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 8,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 9,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 10,
+        "simulation_value": 22500.000000000007
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 11,
+        "simulation_value": 9375.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 12,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 13,
+        "simulation_value": 4999.999999999953
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 14,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 15,
+        "simulation_value": 33750.000000000015
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 16,
+        "simulation_value": 24375.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 17,
+        "simulation_value": 1874.9999999999945
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 18,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 19,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 20,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 21,
+        "simulation_value": 11250.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 22,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 23,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 24,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 25,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 26,
+        "simulation_value": 13125.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 27,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 28,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 29,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 30,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 31,
+        "simulation_value": 12500.000000000013
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 32,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 33,
+        "simulation_value": 11250.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 34,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 35,
+        "simulation_value": 27500.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 36,
+        "simulation_value": 5000.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 37,
+        "simulation_value": 11250.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 38,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 39,
+        "simulation_value": 1875.0
+      },
+      {
+        "bound": 8072.916666666666,
+        "iteration": 40,
+        "simulation_value": 5000.0
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

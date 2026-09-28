@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+SDDP.log
+reference/Manifest.toml
+*.mof.json
+model_infeasible_node_*.cuts.json
+subproblem_*.mof.json

@@ -1,0 +1,226 @@
+{
+  "deterministic_equivalent": -10.0,
+  "deterministic_run": {
+    "bound": -10.0,
+    "cuts": [
+      {
+        "multi_cuts": [],
+        "node": "2",
+        "risk_set_cuts": [],
+        "single_cuts": []
+      },
+      {
+        "multi_cuts": [],
+        "node": "1",
+        "risk_set_cuts": [],
+        "single_cuts": [
+          {
+            "coefficients": {
+              "x": 2.5
+            },
+            "intercept": -10.0,
+            "state": {
+              "x": 0.0
+            }
+          },
+          {
+            "coefficients": {
+              "x": 2.5
+            },
+            "intercept": -10.0,
+            "state": {
+              "x": -0.0
+            }
+          },
+          {
+            "coefficients": {
+              "x": 2.5
+            },
+            "intercept": -10.0,
+            "state": {
+              "x": -0.0
+            }
+          },
+          {
+            "coefficients": {
+              "x": 2.5
+            },
+            "intercept": -10.0,
+            "state": {
+              "x": -0.0
+            }
+          }
+        ]
+      }
+    ],
+    "iterations": 4,
+    "log": [
+      {
+        "bound": -10.0,
+        "iteration": 1,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 2,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 3,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 4,
+        "simulation_value": 0.0
+      }
+    ],
+    "scenarios": [
+      [
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      [
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          10
+        ]
+      ]
+    ]
+  },
+  "generated_seconds": 2.8019049167633057,
+  "name": "fast_hydro_thermal",
+  "simulation_20": {
+    "max": 0.0,
+    "mean": -10.36,
+    "min": -20.0,
+    "replications": 500,
+    "seed": 42,
+    "std": 10.003526432321973
+  },
+  "tier": 1,
+  "train_20": {
+    "bound": -10.0,
+    "iteration_limit": 20,
+    "log": [
+      {
+        "bound": -10.0,
+        "iteration": 1,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 2,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 3,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 4,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 5,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 6,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 7,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 8,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 9,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 10,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 11,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 12,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 13,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 14,
+        "simulation_value": 0.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 15,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 16,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 17,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 18,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 19,
+        "simulation_value": -20.0
+      },
+      {
+        "bound": -10.0,
+        "iteration": 20,
+        "simulation_value": 0.0
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "generated_seconds": 0.16702699661254883,
+  "name": "infinite_trivial",
+  "tier": 2,
+  "train_30": {
+    "bound": 19.99999999999999,
+    "iteration_limit": 30,
+    "log": [
+      {
+        "bound": 19.842896655774425,
+        "iteration": 1,
+        "simulation_value": 90.0
+      },
+      {
+        "bound": 19.896924495853604,
+        "iteration": 2,
+        "simulation_value": 8.0
+      },
+      {
+        "bound": 19.967653814601547,
+        "iteration": 3,
+        "simulation_value": 22.0
+      },
+      {
+        "bound": 19.9926002302993,
+        "iteration": 4,
+        "simulation_value": 28.0
+      },
+      {
+        "bound": 19.996460713091444,
+        "iteration": 5,
+        "simulation_value": 14.0
+      },
+      {
+        "bound": 19.997910086473368,
+        "iteration": 6,
+        "simulation_value": 10.0
+      },
+      {
+        "bound": 19.999344162990432,
+        "iteration": 7,
+        "simulation_value": 22.0
+      },
+      {
+        "bound": 19.99952189482003,
+        "iteration": 8,
+        "simulation_value": 6.0
+      },
+      {
+        "bound": 19.999833295031646,
+        "iteration": 9,
+        "simulation_value": 20.0
+      },
+      {
+        "bound": 19.999981759310888,
+        "iteration": 10,
+        "simulation_value": 42.0
+      },
+      {
+        "bound": 19.99998522504182,
+        "iteration": 11,
+        "simulation_value": 4.0
+      },
+      {
+        "bound": 19.999988032283873,
+        "iteration": 12,
+        "simulation_value": 4.0
+      },
+      {
+        "bound": 19.999989229055487,
+        "iteration": 13,
+        "simulation_value": 2.0
+      },
+      {
+        "bound": 19.99999978161308,
+        "iteration": 14,
+        "simulation_value": 74.0
+      },
+      {
+        "bound": 19.999999944488977,
+        "iteration": 15,
+        "simulation_value": 26.0
+      },
+      {
+        "bound": 19.999999998284537,
+        "iteration": 16,
+        "simulation_value": 66.0
+      },
+      {
+        "bound": 19.999999999088335,
+        "iteration": 17,
+        "simulation_value": 12.0
+      },
+      {
+        "bound": 19.99999999998152,
+        "iteration": 18,
+        "simulation_value": 74.0
+      },
+      {
+        "bound": 19.999999999986528,
+        "iteration": 19,
+        "simulation_value": 6.0
+      },
+      {
+        "bound": 19.999999999997506,
+        "iteration": 20,
+        "simulation_value": 32.0
+      },
+      {
+        "bound": 19.99999999999818,
+        "iteration": 21,
+        "simulation_value": 6.0
+      },
+      {
+        "bound": 19.999999999998526,
+        "iteration": 22,
+        "simulation_value": 4.0
+      },
+      {
+        "bound": 19.999999999998806,
+        "iteration": 23,
+        "simulation_value": 4.0
+      },
+      {
+        "bound": 19.999999999999808,
+        "iteration": 24,
+        "simulation_value": 34.0
+      },
+      {
+        "bound": 19.9999999999999,
+        "iteration": 25,
+        "simulation_value": 12.0
+      },
+      {
+        "bound": 19.999999999999986,
+        "iteration": 26,
+        "simulation_value": 30.0
+      },
+      {
+        "bound": 19.99999999999999,
+        "iteration": 27,
+        "simulation_value": 4.0
+      },
+      {
+        "bound": 19.99999999999999,
+        "iteration": 28,
+        "simulation_value": 28.0
+      },
+      {
+        "bound": 19.99999999999999,
+        "iteration": 29,
+        "simulation_value": 4.0
+      },
+      {
+        "bound": 19.99999999999999,
+        "iteration": 30,
+        "simulation_value": 4.0
+      }
+    ],
+    "seed": 1234
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}
