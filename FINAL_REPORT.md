@@ -72,7 +72,7 @@ Relative error is `|py − jl| / max(1, |jl|)`. Tolerance 1e-6 unless stated. Ge
 | stochastic_all_blacks | bound, conic, 30 its | 8.333333333 | 8.333333333 | 0.0e+00 | pass |
 | stochastic_all_blacks | bound, lagrangian, 30 its | 8 | 8 | 0.0e+00 | pass |
 | sldp_example_one | bound after 50 its (unconverged MIP) | 1.167415686 | 1.167187861 | 2.0e-04 | pass |
-| belief | converged bound, 1500 its (see below) | 18.81682027 | BELIEF_PY | BELIEF_REL | BELIEF_RESULT |
+| belief | converged bound, 1500 its (py seed 1234; test seed 123 also passes) | 18.81682027 | 18.81681382 | 3.4e-07 | pass |
 
 Additional exact-match checks in the test suite (not in the table): with fixed `Historical`
 scenarios, the per-iteration bounds, forward values and the **full cut sets** (intercept,
