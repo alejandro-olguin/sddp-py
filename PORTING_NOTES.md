@@ -467,3 +467,10 @@ Consequences for the tests:
   forward value does not). The exact-match test runs that problem with Julia-equivalent
   tolerances (1e-7) through `tests.problems.set_optimizer`; every other exact-match test
   passes under the 1e-9 default.
+
+Direct cut-validity check (each recorded cut height compared with a cold re-evaluation of
+the same expected cost-to-go using the *final* cut set, which can only be higher for a valid
+cut): warm run, 2000 iterations: **6 invalid cuts of 78,532**, the worst pair (nodes Ad/Bd,
+cut #15545, inventory 1.9997, belief 0.858/0.142) recorded 17.348148 vs 17.347367, an excess
+of 7.8e-4, which is the size of the bound overshoot; the other four exceed by 1.7e-6. Cold
+run, 1000 iterations: 0 invalid of 37,812. Script: `belief_cutcheck.py` (session scratch).
