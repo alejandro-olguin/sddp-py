@@ -1,0 +1,127 @@
+{
+  "agriculture_mccardle_farm": {
+    "bound": 4074.1391000000003,
+    "deterministic_equivalent": 4074.139099999997,
+    "iteration_limit": 60
+  },
+  "air_conditioning_forward": {
+    "bound_convex": 62500.0,
+    "bound_non_convex": 62500.0,
+    "iteration_limit": 20
+  },
+  "all_blacks_conic": {
+    "bound": 9.0,
+    "iteration_limit": 30
+  },
+  "all_blacks_lagrangian": {
+    "bound": 9.0,
+    "deterministic_equivalent": 9.0,
+    "iteration_limit": 30
+  },
+  "asset_management_simple": {
+    "bound": 1.5140846428572339,
+    "deterministic_equivalent": 1.514084642857112,
+    "iteration_limit": 60,
+    "simulation": {
+      "max": 48.63999999999601,
+      "mean": 1.2126197876191045,
+      "min": -24.799880952376796,
+      "replications": 1000,
+      "seed": 42,
+      "std": 19.420603703477028
+    }
+  },
+  "booking_1_2_5": {
+    "bound": 9.002950174825173,
+    "deterministic_equivalent": 7.25,
+    "iteration_limit": 60
+  },
+  "booking_2_2_3": {
+    "bound": 6.823804909560723,
+    "deterministic_equivalent": 6.129629629629629,
+    "iteration_limit": 60
+  },
+  "generation_expansion": {
+    "bound": 2.0782569416856621e6,
+    "iteration_limit": 100
+  },
+  "hydro_valley_deterministic": {
+    "bound": 835.0,
+    "deterministic_equivalent": 835.0,
+    "iteration_limit": 20
+  },
+  "hydro_valley_dro_1_6": {
+    "bound": 836.6947279206745,
+    "iteration_limit": 80
+  },
+  "hydro_valley_dro_worst": {
+    "bound": 834.9999999999919,
+    "iteration_limit": 60
+  },
+  "hydro_valley_markov": {
+    "bound": 851.8,
+    "deterministic_equivalent": 851.8,
+    "iteration_limit": 30
+  },
+  "hydro_valley_markov_stagewise": {
+    "bound": 855.0,
+    "deterministic_equivalent": 854.9999999999999,
+    "iteration_limit": 80
+  },
+  "hydro_valley_riskaverse": {
+    "bound": 828.1572543617996,
+    "iteration_limit": 80
+  },
+  "hydro_valley_stagewise": {
+    "bound": 838.3333333333334,
+    "deterministic_equivalent": 838.3333333333333,
+    "iteration_limit": 60
+  },
+  "hydro_valley_worst_case_min": {
+    "bound": -780.8666666666666,
+    "iteration_limit": 80
+  },
+  "multistock": {
+    "bound": -4.340595811781875,
+    "iteration_limit": 1500,
+    "simulation": {
+      "max": -2.872497044494046,
+      "mean": -4.356731776312526,
+      "min": -5.336083853465768,
+      "replications": 2000,
+      "seed": 42,
+      "std": 0.40087789504452787
+    }
+  },
+  "prob52_2stages": {
+    "bound": 340315.5216894977,
+    "deterministic_equivalent": 340315.5216894977,
+    "iteration_limit": 60
+  },
+  "prob52_3stages": {
+    "bound": 406712.4926940639,
+    "deterministic_equivalent": 406712.492694064,
+    "iteration_limit": 100
+  },
+  "sldp_two_N2": {
+    "bound": -58.09615384615385,
+    "deterministic_equivalent": -57.0,
+    "iteration_limit": 60
+  },
+  "sldp_two_N3": {
+    "bound": -61.96125356125356,
+    "deterministic_equivalent": -59.33333333333333,
+    "iteration_limit": 60
+  },
+  "sldp_two_N6": {
+    "bound": -65.46792936792835,
+    "deterministic_equivalent": -61.22222222222222,
+    "iteration_limit": 60
+  },
+  "versions": {
+    "HiGHS": "1.25.4",
+    "JuMP": "1.31.2",
+    "SDDP": "1.15.0",
+    "julia": "1.12.6"
+  }
+}

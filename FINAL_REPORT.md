@@ -89,6 +89,16 @@ Relative error is `|py − jl| / max(1, |jl|)`. Tolerance 1e-6 unless stated. Ge
 | lattice fit | support and transition matrices on 60 saved sample paths, budget allocation | exact | exact | ≤ 1e-12 | pass |
 | biobjective | 5 trade-off weights, 500 iterations | 347.31405 (w=0.5) | 347.31405 | ≤ 1e-6 | pass |
 | stability report, forward passes | report text byte-equal; importance sampling & alternative forward bounds | 8333.3333 | 8333.3333 | 0 | pass |
+| asset_management_simple (sddp.dev example) | det-equiv, converged bound, 1000-simulation mean; default stopping rule reproduces the documented 1.514 | 1.514084643 | 1.514084643 | ≤ 1e-6 | pass |
+| agriculture_mccardle_farm | det-equiv and bound (documented 4074.1391) | 4074.1391 | 4074.1391 | ≤ 1e-6 | pass |
+| generation_expansion | bound after 100 its, integer states with conic duality | 2078256.94 | 2078256.94 | ≤ 1e-6 | pass |
+| hydro_valley (8 variants: deterministic, stagewise, Markov, both, EAVaR, worst-case min, two DRO radii) | det-equiv where applicable and bounds | 835 / 838.33 / 851.8 / 855 / 828.157 / −780.867 / 836.695 / 835 | same | ≤ 1e-6 | pass |
+| StructDualDynProg prob5.2 (2 and 3 stages) | det-equiv and bound | 340315.52 / 406712.49 | same | ≤ 1e-6 | pass |
+| multistock | bound at 1500 its (both sides converge to −4.340596) and 2000-simulation mean | −4.3405958 | −4.3405971 | 3e-7 | pass |
+| all_blacks | Lagrangian and conic bounds, det-equiv | 9.0 | 9.0 | 0 | pass |
+| air_conditioning_forward | alternative forward pass: convex and non-convex bounds | 62500 | 62500 | 0 | pass |
+| sldp_example_two (N = 2, 3, 6) | det-equiv (MIP) and conic bounds | −58.096 / −61.961 / −65.468 | same | ≤ 1e-6 | pass |
+| booking_management (1,2,5) and (2,2,3) | det-equiv (MIP) exact; conic bound checked for validity only, as in SDDP.jl's example (trajectory-dependent: Julia 9.003 / 6.824, Python 9.386 / 6.831, MIP optimum 7.25 / 6.13) | 7.25 / 6.1296 | 7.25 / 6.1296 | 0 | pass |
 | belief | bound at 1500 its, tolerance 1e-5 (slow cyclic convergence: Julia 18.816820 @1500 → 18.816913 @5000; Python 18.816866 @1500 with 1e-9 solver tolerances) | 18.81682027 | 18.81686608 | 2.4e-06 | pass |
 
 Additional exact-match checks in the test suite (not in the table): with fixed `Historical`

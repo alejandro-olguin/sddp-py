@@ -10,6 +10,12 @@ Multiprocess scheme, binary expansion, HTML plots and dashboard. Oracle:
 `reference/generate_tier4.jl` → `value_functions/inner/mspformat/stochoptformat/lattice/
 biobjective/misc_tier4.json`. Suite: 118 passed.
 
+Documented examples (session 3): asset_management_simple (the sddp.dev page), McCardle farm,
+generation expansion, hydro valley (8 variants), booking management, StructDualDynProg
+prob5.2, multistock, All Blacks, air-conditioning alternative forward pass, SLDP example two
+(`examples/asset_management_simple.py`, `examples/doc_examples.py`, oracle
+`reference/generate_examples.jl` → `examples.json`, tests `tests/test_examples.py`, 22 passed).
+
 Performance (PORTING_NOTES §9): objective coefficient diffs, cached outgoing-state info,
 cached cut expressions, `Threaded` scheme, Cython rejected; HiGHS tolerances tightened to 1e-9
 after warm-started solves produced invalid cuts on the belief model; cold-restart recovery
